@@ -1,0 +1,47 @@
+{
+    "name": "swoolecan/baseapp",
+    "description": "Hyperf基础组件封装",
+    "keywords": [
+        "swoolecan",
+        "hyperf",
+        "baseapp",
+        "swoole",
+        "user"
+    ],
+    "homepage": "https://github.com/swoolecan/baseapp",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "swoolecan",
+            "homepage": "https://github.com/swoolecan",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3",
+        "ext-swoole": ">=4.4",
+        "hyperf/database": "~1.1.0",
+        "hyperf/db-connection": "^1.1",
+        "hyperf/utils": "~1.1.22"
+    },
+    "require-dev": {
+        "hyperf/testing": "~1.1.0"
+    },
+    "autoload": {
+    },
+    "autoload-dev": {
+    },
+    "extra": {
+        "hyperf": {
+            "config": "Swoole\\Baseapp\\ConfigProvider"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
