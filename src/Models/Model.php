@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 /**
- * This file is part of Hyperf.
+ * This file is an abstract controller for hyperf
  *
- * @link     https://www.hyperf.io
- * @document https://doc.hyperf.io
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf-cloud/hyperf/blob/master/LICENSE
+ * @link     http://http://home.canliang.wang/
+ * @document http://wiki.canliang.wang/
+ * @contact  iamwangcan@gmail.com
+ * @license  https://github.com/swoolecan/hyperf-baseapp/blob/master/LICENSE.md
  */
 
 namespace Swoolecan\Baseapp\Model;
@@ -16,7 +16,7 @@ use Hyperf\DbConnection\Model\Model as BaseModel;
 use Hyperf\ModelCache\Cacheable;
 use Hyperf\ModelCache\CacheableInterface;
 
-abstract class Model extends BaseModel implements CacheableInterface
+abstract class AbstractModel extends BaseModel implements CacheableInterface
 {
     use Cacheable;
 
