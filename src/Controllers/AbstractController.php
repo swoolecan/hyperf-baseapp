@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @license  https://github.com/swoolecan/hyperf-baseapp/blob/master/LICENSE.md
  */
 
-namespace Swoolecan\Baseapp\Controller;
+namespace Swoolecan\Baseapp\Controllers;
 
 
 use Hyperf\Di\Annotation\Inject;
