@@ -20,6 +20,8 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Container\ContainerInterface;
 use Hyperf\Contract\ConfigInterface;
 use Psr\SimpleCache\CacheInterface;
+use Hyperf\Utils\Str;
+use Swoolecan\Baseapp\Helpers\SysOperation;
 
 abstract class AbstractController
 {
@@ -53,4 +55,35 @@ abstract class AbstractController
      */
     protected $cache;
 
+    protected $resourceCode;
+    protected $resourceInfo;
+    protected $resources;
+
+    public function __construct()
+    {
+        $this->resources = SysOperation::initResourceDatas();
+        $rCode = $this->getResourceCode();
+        $this->resourceCode = $rCode;
+        $this->resourceInfo = isset($this->resources[$rCode]) ? $this->resources[$rCode] : [];
+    }
+
+    protected function getResourceCode()
+    {
+        $class = get_called_class();
+        $elems = explode('\\', $class);
+        $count = count($elems);
+        $code = $count == 4 ? $elems[3] : $elems[2];
+
+        $code = str_replace('Controller', '', $code);
+        $code = Str::snake($code, '-');
+        $code .= $count == 4 ? '-' . strtolower($elems[2]) : '';
+        return $code;
+    }
+
+    protected function getRelateModel($code = null)
+    {
+        $info = is_null($code) ? $this->resourceInfo : $this->resources[$code];
+        $class = $info['model'];
+        return new $class();
+    }
 }

@@ -10,16 +10,12 @@ declare(strict_types = 1);
  * @license  https://github.com/swoolecan/hyperf-baseapp/blob/master/LICENSE.md
  */
 
-namespace Swoolecan\Baseapp\Model;
+namespace Swoolecan\Baseapp\Models;
 
 use Hyperf\DbConnection\Model\Model as BaseModel;
-use Hyperf\ModelCache\Cacheable;
-use Hyperf\ModelCache\CacheableInterface;
 
-abstract class AbstractModel extends BaseModel implements CacheableInterface
+abstract class AbstractModel extends BaseModel
 {
-    use Cacheable;
-
     public static $status = [
         0 => '禁用',
         1 => '正常'
