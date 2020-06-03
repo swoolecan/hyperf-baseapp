@@ -1,0 +1,47 @@
+<?php
+return [
+	'corOrigins' => [
+	    Yii::getAlias('@backendurl'),
+		Yii::getAlias('@restappurl'),
+		'http://apidoc.acanstudio.com',
+		'http://book.acanstudio.com',
+		'http://booktmp.acanstudio.com',
+	],
+    'pathParams' => [
+        'base' => '/data/htmlwww/filesys/bench',
+    ],  
+    'urlParams' => [
+        'base' => 'http://39.106.102.45/filesys/bench',
+    ],  
+
+	'dbHosts' => [
+		'acan' => [
+			'host' => 'localhost',
+			'user' => 'checker',
+			'password' => 'data@CHECK',
+		],
+		'bbn' => [
+			'host' => '47.94.166.240',
+			'user' => 'checker',
+			'password' => 'data@CHECK',
+		],
+		'wny' => [
+			'host' => '59.110.17.19',
+			'user' => 'checker',
+			'password' => 'data@CHECK',
+		],
+		'ydd' => [
+			'host' => '39.105.202.199',
+			'user' => 'checker',
+			'password' => 'data@CHECK',
+		],
+		'tbz' => [
+			'host' => '60.205.145.0',
+			'user' => 'checker',
+			'password' => 'data@CHECK',
+		],
+    ],
+
+	'spiderPath' => '/data/htmlwww/filesys/spider/',
+	'localUrl' => 'http://39.106.102.45/filesys/spider/',
+];

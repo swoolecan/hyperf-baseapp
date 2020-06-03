@@ -14,12 +14,12 @@ declare(strict_types = 1);
 namespace Swoolecan\Baseapp\Controllers;
 
 
+use Psr\Container\ContainerInterface;
+use Psr\SimpleCache\CacheInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
-use Psr\Container\ContainerInterface;
 use Hyperf\Contract\ConfigInterface;
-use Psr\SimpleCache\CacheInterface;
 use Hyperf\Utils\Str;
 use Swoolecan\Baseapp\Helpers\SysOperation;
 
@@ -58,6 +58,61 @@ abstract class AbstractController
     protected $resourceCode;
     protected $resourceInfo;
     protected $resources;
+
+    public function index()
+    {
+        $params = $this->request->all();
+        
+        $pageSize = $this->request->input('per_page', 15);
+        $params = [];
+        print_r($this->getRelateModel());
+        $list = $this->getRelateModel()->getList($params, (int) $pageSize);
+        return $list;
+    }
+
+    public function store(RequestInterface $request)
+    {
+        $data = $request->all();
+        //$permissions = $request->input('permissions', []);
+        //unset($data['permissions']);
+        $result = $this->getRelateModel()->create($data);
+        //$result->permissions()->sync($permissions);
+        return $result;
+    }
+
+    public function show($id)
+    {
+        $result = $this->getRelateModel()->find($id);
+        if (!$result) {
+            throw new Exception\AppNotFoundException("请求资源不存在");
+        }
+        //$result->permissions;
+        return $result;
+    }
+
+    public function update(RequestInterface $request, $id)
+    {
+        $data = $request->all();
+        //$permissions = $request->input('permissions', []);
+        $result = $this->getRelateModel()->find($id);
+        if (!$result) {
+            throw new Exception\AppNotFoundException("请求资源不存在");
+        }
+        //unset($data['permissions']);
+        //$result->update($data);
+        //$result->syncPermissions($permissions);
+        return $result;
+    }
+
+    public function destroy($id)
+    {
+        $result = $this->getRelateModel()->find($id);
+        if (!$result) {
+            throw new Exception\AppNotFoundException("请求资源不存在");
+        }
+        return $result->delete();
+    }
+
 
     public function __construct()
     {

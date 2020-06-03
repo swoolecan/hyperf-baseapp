@@ -1,0 +1,24 @@
+<?php
+$config = [
+    'components' => [
+        'request' => [
+            'cookieValidationKey' => 'hGbRkdPyfdoR6SsCQ42jkortOm4KyBFI',
+            //'cookieValidationKey' => 'kywRI4EtOk3UfjWhNJ8P0Tkynj6FFI0a',
+            //'cookieValidationKey' => 'YwljMYjF_T-lSwcCKLZSsRocebqohH72',
+        ],
+    ],
+];
+if (true) {//!YII_ENV_TEST) {
+    $config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = [
+        'class' => 'yii\debug\Module',
+        'allowedIPs' =>  ['*'],
+    ];
+
+    /*$config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+    ];*/
+}
+return $config;
+

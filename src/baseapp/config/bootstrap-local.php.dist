@@ -1,0 +1,13 @@
+<?php
+return [
+    'assetcustom' => '/data/htmlwww/common/asset',
+	'asseturl' => 'http://asset.acanstudio.com',
+	'domain-base' => 'acanstudio.com',
+
+	'homeurl' => 'http://a.bench.old.acanstudio.com',
+
+	'backendurl' => 'http://a.bench.old.acanstudio.com',
+	'passporturl' => 'http://passport.old.acanstudio.com',
+	'merchanturl' => 'http://passport.old.acanstudio.com',
+	'restappurl' => 'http://restapp.old.acanstudio.com',
+];

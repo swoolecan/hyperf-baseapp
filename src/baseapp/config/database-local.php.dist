@@ -1,0 +1,9 @@
+<?php
+return [
+    'account' => [
+        'host' => 'localhost',
+        'dbUser' => 'duser',
+        'dbPassword' => 'password',
+    ],
+    'db' => [],
+];
