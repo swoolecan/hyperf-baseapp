@@ -6,7 +6,7 @@ namespace Swoolecan\Baseapp\Exceptions;
 
 use Hyperf\Server\Exception\ServerException;
 
-class AppBadRequestException extends ServerException
+class BadRequestException extends ServerException
 {
 
     protected $code = 400;

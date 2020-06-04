@@ -2,16 +2,16 @@
 
 declare(strict_types = 1);
 
-namespace App\Exception\Handler;
+namespace Swoolecan\Exceptions\Handler;
 
 use Hyperf\Di\Annotation\Inject;
 use Psr\Http\Message\ResponseInterface;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\ExceptionHandler\ExceptionHandler;
 use Throwable;
-use App\Helpers\Helper;
-use App\Constants\Code;
-use App\Exception;
+use Swoolecan\Helpers\Helper;
+use Swoolecan\Constants\Code;
+use Swoolecan\Exceptions;
 
 class AppClientExceptionHandler extends ExceptionHandler
 {
