@@ -27,9 +27,7 @@ class AppExceptionHandler extends ExceptionHandler
     {
 
         $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
-        if ($throwable instanceof AccessDeniedException) {
-            return $response->withStatus(200)->withHeader('Content-Type','application/json; charset=utf-8')->withBody(new SwooleStream(json_encode(['status' => $throwable->getCode(), 'message' => $throwable->getMessage()], 256)));
-        }
+        $this->logger->error($throwable->getTraceAsString());
         return $response->withStatus(200)->withHeader('Content-Type','application/json; charset=utf-8')->withBody(new SwooleStream(json_encode(['status' => $throwable->getCode(), 'message' => $throwable->getMessage()], 256)));
     }
 
