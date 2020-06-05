@@ -43,9 +43,16 @@ Class SysOperation
         $base = 'App\Controller\\';
         $code = !empty($rData['module']) ? ucfirst($rData['module']) . '\\' : '\\';
         $code .= ucfirst($rCode);
-        foreach (['request', 'model', 'service'] as $elem) {
+        foreach (['request', 'model', 'service', 'repository'] as $elem) {
             $elemCode = ucfirst($elem);
-            $data[$elem] = $elem == 'model' ? "app\\Model\\{$code}" : "app\\{$elemCode}\\{$code}{$elemCode}";
+            $info = [];
+            if ($elem == 'model') {
+                $data[$elem] = "app\\{$elemCode}\\{$code}";
+            /*} else if ($elem == 'repository') {
+                $data[$elem] = "app\\{$elemCode}\\{$code}";*/
+            } else {
+                $data[$elem] = "app\\{$elemCode}\\{$code}{$elemCode}";
+            }
         }
         return $data;
     }

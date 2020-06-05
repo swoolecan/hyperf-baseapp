@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Exceptions;
 
-use Swoolecan\Constants\Code;
-use Hyperf\Server\Exception\ServerException;
 use Throwable;
+use Hyperf\Server\Exception\ServerException;
+use Swoolecan\Baseapp\Constants\Code;
 
 class BusinessException extends ServerException
 {

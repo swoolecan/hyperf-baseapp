@@ -22,6 +22,7 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Utils\Str;
 use Swoolecan\Baseapp\Helpers\SysOperation;
+use Swoolecan\Baseapp\Helpers\Helper;
 
 abstract class AbstractController
 {
@@ -54,6 +55,12 @@ abstract class AbstractController
      * @var CacheInterface
      */
     protected $cache;
+
+    /**
+     * @Inject                
+     * @var Helper            
+     */
+    protected $helper;
 
     protected $resourceCode;
     protected $resourceInfo;

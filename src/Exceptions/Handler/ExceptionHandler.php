@@ -1,9 +1,18 @@
 <?php
 
 declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://doc.hyperf.io
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf-cloud/hyperf/blob/master/LICENSE
+ */
 
-namespace Swoolecan\Exceptions\Handler;
+namespace Swoolecan\Baseapp\Exception\Handler;
 
+use App\Exception\AccessDeniedException;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\HttpMessage\Stream\SwooleStream;
@@ -24,10 +33,12 @@ class AppExceptionHandler extends ExceptionHandler
 
     public function handle(Throwable $throwable, ResponseInterface $response)
     {
+
         $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
-        $this->logger->error($throwable->getTraceAsString());
-        return $response->withStatus(500)->withBody(new SwooleStream('Internal Server Error.'));
-		//return $response->withHeader("Server", "Hyperf")->withStatus(500)->withBody(new SwooleStream('Internal Server Error.'));
+        if ($throwable instanceof AccessDeniedException) {
+            return $response->withStatus(200)->withHeader('Content-Type','application/json; charset=utf-8')->withBody(new SwooleStream(json_encode(['status' => $throwable->getCode(), 'message' => $throwable->getMessage()], 256)));
+        }
+        return $response->withStatus(200)->withHeader('Content-Type','application/json; charset=utf-8')->withBody(new SwooleStream(json_encode(['status' => $throwable->getCode(), 'message' => $throwable->getMessage()], 256)));
     }
 
     public function isValid(Throwable $throwable): bool
