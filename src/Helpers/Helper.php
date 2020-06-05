@@ -20,9 +20,8 @@ Class Helper
     {
         if (empty($message)) {
             return $this->result($code, Code::getMessage($code), $data);
-        } else {
-            return $this->result($code, $message, $data);
         }
+        return $this->result($code, $message, $data);
     }
 
     public function result($code, $message, $data)

@@ -23,6 +23,7 @@ use Hyperf\Contract\ConfigInterface;
 use Hyperf\Utils\Str;
 use Swoolecan\Baseapp\Helpers\SysOperation;
 use Swoolecan\Baseapp\Helpers\Helper;
+use Swoolecan\Baseapp\Exceptions\BusinessException;
 
 abstract class AbstractController
 {
@@ -91,7 +92,7 @@ abstract class AbstractController
     {
         $result = $this->getRelateModel()->find($id);
         if (!$result) {
-            throw new Exception\AppNotFoundException("请求资源不存在");
+            throw new BusinessException(404);
         }
         //$result->permissions;
         return $result;
@@ -103,7 +104,7 @@ abstract class AbstractController
         //$permissions = $request->input('permissions', []);
         $result = $this->getRelateModel()->find($id);
         if (!$result) {
-            throw new Exception\AppNotFoundException("请求资源不存在");
+            throw new BusinessException(404);
         }
         //unset($data['permissions']);
         //$result->update($data);
@@ -115,7 +116,7 @@ abstract class AbstractController
     {
         $result = $this->getRelateModel()->find($id);
         if (!$result) {
-            throw new Exception\AppNotFoundException("请求资源不存在");
+            throw new BusinessException(404);
         }
         return $result->delete();
     }

@@ -2,34 +2,60 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Exception\Handler;
+namespace Swoolecan\Baseapp\Exceptions\Handler;
 
-use App\Exception\AccessDeniedException;
 use Hyperf\Contract\StdoutLoggerInterface;
-use Hyperf\ExceptionHandler\ExceptionHandler;
+use Hyperf\ExceptionHandler\ExceptionHandler as ExceptionHandlerBase;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-class AppExceptionHandler extends ExceptionHandler
+use Hyperf\Di\Annotation\Inject;
+use Swoolecan\Baseapp\Helpers\Helper;
+use Swoolecan\Baseapp\Constants\Code;
+
+class ExceptionHandler extends ExceptionHandlerBase
 {
     /**
      * @var StdoutLoggerInterface
      */
     protected $logger;
 
-    public function __construct(StdoutLoggerInterface $logger)
+    /**
+     * @Inject
+     * @var Helper
+     */
+    protected $helper;
+
+    public function __construct(StdoutLoggerInterface $logger, Helper $helper)
     {
         $this->logger = $logger;
+        $this->helper = $helper;
     }
 
     public function handle(Throwable $throwable, ResponseInterface $response)
     {
+        $this->stopPropagation();
 
-        $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
-        $this->logger->error($throwable->getTraceAsString());
-        return $response->withStatus(200)->withHeader('Content-Type','application/json; charset=utf-8')->withBody(new SwooleStream(json_encode(['status' => $throwable->getCode(), 'message' => $throwable->getMessage()], 256)));
+        //$this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
+        //$this->logger->error($throwable->getTraceAsString());
+        $result = ['status' => $throwable->getCode(), 'message' => $throwable->getMessage()];
+        $result = $this->helper->error($throwable->getCode(), $throwable->getMessage(), $throwable->getMessage());
+        $return = $response->withStatus(200)
+            ->withHeader('Content-Type','application/json; charset=utf-8')
+            ->withBody(new SwooleStream(json_encode($result, 256)));
+        return $return;
     }
+
+    /*public function handle(Throwable $throwable, ResponseInterface $response)
+    {
+        $message = $throwable->validator->errors()->first();
+        $errors = $throwable->validator->errors();
+        $result = $this->helper->error($throwable->getCode(), $throwable->getMessage(), $throwable->getMessage());
+        return $response->withStatus($throwable->getCode())
+                        ->withAddedHeader('content-type', 'application/json')
+                        ->withBody(new SwooleStream($this->helper->jsonEncode($result)));
+    }*/
 
     public function isValid(Throwable $throwable): bool
     {
