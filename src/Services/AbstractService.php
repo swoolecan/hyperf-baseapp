@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Repositories;
+namespace Swoolecan\Baseapp\Services;
 
 use Doctrine\Common\Collections\Collection;
 
