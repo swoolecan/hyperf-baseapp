@@ -6,7 +6,7 @@ Trait TraitView
 {
     public function show($id)
     {
-        $result = $this->getRelateModel()->find($id);
+        $result = $this->getServiceObj()->find($id);
         if (!$result) {
             return $this->throwException(404);
         }

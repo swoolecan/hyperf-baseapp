@@ -27,10 +27,9 @@ class ExceptionHandler extends ExceptionHandlerBase
      */
     protected $helper;
 
-    public function __construct(StdoutLoggerInterface $logger, Helper $helper)
+    public function __construct(StdoutLoggerInterface $logger)
     {
         $this->logger = $logger;
-        $this->helper = $helper;
     }
 
     public function handle(Throwable $throwable, ResponseInterface $response)

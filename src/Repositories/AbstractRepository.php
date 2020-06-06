@@ -50,10 +50,10 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      * @param Collection $collection
      * @throws \Bosnadev\Repositories\Exceptions\RepositoryException
      */
-    public function __construct(App $app, Collection $collection)
+    public function __construct()//App $app, Collection $collection)
     {
-        $this->app = $app;
-        $this->criteria = $collection;
+        //$this->app = $app;
+        //$this->criteria = $collection;
         $this->resetScope();
         $this->makeModel();
     }

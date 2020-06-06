@@ -20,9 +20,8 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Contract\ConfigInterface;
-use Hyperf\Utils\Str;
-use Swoolecan\Baseapp\Helpers\SysOperation;
 use Swoolecan\Baseapp\Helpers\Helper;
+use Swoolecan\Baseapp\Helpers\Resource;
 use Swoolecan\Baseapp\Exceptions\BusinessException;
 use Swoolecan\Baseapp\Controllers\Traits\OperationTrait;
 
@@ -66,51 +65,15 @@ abstract class AbstractController
      */
     protected $helper;
 
-    protected $resourceCode;
-    protected $resourceInfo;
-    protected $resources;
+    /**
+     * @Inject                
+     * @var Resource
+     */
+    protected $resource;
 
-    public function __construct()
+    public function getServiceObj()
     {
-        $this->resources = SysOperation::initResourceDatas();
-        $rCode = $this->getResourceCode();
-        $this->resourceCode = $rCode;
-        $this->resourceInfo = isset($this->resources[$rCode]) ? $this->resources[$rCode] : [];
-    }
-
-    protected function getResourceCode()
-    {
-        $class = get_called_class();
-        $elems = explode('\\', $class);
-        $count = count($elems);
-        $code = $count == 4 ? $elems[3] : $elems[2];
-
-        $code = str_replace('Controller', '', $code);
-        $code = Str::snake($code, '-');
-        $code .= $count == 4 ? '-' . strtolower($elems[2]) : '';
-        return $code;
-    }
-
-    protected function getRelateModel($code = null)
-    {
-        return $this->_getRelateObj('model', $code);
-    }
-
-    protected function getRelateRequest($code = null)
-    {
-        return $this->_getRelateObj('request', $code);
-    }
-
-    protected function getRelateRepository($code = null)
-    {
-        return $this->_getRelateObj('repository', $code);
-    }
-
-    protected function _getRelateObj($type, $code)
-    {
-        $info = is_null($code) ? $this->resourceInfo : $this->resources[$code];
-        $class = $info[$type];
-        return new $class();
+        $this->serviceObj = $this->resource->getObject('service', get_called_class());
     }
 
     protected function throwException($code, $message = null)
