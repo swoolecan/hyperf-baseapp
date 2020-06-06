@@ -28,6 +28,8 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
     private $app;
 
     protected $newModel;
+    protected $resource;
+    protected $pointModel;
 
     /**
      * @var Collection
@@ -46,16 +48,17 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
     protected $preventCriteriaOverwriting = true;
 
     /**
-     * @param App $app
-     * @param Collection $collection
-     * @throws \Bosnadev\Repositories\Exceptions\RepositoryException
+     * @param $resource
      */
-    public function __construct()//App $app, Collection $collection)
+    public function __construct($resource)//App $app, Collection $collection)
     {
+        $this->resource = $resource;
+        $modelCode = !empty($this->pointModel) ? $this->pointModel : get_called_class();
+        $this->model = $this->resource->getObject('model', $modelCode);
         //$this->app = $app;
         //$this->criteria = $collection;
-        $this->resetScope();
-        $this->makeModel();
+        //$this->resetScope();
+        //$this->makeModel();
     }
 
     /**

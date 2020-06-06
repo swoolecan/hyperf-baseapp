@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Services;
 
-use Doctrine\Common\Collections\Collection;
+use Swoolecan\Baseapp\Repositories\AbstractRepository;
 
 class AbstractService
 {
@@ -12,13 +12,16 @@ class AbstractService
      * @var AbstractRepository
      */
     protected $repository;
+    protected $resource;
+    protected $pointRepository;
 
     /**
-     * UserService constructor.
-     * @param User $user
+     * @param $resource
      */
-    /*public function __construct(User $user)
+    public function __construct($resource)
     {
-        $this->user = $user;
-    }*/
+        $this->resource = $resource;
+        $repositoryCode = !empty($this->pointRepository) ? $this->pointRepository : get_called_class();
+        $this->repository = $resource->getObject('repository', $repositoryCode);
+    }
 }

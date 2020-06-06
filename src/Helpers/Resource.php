@@ -25,8 +25,14 @@ Class Resource
         $elems = explode('\\', $class);
         $count = count($elems);
         $code = $count == 4 ? $elems[3] : $elems[2];
+        $type = $elems[1];
+        $type = Str::singular($type);
 
-        $code = str_replace('Controller', '', $code);
+        $code = str_replace(['Controller', 'Repository'], ['', ''], $code);
+        $pos = strripos($code, $type);
+        if ($pos !== false) {
+            $code = substr($code, 0, $pos);
+        }
         $code = Str::snake($code, '-');
         $code .= $count == 4 ? '-' . strtolower($elems[2]) : '';
         return $code;
@@ -38,7 +44,7 @@ Class Resource
             $code = $this->getResourceCode($code);
         }
         if (!isset($this->resources[$code])) {
-            throw BusinessException(500, '资源不存在');
+            throw new BusinessException(500, '资源不存在-' . $code);
         }
 
         $info = $this->resources[$code];
@@ -49,7 +55,7 @@ Class Resource
         if (empty($forceNew) && isset($this->objects[$class])) {
             return $this->objects[$class];
         }
-        $obj = new $class();
+        $obj = $type == 'model' ? new $class([], $this) : new $class($this);
         $this->objects[$class] = $obj;
         return $obj;
     }
