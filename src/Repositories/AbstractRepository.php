@@ -75,7 +75,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
     public function all($columns = array('*'))
     {
         $this->applyCriteria();
-        return $this->model->get($columns);
+        return $this->model->all($columns);
     }
 
     /**

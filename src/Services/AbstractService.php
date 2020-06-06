@@ -21,7 +21,12 @@ class AbstractService
     public function __construct($resource)
     {
         $this->resource = $resource;
-        $repositoryCode = !empty($this->pointRepository) ? $this->pointRepository : get_called_class();
-        $this->repository = $resource->getObject('repository', $repositoryCode);
+        $this->repository = $resource->getObject('repository', get_called_class());
+        $this->pointRepository = empty($pointRepository) ? $this->repository : $resource->getObject('repository', $repositoryCode);
+    }
+
+    public function __call($name, $arguments)
+    {   
+        return $this->repository->{$name}(...$arguments);
     }
 }

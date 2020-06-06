@@ -10,7 +10,7 @@ Trait TraitListinfo
         
         $pageSize = $this->request->input('per_page', 15);
         $params = [];
-        $list = $this->getRelateModel()->getList($params, (int) $pageSize);
+        $list = $this->getServiceRepo()->all();//null, $params, (int) $pageSize);
         return $list;
     }
 
