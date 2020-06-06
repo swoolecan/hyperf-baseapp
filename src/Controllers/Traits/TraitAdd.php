@@ -1,11 +1,21 @@
 <?php
 
-namespace common\controllers\operation;
+namespace Swoolecan\Baseapp\Controllers\Traits;
 
 use Yii;
 
 trait TraitAdd
 {
+    public function store(RequestInterface $request)
+    {
+        $data = $request->all();
+        //$permissions = $request->input('permissions', []);
+        //unset($data['permissions']);
+        $result = $this->getRelateModel()->create($data);
+        //$result->permissions()->sync($permissions);
+        return $result;
+    }
+
 	public function actionCreate()
 	{
 		$this->frontPriv();
@@ -45,10 +55,5 @@ trait TraitAdd
     protected function _addData()
     {
         return [];
-    }
-
-    protected function getAddView()
-    {
-        return '@views/backend/common/change';
     }
 }

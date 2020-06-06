@@ -1,9 +1,19 @@
 <?php
 
-namespace common\controllers\operation;
+namespace Swoolecan\Baseapp\Controllers\Traits;
 
 Trait TraitView
 {
+    public function show($id)
+    {
+        $result = $this->getRelateModel()->find($id);
+        if (!$result) {
+            return $this->throwException(404);
+        }
+        //$result->permissions;
+        return $result;
+    }
+
 	public function actionShow($id = null)
 	{
 		$this->frontPriv(false, true);
@@ -28,11 +38,6 @@ Trait TraitView
 		}
 		$data = ['view' => $this->viewView, 'model' => $model];
         return $this->returnInfoResult($model, $data);
-    }
-
-    protected function getViewView()
-    {
-        return '@views/backend/common/view';
     }
 
 	public function _getViewFields()

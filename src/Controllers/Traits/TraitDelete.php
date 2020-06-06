@@ -1,11 +1,20 @@
 <?php
 
-namespace common\controllers\operation;
+namespace Swoolecan\Baseapp\Controllers\Traits;
 
 use Yii;
 
 trait TraitDelete
 {
+    public function destroy($id)
+    {
+        $result = $this->getRelateModel()->find($id);
+        if (!$result) {
+            throw new BusinessException(404);
+        }
+        return $result->delete();
+    }
+
     public function actionDelete($id = '')
     {
         return $this->_deleteInfo($id);

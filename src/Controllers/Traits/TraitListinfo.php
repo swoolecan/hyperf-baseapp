@@ -1,11 +1,19 @@
 <?php
 
-namespace common\controllers\operation;
-
-use Yii;
+namespace Swoolecan\Baseapp\Controllers\Traits;
 
 Trait TraitListinfo
 {
+    public function index()
+    {
+        $params = $this->request->all();
+        
+        $pageSize = $this->request->input('per_page', 15);
+        $params = [];
+        $list = $this->getRelateModel()->getList($params, (int) $pageSize);
+        return $list;
+    }
+
 	public function actionList()
 	{
 		$this->frontPriv(false);
@@ -51,9 +59,4 @@ Trait TraitListinfo
 	{
 		return [];
 	}
-
-    protected function getListinfoView()
-    {
-        return '@views/backend/common/listinfo';
-    }
 }

@@ -1,11 +1,25 @@
 <?php
 
-namespace common\controllers\operation;
+namespace Swoolecan\Baseapp\Controllers\Traits;
 
 use Yii;
 
 trait TraitUpdate
 {
+    public function update(RequestInterface $request, $id)
+    {
+        $data = $request->all();
+        //$permissions = $request->input('permissions', []);
+        $result = $this->getRelateModel()->find($id);
+        if (!$result) {
+            throw new BusinessException(404);
+        }
+        //unset($data['permissions']);
+        //$result->update($data);
+        //$result->syncPermissions($permissions);
+        return $result;
+    }
+
 	public function actionEdit()
 	{
 		$this->frontPriv(false);

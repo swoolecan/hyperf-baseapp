@@ -24,9 +24,12 @@ use Hyperf\Utils\Str;
 use Swoolecan\Baseapp\Helpers\SysOperation;
 use Swoolecan\Baseapp\Helpers\Helper;
 use Swoolecan\Baseapp\Exceptions\BusinessException;
+use Swoolecan\Baseapp\Controllers\Traits\OperationTrait;
 
 abstract class AbstractController
 {
+    use OperationTrait;
+
     /**
      * @Inject
      * @var ContainerInterface
@@ -67,61 +70,6 @@ abstract class AbstractController
     protected $resourceInfo;
     protected $resources;
 
-    public function index()
-    {
-        $params = $this->request->all();
-        
-        $pageSize = $this->request->input('per_page', 15);
-        $params = [];
-        print_r($this->getRelateModel());
-        $list = $this->getRelateModel()->getList($params, (int) $pageSize);
-        return $list;
-    }
-
-    public function store(RequestInterface $request)
-    {
-        $data = $request->all();
-        //$permissions = $request->input('permissions', []);
-        //unset($data['permissions']);
-        $result = $this->getRelateModel()->create($data);
-        //$result->permissions()->sync($permissions);
-        return $result;
-    }
-
-    public function show($id)
-    {
-        $result = $this->getRelateModel()->find($id);
-        if (!$result) {
-            throw new BusinessException(404);
-        }
-        //$result->permissions;
-        return $result;
-    }
-
-    public function update(RequestInterface $request, $id)
-    {
-        $data = $request->all();
-        //$permissions = $request->input('permissions', []);
-        $result = $this->getRelateModel()->find($id);
-        if (!$result) {
-            throw new BusinessException(404);
-        }
-        //unset($data['permissions']);
-        //$result->update($data);
-        //$result->syncPermissions($permissions);
-        return $result;
-    }
-
-    public function destroy($id)
-    {
-        $result = $this->getRelateModel()->find($id);
-        if (!$result) {
-            throw new BusinessException(404);
-        }
-        return $result->delete();
-    }
-
-
     public function __construct()
     {
         $this->resources = SysOperation::initResourceDatas();
@@ -145,8 +93,28 @@ abstract class AbstractController
 
     protected function getRelateModel($code = null)
     {
+        return $this->_getRelateObj('model', $code);
+    }
+
+    protected function getRelateRequest($code = null)
+    {
+        return $this->_getRelateObj('request', $code);
+    }
+
+    protected function getRelateRepository($code = null)
+    {
+        return $this->_getRelateObj('repository', $code);
+    }
+
+    protected function _getRelateObj($type, $code)
+    {
         $info = is_null($code) ? $this->resourceInfo : $this->resources[$code];
-        $class = $info['model'];
+        $class = $info[$type];
         return new $class();
+    }
+
+    protected function throwException($code, $message = null)
+    {
+        throw new BusinessException($code, $message);
     }
 }

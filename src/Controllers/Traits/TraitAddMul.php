@@ -1,6 +1,6 @@
 <?php
 
-namespace common\controllers\operation;
+namespace Swoolecan\Baseapp\Controllers\Traits;
 
 use Yii;
 
@@ -28,10 +28,5 @@ trait TraitAddMul
 		//var_dump($this->addView);exit();
 		$viewData = ['view' => $this->addMulView, 'currentView' => $this->viewPrefix, 'type' => 'add-mul'];
 		return $this->returnInfoResult($model, $viewData);
-    }
-
-    protected function getAddMulView()
-    {
-        return '@views/backend/common/change';
     }
 }
