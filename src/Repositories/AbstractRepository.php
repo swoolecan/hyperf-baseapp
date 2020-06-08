@@ -58,15 +58,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
         //$this->app = $app;
         //$this->criteria = $collection;
         //$this->resetScope();
-        //$this->makeModel();
     }
-
-    /**
-     * Specify Model class name
-     *
-     * @return mixed
-     */
-    public abstract function model();
 
     /**
      * @param array $columns
@@ -245,32 +237,6 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
             }
         }
         return $model->get($columns);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder
-     * @throws RepositoryException
-     */
-    public function makeModel()
-    {
-        return $this->setModel($this->model());
-    }
-
-    /**
-     * Set Eloquent Model to instantiate
-     *
-     * @param $eloquentModel
-     * @return Model
-     * @throws RepositoryException
-     */
-    public function setModel($eloquentModel)
-    {
-        $this->newModel = $this->app->make($eloquentModel);
-
-        if (!$this->newModel instanceof Model)
-            throw new RepositoryException("Class {$this->newModel} must be an instance of Illuminate\\Database\\Eloquent\\Model");
-
-        return $this->model = $this->newModel;
     }
 
     /**

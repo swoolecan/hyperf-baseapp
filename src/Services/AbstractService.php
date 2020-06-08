@@ -29,4 +29,8 @@ class AbstractService
     {   
         return $this->repository->{$name}(...$arguments);
     }
+
+    public function getTreeInfos()
+    {
+    }
 }

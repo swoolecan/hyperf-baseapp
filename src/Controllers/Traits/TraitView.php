@@ -14,7 +14,7 @@ Trait TraitView
         return $result;
     }
 
-	public function actionShow($id = null)
+	/*public function actionShow($id = null)
 	{
 		$this->frontPriv(false, true);
 		return $this->actionView($id);
@@ -43,5 +43,5 @@ Trait TraitView
 	public function _getViewFields()
 	{
 		return [];
-	}
+    }*/
 }

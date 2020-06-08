@@ -14,7 +14,15 @@ Trait TraitListinfo
         return $list;
     }
 
-	public function actionList()
+    public function treeListinfos()
+    {
+        //$infos = $model->getFormatedInfos();
+        $infos = $this->getService()->getTreeInfos();//null, $params, (int) $pageSize);
+
+        return $infos;
+    }
+
+	/*public function actionList()
 	{
 		$this->frontPriv(false);
 		return $this->actionListinfo();
@@ -58,5 +66,5 @@ Trait TraitListinfo
 	public function _getListOperations()
 	{
 		return [];
-	}
+    }*/
 }

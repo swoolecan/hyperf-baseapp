@@ -48,8 +48,8 @@ Class Resource
         }
 
         $info = $this->resources[$code];
-        $class = $info[$type];
-        if ($type == 'service' && !class_exists($class)) {
+        $class = $type == 'service-repo' ? $info['service'] : $info[$type];
+        if ($type == 'service-repo' && !class_exists($class)) {
             $class = $info['repository'];
         }
         if (empty($forceNew) && isset($this->objects[$class])) {
