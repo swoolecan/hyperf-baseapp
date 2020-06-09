@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Helpers;
 
+use Hyperf\Utils\Str;
 use EasyWeChat\Factory;
 
 /**
@@ -41,10 +42,10 @@ Class SysOperation
     {
         $data = [];
         $base = 'App\Controller\\';
-        $code = !empty($rData['module']) ? ucfirst($rData['module']) . '\\' : '\\';
-        $code .= ucfirst($rCode);
+        $code = !empty($rData['module']) ? self::toUpper($rData['module']) . '\\' : '';
+        $code .= self::toUpper($rCode);
         foreach (['request', 'model', 'service', 'repository'] as $elem) {
-            $elemCode = ucfirst($elem);
+            $elemCode = self::toUpper($elem);
             $info = [];
             if ($elem == 'model') {
                 $data[$elem] = "app\\{$elemCode}\\{$code}";
@@ -64,12 +65,7 @@ Class SysOperation
     {
         $routeFile = self::getCachePath('route');
         if (!file_exists($routeFile)) {
-            $dResources = [
-                'permission' => ['module' => 'passport'], 
-                'role' => ['module' => 'passport'], 
-                'resource' => ['module' => 'passport'], 
-                'manager' => ['module' => 'passport'], 
-            ];
+            $dResources = self::getDefaultResources();
             self::cacheRoutes($dResources);
         }
         return require($routeFile);
@@ -99,8 +95,8 @@ Class SysOperation
         $data = [];
         $basePath = !empty($rData['module']) ? "/{$rData['module']}" : '';
         $baseCallback = 'App\Controller\\';
-        $baseCallback .= !empty($rData['module']) ? ucfirst($rData['module']) . '\\' : '\\';
-        $baseCallback .= ucfirst($rCode) . 'Controller@';
+        $baseCallback .= !empty($rData['module']) ? self::toUpper($rData['module']) . '\\' : '\\';
+        $baseCallback .= self::toUpper($rCode) . 'Controller@';
         foreach (['index', 'put', 'store', 'show', 'delete'] as $action) {
             $method = !empty($rData['method']) ? $rData['method'] : $actionMethods[$action];
             $method = (array) explode(',', $method);
@@ -223,10 +219,17 @@ Class SysOperation
     protected static function getDefaultResources()
     {
         return [
+            'entrance' => [],
+            'user' => ['module' => 'passport'], 
             'permission' => ['module' => 'passport'], 
             'role' => ['module' => 'passport'], 
             'resource' => ['module' => 'passport'], 
-            'manager' => ['module' => 'passport'], 
+            'manager-backend' => ['module' => 'passport'], 
         ];
+    }
+
+    public static function toUpper($str)
+    {
+        return Str::studly($str);
     }
 }

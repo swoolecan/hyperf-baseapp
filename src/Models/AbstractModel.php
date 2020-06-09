@@ -29,4 +29,27 @@ abstract class AbstractModel extends BaseModel
     {
         return array_key_exists($key, $enum) ? $enum[$key] : $default;
     }
+
+    /*protected $attributes = [
+        'status' => 1,
+    ];
+
+    public function getStatusTextAttribute()
+    {
+        return $this->attributes['status_text'] = $this->getFormatState($this->attributes['status'], self::$status);
+    }*/
+
+    /*public function getList(array $params, int $pageSize)
+    {
+        $params = [
+            'sort_name' => 'id',
+            'sort_value' => 'desc',
+        ];
+        $list = $this->query()->orderBy($params['sort_name'], $params['sort_value'])->paginate($pageSize);
+        foreach ($list as &$value) {
+            $value->sex_text;
+            $value->status_text;
+        }
+        return $list;
+    }*/
 }

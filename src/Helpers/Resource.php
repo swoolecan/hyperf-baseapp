@@ -14,10 +14,17 @@ Class Resource
 {
     protected $resources;
     protected $objects = [];
+    public $request;
+    public $params = [];
 
     public function __construct()
     {
         $this->resources = SysOperation::initResourceDatas();
+    }
+
+    public function setParams($params)
+    {
+        $this->params = array_merge($this->params, $params);
     }
 
     protected function getResourceCode($class)
@@ -26,9 +33,10 @@ Class Resource
         $count = count($elems);
         $code = $count == 4 ? $elems[3] : $elems[2];
         $type = $elems[1];
+
         $type = Str::singular($type);
 
-        $code = str_replace(['Controller', 'Repository'], ['', ''], $code);
+        //$code = str_replace(['Controller', 'Repository'], ['', ''], $code);
         $pos = strripos($code, $type);
         if ($pos !== false) {
             $code = substr($code, 0, $pos);
@@ -58,5 +66,17 @@ Class Resource
         $obj = $type == 'model' ? new $class([], $this) : new $class($this);
         $this->objects[$class] = $obj;
         return $obj;
+    }
+
+    public function getIp()
+    {
+        $ip = $this->request->getHeader('x-real-ip');
+        if (empty($ip)) {
+            return '';
+        }
+        if (is_string($ip)) {
+            return $ip;
+        }
+        return $ip[0];
     }
 }

@@ -17,7 +17,7 @@ Trait TraitListinfo
     public function treeListinfos()
     {
         //$infos = $model->getFormatedInfos();
-        $infos = $this->getService()->getTreeInfos();//null, $params, (int) $pageSize);
+        $infos = $this->getServiceObj()->getTreeInfos();//null, $params, (int) $pageSize);
 
         return $infos;
     }
