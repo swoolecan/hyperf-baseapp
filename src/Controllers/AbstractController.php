@@ -75,6 +75,7 @@ abstract class AbstractController
     {
         $this->resource->setParams($params);
         $this->resource->request = $this->request;
+        $this->resource->config = $this->config;
         return $this->resource->getObject('service-repo', get_called_class());
     }
 
@@ -82,6 +83,7 @@ abstract class AbstractController
     {
         $this->resource->setParams($params);
         $this->resource->request = $this->request;
+        $this->resource->config = $this->config;
         return $this->resource->getObject('service', get_called_class());
     }
 

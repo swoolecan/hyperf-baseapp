@@ -46,13 +46,19 @@ Class SysOperation
         $code .= self::toUpper($rCode);
         foreach (['request', 'model', 'service', 'repository'] as $elem) {
             $elemCode = self::toUpper($elem);
-            $info = [];
+            if (isset($rData[$elem]) && !empty($rData[$elem])) {
+                $data[$elem] = $rData[$elem];
+                continue;
+            }
             if ($elem == 'model') {
-                $data[$elem] = "app\\{$elemCode}\\{$code}";
+                $class = "app\\{$elemCode}\\{$code}";
             /*} else if ($elem == 'repository') {
                 $data[$elem] = "app\\{$elemCode}\\{$code}";*/
             } else {
-                $data[$elem] = "app\\{$elemCode}\\{$code}{$elemCode}";
+                $class = "app\\{$elemCode}\\{$code}{$elemCode}";
+            }
+            if (class_exists($class)) {
+                $data[$elem] = $class;
             }
         }
         return $data;
@@ -220,6 +226,7 @@ Class SysOperation
     {
         return [
             'entrance' => [],
+            'easysms' => ['service' => 'Swoolecan\\Baseapp\\Services\\EasysmsService'],
             'user' => ['module' => 'passport'], 
             'permission' => ['module' => 'passport'], 
             'role' => ['module' => 'passport'], 
