@@ -89,4 +89,9 @@ abstract class AbstractController
     {
         throw new BusinessException($code, $message);
     }
+
+    protected function success($datas, $message = 'success')
+    {
+        return ['code' => 200, 'message' => $message, 'datas' => $datas];
+    }
 }
