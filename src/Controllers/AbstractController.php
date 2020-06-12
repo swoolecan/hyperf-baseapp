@@ -71,20 +71,22 @@ abstract class AbstractController
      */
     protected $resource;
 
-    public function getServiceRepo($params = [])
+    public function getServiceRepo($code = '', $params = [])
     {
         $this->resource->setParams($params);
         $this->resource->request = $this->request;
         $this->resource->config = $this->config;
-        return $this->resource->getObject('service-repo', get_called_class());
+        $code = !empty($code) ? $code : get_called_class();
+        return $this->resource->getObject('service-repo', $code);
     }
 
-    public function getServiceObj($params = [])
+    public function getServiceObj($code = '', $params = [])
     {
         $this->resource->setParams($params);
         $this->resource->request = $this->request;
         $this->resource->config = $this->config;
-        return $this->resource->getObject('service', get_called_class());
+        $code = !empty($code) ? $code : get_called_class();
+        return $this->resource->getObject('service', $code);
     }
 
     protected function throwException($code, $message = null)
