@@ -12,9 +12,9 @@ use Swoolecan\Baseapp\Exceptions\BusinessException;
  */
 Class Resource
 {
+
     protected $resources;
     protected $objects = [];
-    public $request;
     public $params = [];
 
     public function __construct()
@@ -63,7 +63,8 @@ Class Resource
         if (empty($forceNew) && isset($this->objects[$class])) {
             return $this->objects[$class];
         }
-        $obj = $type == 'model' ? new $class([], $this) : new $class($this);
+        $obj = new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
+        $obj = make($class);//new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
         $this->objects[$class] = $obj;
         return $obj;
     }
