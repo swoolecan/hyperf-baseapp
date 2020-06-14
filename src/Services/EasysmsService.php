@@ -6,10 +6,10 @@ namespace Swoolecan\Baseapp\Services;
 use Overtrue\EasySms\EasySms;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CachePut;
+use Swoolecan\Baseapp\Helpers\SysOperation;
 
 class EasysmsService extends AbstractService
 {
-	protected $isTest;
     protected $createInfo;
 
     protected $returnInfo;
@@ -18,7 +18,7 @@ class EasysmsService extends AbstractService
     {
     }
 
-    public function getConfig($key = null)
+    public function getConfig($key = null, $subKey = null)
     {
         static $config;
         if (empty($config)) {
@@ -27,7 +27,10 @@ class EasysmsService extends AbstractService
         if (empty($key)) {
             return $config;
         }
-        return $config[$key];
+        if (is_null($subKey)) {
+            return $config[$key];
+        }
+        return $config[$key][$subKey];
     }
 
     /**
@@ -40,18 +43,30 @@ class EasysmsService extends AbstractService
     public function send($mobile, $templateCode, $data)
     {
 		$content = $this->formatContent($templateCode, $data);
-        $easySms = new EasySms($this->configInfo);
-        $r = $easySms->send($mobile, $content);
-        //var_dump($r);
-        return $r;
+        if (isset($content['code']) && $content['code'] == 400) {
+            return $content;
+        }
+        if ($this->getConfig('isTest')) {
+            return ['code' => 200, 'message' => 'success1'];
+        }
+
+        try {
+            $easySms = new EasySms($this->getConfig());
+            $easySms->send($mobile, $content);
+        } catch (\Exception $e) {
+            return ['code' => 400, 'message' => '短信发送失败，请稍后重新操作0'];
+        }
+        return ['code' => 200, 'message' => 'success'];
     }
 
 	public function sendCode($data)
 	{
-        $this->configInfo = $this->config->get('easysms');
         $mobile = $data['mobile'];
         $type = $data['type'];
-        $typeConfig = $this->configInfo['verifyCode'][$type];
+        $typeConfig = $this->getConfig('verifyCode', $type);
+        if (empty($typeConfig)) {
+            return ['code' => 400, 'message' => "验证码类型{$type}有误"];
+        }
         $infoExist = $this->getCodeInfo($mobile . '-' . $type);
         $check = $this->checkSend($infoExist, $typeConfig);
         if ($check !== true) {
@@ -72,7 +87,7 @@ class EasysmsService extends AbstractService
 	public function validateCode($data)
 	{
         $type = $data['type'];
-        $typeConfig = $this->configInfo['verifyCode'][$type];
+        $typeConfig = $this->getConfig('verifyCode', $type);
         $info = $this->getCodeInfo($data['mobile'] . '-' . $type);
 
 		if (empty($info)) {
@@ -80,11 +95,11 @@ class EasysmsService extends AbstractService
 		}
 
 		if ($info['code'] != $data['code']) {
-			$message = $this->isTest ? 'codeError-' . $info['code'] : '验证码错误';
+			$message = $this->getConfig('isTest') ? 'codeError-' . $info['code'] : '验证码错误';
 			return ['code' => 400, 'message' => $message];
 		}
 
-        $expire = isset($typeConfig['expire']) ? $this->typeConfig['expire'] : 300;
+        $expire = isset($typeConfig['expire']) ? $typeConfig['expire'] : 300;
         if (time() > $info['updatedAt'] + $expire) {
 			return ['code' => 400, 'message' => '您的验证码已经过期，请重新获取'];
         }
@@ -105,7 +120,7 @@ class EasysmsService extends AbstractService
 
         if (!empty($infoExist) && date('Ymd', $infoExist['createdAt']) != date('Ymd', time())) {
             $infoExist['createdAt'] = time();
-            $infoExist['count'] = 0;
+            //$infoExist['count'] = 0;
         }
 
         return [
@@ -113,7 +128,7 @@ class EasysmsService extends AbstractService
             'createdAt' => isset($infoExist['createdAt']) ? $infoExist['createdAt'] : time(),
             'updatedAt' => time(),
             'sendTimes' => isset($infoExist['sendTimes']) ? $infoExist['sendTimes'] + 1 : 1,
-            'count' => 0,
+            //'count' => 0,
         ];
     }
 
@@ -139,7 +154,7 @@ class EasysmsService extends AbstractService
 			return true;
         }
 
-        $sendTimes = isset($this->typeConfig['sendTimes']) ? $this->typeConfig['sendTimes'] : 5;
+        $sendTimes = isset($typeConfig['sendTimes']) ? $typeConfig['sendTimes'] : 5;
         if ($info['sendTimes'] > $sendTimes) {
             return ['code' => 400, 'message' => '您今天获取验证的次数已达到上限，请您暂停再操作'];
         }
@@ -154,34 +169,24 @@ class EasysmsService extends AbstractService
         return true;
 	}
 
-    /*protected function _writeLog($return, $mobile, $content, $sort, $startTime)
+    protected function formatContent($templateCode, $data)
     {
-        $endTime = microtime(true);
-        $timeUsed = number_format($endTime - $startTime, 3);
-        $currentDate = date('Y-m-d H:i:s');
-        $content = "==={$mobile}==={$currentDate}===\r\n"
-            . "---{$timeUsed}---{$return['message']}---{$return['extinfo']}---\r\n"
-            . "---{$content}---\r\n\r\n";
-
-        $logFile = \Yii::getAlias('@runtime') . '/logs/sms/' . date('Y-m-d') . '/' . $sort;
-        $logFile .= $return['status'] ? '_success.log' : '_error.log';
-        $path = dirname($logFile);
-        if (!is_dir($path)) {
-            \yii\helpers\FileHelper::createDirectory($path);
+        static $templates;
+        if (is_null($templates)) {
+            $templates = SysOperation::getCacheElems('easysms');
         }
-        file_put_contents($logFile, $content, FILE_APPEND);
-
-        return true;
-    }*/
-
-    protected function formatContent($template, $data)
-    {
+        if (!isset($templates[$templateCode])) {
+            return ['code' => 400, 'message' => "短信模板{$templateCode}有误"];
+        }
+        $template = $templates[$templateCode];
+        foreach ($data as $key => $value) {
+            $placeholder = '{{' . strtoupper($key) . '}}';
+            $content = str_replace($placeholder, $value, $template['content']);
+        }
         $result = [
-            'content'  => '您的验证码为: 6379',
-            'template' => 'SMS_001',
-            'data' => [
-                'code' => 6379
-            ],
+            'content'  => $content,
+            'template' => $templateCode,
+            'data' => $data,
         ];
         return $result;
     }

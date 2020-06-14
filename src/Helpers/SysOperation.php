@@ -184,4 +184,21 @@ Class SysOperation
     {
         return Str::studly($str);
     }
+
+    public static function setCacheElems($type, $datas)
+    {
+        $cacheFile = self::getCachePath('elem-' . $type);
+        $str = "<?php\nreturn " . var_export($datas, true) . ' ;';
+        file_put_contents($cacheFile, $str);
+        return true;
+    }
+
+    public static function getCacheElems($type)
+    {
+        $cacheFile = self::getCachePath('elem-' . $type);
+        if (!file_exists($cacheFile)) {
+            return [];
+        }
+        return require($cacheFile);
+    }
 }
