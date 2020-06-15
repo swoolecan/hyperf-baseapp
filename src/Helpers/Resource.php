@@ -64,7 +64,10 @@ Class Resource
             return $this->objects[$class];
         }
         //$obj = new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
-        $obj = make($class);//new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
+        //echo $class . "\n cccccc \n";
+        $obj = make($class, ['resource' => $this]);//new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
+        $obj->init($this);
+        //echo get_class($obj) . "\n rrrrrr \n";
         $this->objects[$class] = $obj;
         return $obj;
     }

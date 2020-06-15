@@ -64,20 +64,21 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
     /**
      * @param $resource
      */
-    /*public function __construct($resource)//App $app, Collection $collection)
+    public function init()//$resource)//App $app, Collection $collection)
     {
-        $this->resource = $resource;
+        //$this->resource = $resource;
+        //echo get_class($resource) . "\n aewwwwwwwww";
         $modelCode = !empty($this->pointModel) ? $this->pointModel : get_called_class();
         $this->model = $this->resource->getObject('model', $modelCode);
         //$this->app = $app;
         //$this->criteria = $collection;
         //$this->resetScope();
-    }*/
+    }
 
-    public function getRepositoryObj($code = '', $params = [])
+    public function getModelObj($code = '', $params = [])
     {
-        $code = !empty($code) ? $code : get_called_class();
-        return $this->resource->getObject('repository', $code);
+        //$code = !empty($code) ? $code : get_called_class();
+        //return $this->resource->getObject('model', $code);
     }
 
     /**

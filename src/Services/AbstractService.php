@@ -21,25 +21,26 @@ abstract class AbstractService
      * @Inject                
      * @var Resource
      */
-    protected $resource;
+    public $resource;
 
     /** 
      * @var AbstractRepository
      */
     protected $repository;
-    protected $pointRepository;
+    //protected $pointRepository;
 
     /**
      * @param $resource
      */
-    /*public function __construct($resource)
+    public function init($resource)
     {
-        $this->resource = $resource;
+        //$this->resource = $resource;
+        //echo get_class($resource) . "\n aewwwwwwwww";exit();
         if (empty($this->noRepository)) {
-            $this->repository = $resource->getObject('repository', get_called_class());
-            $this->pointRepository = empty($pointRepository) ? $this->repository : $resource->getObject('repository', $repositoryCode);
+            //$this->repository = $resource->getObject('repository', get_called_class());
+            //$this->pointRepository = empty($pointRepository) ? $this->repository : $resource->getObject('repository', $repositoryCode);
         }
-    }*/
+    }
 
     public function __call($name, $arguments)
     {   
@@ -49,6 +50,7 @@ abstract class AbstractService
     public function getRepositoryObj($code = '', $params = [])
     {
         $code = !empty($code) ? $code : get_called_class();
+        var_dump($code);
         return $this->resource->getObject('repository', $code);
     }
 
