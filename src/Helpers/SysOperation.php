@@ -51,11 +51,11 @@ Class SysOperation
                 continue;
             }
             if ($elem == 'model') {
-                $class = "app\\{$elemCode}\\{$code}";
+                $class = "App\\{$elemCode}\\{$code}";
             /*} else if ($elem == 'repository') {
                 $data[$elem] = "app\\{$elemCode}\\{$code}";*/
             } else {
-                $class = "app\\{$elemCode}\\{$code}{$elemCode}";
+                $class = "App\\{$elemCode}\\{$code}{$elemCode}";
             }
             if (class_exists($class)) {
                 $data[$elem] = $class;

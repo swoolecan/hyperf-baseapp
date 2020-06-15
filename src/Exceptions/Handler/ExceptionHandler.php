@@ -36,8 +36,8 @@ class ExceptionHandler extends ExceptionHandlerBase
     {
         $this->stopPropagation();
 
-        $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
-        $this->logger->error($throwable->getTraceAsString());
+        //$this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
+        //$this->logger->error($throwable->getTraceAsString());
         $result = ['status' => $throwable->getCode(), 'message' => $throwable->getMessage()];
         $result = $this->helper->error($throwable->getCode(), $throwable->getMessage(), $throwable->getMessage());
         $return = $response->withStatus(200)

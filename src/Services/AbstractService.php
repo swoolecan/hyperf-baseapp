@@ -6,9 +6,10 @@ namespace Swoolecan\Baseapp\Services;
 
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Contract\ConfigInterface;
+use Swoolecan\Baseapp\Helpers\Resource;
 use Swoolecan\Baseapp\Repositories\AbstractRepository;
 
-class AbstractService
+abstract class AbstractService
 {
     /**
      * @Inject
@@ -16,12 +17,16 @@ class AbstractService
      */
     protected $config;
 
+    /**
+     * @Inject                
+     * @var Resource
+     */
+    protected $resource;
+
     /** 
      * @var AbstractRepository
      */
-    protected $noRepository;
     protected $repository;
-    protected $resource;
     protected $pointRepository;
 
     /**
@@ -38,7 +43,13 @@ class AbstractService
 
     public function __call($name, $arguments)
     {   
-        return $this->repository->{$name}(...$arguments);
+        //return $this->repository->{$name}(...$arguments);
+    }
+
+    public function getRepositoryObj($code = '', $params = [])
+    {
+        $code = !empty($code) ? $code : get_called_class();
+        return $this->resource->getObject('repository', $code);
     }
 
     public function getTreeInfos()

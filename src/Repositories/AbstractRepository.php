@@ -10,6 +10,9 @@ namespace Swoolecan\Baseapp\Repositories;
 //use Illuminate\Support\Collection;
 //use Illuminate\Database\Eloquent\Model;
 //use Illuminate\Container\Container as App;
+use Hyperf\Di\Annotation\Inject;
+use Hyperf\Contract\ConfigInterface;
+use Swoolecan\Baseapp\Helpers\Resource;
 use Swoolecan\Baseapp\Contracts\RepositoryInterface;
 use Swoolecan\Baseapp\Contracts\CriteriaInterface;
 use Swoolecan\Baseapp\Criteria\Criteria;
@@ -17,6 +20,18 @@ use Swoolecan\Baseapp\Criteria\Criteria;
 
 abstract class AbstractRepository implements RepositoryInterface, CriteriaInterface
 {
+    /**
+     * @Inject
+     * @var ConfigInterface
+     */
+    protected $config;
+
+    /**
+     * @Inject                
+     * @var Resource
+     */
+    protected $resource;
+
     /** 
      * @var AbstractModel
      */
@@ -28,7 +43,6 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
     private $app;
 
     protected $newModel;
-    protected $resource;
     protected $pointModel;
 
     /**
@@ -50,7 +64,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
     /**
      * @param $resource
      */
-    public function __construct($resource)//App $app, Collection $collection)
+    /*public function __construct($resource)//App $app, Collection $collection)
     {
         $this->resource = $resource;
         $modelCode = !empty($this->pointModel) ? $this->pointModel : get_called_class();
@@ -58,6 +72,12 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
         //$this->app = $app;
         //$this->criteria = $collection;
         //$this->resetScope();
+    }*/
+
+    public function getRepositoryObj($code = '', $params = [])
+    {
+        $code = !empty($code) ? $code : get_called_class();
+        return $this->resource->getObject('repository', $code);
     }
 
     /**
