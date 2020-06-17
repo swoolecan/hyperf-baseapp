@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace Swoolecan\Baseapp\Helpers;
 
 use Hyperf\Utils\Str;
+use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Swoolecan\Baseapp\Helpers\SysOperation;
 use Swoolecan\Baseapp\Exceptions\BusinessException;
 
@@ -12,6 +14,11 @@ use Swoolecan\Baseapp\Exceptions\BusinessException;
  */
 Class Resource
 {
+    /**
+     * @Inject
+     * @var RequestInterface
+     */
+    protected $request;
 
     protected $resources;
     protected $objects = [];
@@ -29,6 +36,7 @@ Class Resource
 
     protected function getResourceCode($class)
     {
+        echo $class . 'iiiiiii';
         $elems = explode('\\', $class);
         $count = count($elems);
         $code = $count == 4 ? $elems[3] : $elems[2];
@@ -46,13 +54,36 @@ Class Resource
         return $code;
     }
 
-    public function getObject($type, $code, $forceNew = false)
+    public function getObject($type, $code, $throw = true)
+    {
+        $class = $this->_formatClass($type, $code, $throw);
+        if (empty($class)) {
+            if ($throw) {
+                throw new BusinessException(500, '资源不存在-' . $code);
+            }
+            return null;
+        }
+
+        if (isset($this->objects[$class])) {
+            return $this->objects[$class];
+        }
+        //echo $class . "\n cccccc \n";
+        $obj = make($class, ['resource' => $this]);//new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
+        if (method_exists($obj, 'init')) {
+            $obj->init($this);
+        }
+        //echo get_class($obj) . "\n rrrrrr \n";
+        $this->objects[$class] = $obj;
+        return $obj;
+    }
+
+    public function _formatClass($type, $code)
     {
         if (!isset($this->resources[$code])) {
             $code = $this->getResourceCode($code);
         }
         if (!isset($this->resources[$code])) {
-            throw new BusinessException(500, '资源不存在-' . $code);
+            return false;
         }
 
         $info = $this->resources[$code];
@@ -60,16 +91,7 @@ Class Resource
         if ($type == 'service-repo' && !class_exists($class)) {
             $class = $info['repository'];
         }
-        if (empty($forceNew) && isset($this->objects[$class])) {
-            return $this->objects[$class];
-        }
-        //$obj = new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
-        //echo $class . "\n cccccc \n";
-        $obj = make($class, ['resource' => $this]);//new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
-        $obj->init($this);
-        //echo get_class($obj) . "\n rrrrrr \n";
-        $this->objects[$class] = $obj;
-        return $obj;
+        return $class;
     }
 
     public function getIp()
@@ -82,5 +104,10 @@ Class Resource
             return $ip;
         }
         return $ip[0];
+    }
+
+    public function throwException($code, $message = null)
+    {
+        throw new BusinessException($code, $message);
     }
 }

@@ -22,7 +22,6 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Contract\ConfigInterface;
 use Swoolecan\Baseapp\Helpers\Helper;
 use Swoolecan\Baseapp\Helpers\Resource;
-use Swoolecan\Baseapp\Exceptions\BusinessException;
 use Swoolecan\Baseapp\Controllers\Traits\OperationTrait;
 
 abstract class AbstractController
@@ -73,25 +72,30 @@ abstract class AbstractController
 
     public function getServiceRepo($code = '', $params = [])
     {
-        //$this->resource->setParams($params);
-        $this->resource->request = $this->request;
-        //$this->resource->config = $this->config;
         $code = !empty($code) ? $code : get_called_class();
         return $this->resource->getObject('service-repo', $code);
     }
 
     public function getServiceObj($code = '', $params = [])
     {
-        //$this->resource->setParams($params);
-        $this->resource->request = $this->request;
-        //$this->resource->config = $this->config;
         $code = !empty($code) ? $code : get_called_class();
         return $this->resource->getObject('service', $code);
     }
 
-    protected function throwException($code, $message = null)
+    public function getRequestObj($action = '', $code = '')
     {
-        throw new BusinessException($code, $message);
+        $type = empty($action) ? 'request' : 'request-' . $action;
+        $code = !empty($code) ? $code : get_called_class();
+        $request = $this->resource->getObject($type, $code, false);
+        if (empty($request)) {
+            return $this->request;
+        }
+
+        if (method_exists($request, 'validateResolved')) {
+            var_dump($request->all());
+            $request->validateResolved();
+        }
+        return $request;
     }
 
     protected function success($datas, $message = 'success')

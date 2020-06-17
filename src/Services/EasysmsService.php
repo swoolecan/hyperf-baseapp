@@ -42,30 +42,35 @@ class EasysmsService extends AbstractService
      */
     public function send($mobile, $templateCode, $data)
     {
-		$content = $this->formatContent($templateCode, $data);
-        if (isset($content['code']) && $content['code'] == 400) {
-            return $content;
-        }
+        $template = $this->getTemplateData($templateCode);
+        return $this->_send($mobile, $template, $data);
+    }
+
+    protected function _send($mobile, $content)
+    {
         if ($this->getConfig('isTest')) {
             return ['code' => 200, 'message' => 'success1'];
         }
 
+		$content = $this->formatContent($template, $data);
         try {
             $easySms = new EasySms($this->getConfig());
             $easySms->send($mobile, $content);
         } catch (\Exception $e) {
-            return ['code' => 400, 'message' => '短信发送失败，请稍后重新操作0'];
+            return $this->resource->throwException(400, '短信发送失败，请稍后重新操作0');
         }
         return ['code' => 200, 'message' => 'success'];
     }
 
 	public function sendCode($data)
 	{
+        $template = $this->getTemplateData($data['template']);
+
         $mobile = $data['mobile'];
         $type = $data['type'];
         $typeConfig = $this->getConfig('verifyCode', $type);
         if (empty($typeConfig)) {
-            return ['code' => 400, 'message' => "验证码类型{$type}有误"];
+            return $this->resource->throwException(400, "验证码类型{$type}有误");
         }
         $infoExist = $this->getCodeInfo($mobile . '-' . $type);
         $check = $this->checkSend($infoExist, $typeConfig);
@@ -81,7 +86,7 @@ class EasysmsService extends AbstractService
         ];
         $this->createInfo = $this->_createCode($param);
         $this->cacheCode($mobile . '-' . $type);
-        return $this->send($data['mobile'], $data['template'], ['code' => $this->createInfo['code']]);
+        return $this->_send($data['mobile'], $template, ['code' => $this->createInfo['code']]);
     }
 
 	public function validateCode($data)
@@ -91,17 +96,17 @@ class EasysmsService extends AbstractService
         $info = $this->getCodeInfo($data['mobile'] . '-' . $type);
 
 		if (empty($info)) {
-			return ['code' => 400, 'message' => '没有向该手机号发送验证码，请重新操作'];
+			return $this->resource->throwException(400, '没有向该手机号发送验证码，请重新操作');
 		}
 
 		if ($info['code'] != $data['code']) {
 			$message = $this->getConfig('isTest') ? 'codeError-' . $info['code'] : '验证码错误';
-			return ['code' => 400, 'message' => $message];
+			return $this->resource->throwException(400, $message);
 		}
 
         $expire = isset($typeConfig['expire']) ? $typeConfig['expire'] : 300;
         if (time() > $info['updatedAt'] + $expire) {
-			return ['code' => 400, 'message' => '您的验证码已经过期，请重新获取'];
+			return $this->resource->throwException(400, '您的验证码已经过期，请重新获取');
         }
         return ['code' => 200, 'message' => 'success'];
 	}
@@ -156,36 +161,43 @@ class EasysmsService extends AbstractService
 
         $sendTimes = isset($typeConfig['sendTimes']) ? $typeConfig['sendTimes'] : 5;
         if ($info['sendTimes'] > $sendTimes) {
-            return ['code' => 400, 'message' => '您今天获取验证的次数已达到上限，请您暂停再操作'];
+            return $this->resource->throwException(400, '您今天获取验证的次数已达到上限，请您暂停再操作');
         }
 
         $sleep = isset($typeConfig['sleep']) ? $typeConfig['sleep'] : 60;
         $diff = time() - $info['updatedAt'];
         if ($diff < $sleep) {
             $remain = $sleep - $diff;
-            return ['code' => 400, 'message' => "请您{$remain}秒后，再获取验证码"];
+            return $this->resource->throwException(400, "请您{$remain}秒后，再获取验证码");
         }
 
         return true;
 	}
 
-    protected function formatContent($templateCode, $data)
+    protected function getTemplateData($templateCode)
     {
         static $templates;
         if (is_null($templates)) {
             $templates = SysOperation::getCacheElems('easysms');
         }
         if (!isset($templates[$templateCode])) {
-            return ['code' => 400, 'message' => "短信模板{$templateCode}有误"];
+            return $this->resource->throwException(400, "短信模板{$templateCode}有误");
         }
         $template = $templates[$templateCode];
+        $template['templateCode'] = $templateCode;
+
+        return $template;
+    }
+
+    protected function formatContent($template, $data)
+    {
         foreach ($data as $key => $value) {
             $placeholder = '{{' . strtoupper($key) . '}}';
             $content = str_replace($placeholder, $value, $template['content']);
         }
         $result = [
             'content'  => $content,
-            'template' => $templateCode,
+            'template' => $template['templateCode'],
             'data' => $data,
         ];
         return $result;

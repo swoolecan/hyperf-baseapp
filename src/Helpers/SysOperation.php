@@ -41,25 +41,34 @@ Class SysOperation
     public static function _cacheResource($rCode, $rData)
     {
         $data = [];
-        $base = 'App\Controller\\';
         $code = !empty($rData['module']) ? self::toUpper($rData['module']) . '\\' : '';
         $code .= self::toUpper($rCode);
-        foreach (['request', 'model', 'service', 'repository'] as $elem) {
-            $elemCode = self::toUpper($elem);
-            if (isset($rData[$elem]) && !empty($rData[$elem])) {
+
+        foreach (['request', 'resource', 'model', 'service', 'repository'] as $elem) {
+            if (isset($rData[$elem]) && !empty($rData[$elem]) && !is_array($rData[$elem])) {
                 $data[$elem] = $rData[$elem];
                 continue;
             }
+            $elemCode = self::toUpper($elem);
             if ($elem == 'model') {
                 $class = "App\\{$elemCode}\\{$code}";
-            /*} else if ($elem == 'repository') {
-                $data[$elem] = "app\\{$elemCode}\\{$code}";*/
             } else {
                 $class = "App\\{$elemCode}\\{$code}{$elemCode}";
             }
             if (class_exists($class)) {
                 $data[$elem] = $class;
             }
+
+            if (in_array($elem, ['request', 'resource']) && isset($rData[$elem]) && is_array($rData[$elem])) {
+                foreach ($rData[$elem] as $key => $value) {
+                    $codeExt = $code . ucfirst($key);
+                    $class = !empty($value) ? $value : "App\\{$elemCode}\\{$codeExt}{$elemCode}";
+                    if (class_exists($class)) {
+                        $data[$elem . '-' . $key] = $class;
+                    }
+                }
+            }
+
         }
         return $data;
     }
@@ -170,7 +179,11 @@ Class SysOperation
     protected static function getDefaultResources()
     {
         return [
-            'entrance' => [],
+            'entrance' => [
+                'request' => [
+                    'signupin' => 'App\\Request\\EntranceSignupinRequest'
+                ],
+            ],
             'easysms' => ['service' => 'Swoolecan\\Baseapp\\Services\\EasysmsService'],
             'user' => ['module' => 'passport'], 
             'permission' => ['module' => 'passport'], 

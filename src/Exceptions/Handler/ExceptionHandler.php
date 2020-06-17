@@ -34,12 +34,22 @@ class ExceptionHandler extends ExceptionHandlerBase
 
     public function handle(Throwable $throwable, ResponseInterface $response)
     {
+        echo get_class($throwable);
         $this->stopPropagation();
 
         $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
         $this->logger->error($throwable->getTraceAsString());
-        $result = ['status' => $throwable->getCode(), 'message' => $throwable->getMessage()];
-        $result = $this->helper->error($throwable->getCode(), $throwable->getMessage(), $throwable->getMessage());
+        
+        //$result = ['status' => $throwable->getCode(), 'message' => $throwable->getMessage()];
+        if (property_exists($throwable, 'validator')) {
+            $code = $throwable->status;
+            $message = $throwable->validator->errors()->first();
+        } else {
+            $message = $throwable->getMessage();
+            $code = $throwable->getCode();
+        }
+
+        $result = $this->helper->error($code, $message, $message);
         $return = $response->withStatus(200)
             ->withHeader('Content-Type','application/json; charset=utf-8')
             ->withBody(new SwooleStream(json_encode($result, 256)));
