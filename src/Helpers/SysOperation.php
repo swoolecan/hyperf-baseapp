@@ -181,7 +181,8 @@ Class SysOperation
         return [
             'entrance' => [
                 'request' => [
-                    'signupin' => 'App\\Request\\EntranceSignupinRequest'
+                    'signupin' => 'App\\Request\\EntranceSignupinRequest',
+                    'token' => 'App\\Request\\EntranceTokenRequest',
                 ],
             ],
             'easysms' => ['service' => 'Swoolecan\\Baseapp\\Services\\EasysmsService'],
