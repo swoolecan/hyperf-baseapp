@@ -36,7 +36,6 @@ Class Resource
 
     protected function getResourceCode($class)
     {
-        echo $class . 'iiiiiii';
         $elems = explode('\\', $class);
         $count = count($elems);
         $code = $count == 4 ? $elems[3] : $elems[2];
@@ -87,11 +86,11 @@ Class Resource
         }
 
         $info = $this->resources[$code];
-        $class = $type == 'service-repo' ? $info['service'] : $info[$type];
-        if ($type == 'service-repo' && !class_exists($class)) {
-            $class = $info['repository'];
+        $class = isset($info[$type]) ? $info[$type] : false;
+        if (empty($class) && $type == 'service-repo') {
+            $class = isset($info['service']) ? $info['service'] : (isset($info['repository']) ? $info['repository'] : '');
         }
-        return $class;
+        return strval($class);
     }
 
     public function getIp()

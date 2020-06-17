@@ -327,7 +327,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
         if ($this->skipCriteria === true)
             return $this;
 
-        foreach ($this->getCriteria() as $criteria) {
+        foreach ((array) $this->getCriteria() as $criteria) {
             if ($criteria instanceof Criteria)
                 $this->model = $criteria->apply($this->model, $this);
         }
