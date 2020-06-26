@@ -73,35 +73,6 @@ class Tree
      * @param    int $selectId the selected id
      * @return   array the formated array
      */
-    public function getTree($parentKey, $selectKey = '', $preStr = '', $strGroup = '')
-    {
-        //print_r($this->infos);
-        $children = $this->getChildren($parentKey);
-        if (is_array($children)) {
-            $number = 1;
-            $total = count($children);
-            foreach ($children as $key => $info) {
-                $currentPreStr = $nextPreStr = '';
-                if ($number == $total) {
-                    $currentPreStr .= $this->icon[2];
-                } else {
-                    $currentPreStr .= $this->icon[1];
-                    $nextPreStr = $preStr ? $this->icon[0] : '';
-                }
-                $spacer = $preStr ? $preStr . $currentPreStr : '';
-                $selected = ($key == $selectKey) ? 'selected=selected' : '';
-                //print_r($info);
-                $info['selected'] = $selected;
-                $info[$this->showField] = $spacer . $info[$this->showField];
-                $this->resultArray[$info[$this->keyField]] = $info;
-
-                $childPreStr = $preStr . $nextPreStr . $this->nbsp;
-                $this->getTree($key, $selectKey, $childPreStr, $strGroup);
-                $number++;
-            }
-        }
-        return $this->resultArray;
-    }
 
     /**
      * 得到父级数组
@@ -132,18 +103,6 @@ class Tree
      * @param    int $parentId
      * @return   array | null children infos
      */
-    public function getChildren($parentKey)
-    {
-        $childrenInfos = array();
-        if (is_array($this->infos)) {
-            foreach ($this->infos as $key => $info) {
-                if ($info[$this->parentField] == $parentKey) {
-                    $childrenInfos[$key] = $info;
-                }
-            }
-        }
-        return empty($childrenInfos) ? false : $childrenInfos;
-    }
 
     /**
      * 得到当前位置数组

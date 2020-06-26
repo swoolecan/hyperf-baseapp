@@ -25,7 +25,7 @@ abstract class AbstractModel extends BaseModel
     const STATUS_DISABLE = 0; //status 为0表示未启用
     const STATUS_ENABLE = 1; //status 为1表示正常
 
-    public function init()
+    public function init($params = [])
     {
     }
     

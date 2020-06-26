@@ -79,7 +79,7 @@ abstract class AbstractController
     public function getServiceObj($code = '', $params = [])
     {
         $code = !empty($code) ? $code : get_called_class();
-        return $this->resource->getObject('service', $code);
+        return $this->resource->getObject('service', $code, $params);
     }
 
     public function getRequestObj($action = '', $code = '')

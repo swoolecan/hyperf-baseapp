@@ -29,33 +29,30 @@ abstract class AbstractService
     protected $repository;
     //protected $pointRepository;
 
-    /**
-     * @param $resource
-     */
-    public function init($resource)
+    public function init()
     {
-        //$this->resource = $resource;
-        //echo get_class($resource) . "\n aewwwwwwwww";exit();
         if (empty($this->noRepository)) {
-            //$this->repository = $resource->getObject('repository', get_called_class());
+            $this->repository = $this->resource->getObject('repository', get_called_class());
             //$this->pointRepository = empty($pointRepository) ? $this->repository : $resource->getObject('repository', $repositoryCode);
         }
     }
 
     public function __call($name, $arguments)
     {   
-        //return $this->repository->{$name}(...$arguments);
+        return $this->repository->{$name}(...$arguments);
     }
 
     public function getRepositoryObj($code = '', $params = [])
     {
         $code = !empty($code) ? $code : get_called_class();
-        var_dump($code);
         return $this->resource->getObject('repository', $code);
     }
 
-    public function getTreeInfos()
+    public function getTreeInfos($params)
     {
+        $infos = $this->repository->all();//$params);
+        //print_r($infos);
+        return $infos;
     }
 
     protected function _writeLog($return, $mobile, $content, $sort, $startTime)

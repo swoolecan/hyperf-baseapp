@@ -14,12 +14,24 @@ Trait TraitListinfo
         return $list;
     }
 
-    public function treeListinfos()
+    public function tree()
     {
         //$infos = $model->getFormatedInfos();
-        $infos = $this->getServiceObj()->getTreeInfos();//null, $params, (int) $pageSize);
+        $params = $this->request->all();
+        $infos = $this->getServiceObj()->getTreeInfos($params);
+        $treeParams = $this->_treeParams();
+        $treeParams['infos'] = $infos;
+        $infos = $this->getServiceObj('tree', $treeParams)->getTree();
 
         return $infos;
+    }
+
+    protected function _treeParams()
+    {
+        return [
+            'parentField' => 'parent_code',
+            'keyField' => 'code',
+        ];
     }
 
 	/*public function actionList()

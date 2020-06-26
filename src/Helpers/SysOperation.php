@@ -80,7 +80,7 @@ Class SysOperation
     {
         $routeFile = self::getCachePath('route');
         if (!file_exists($routeFile)) {
-            $dResources = self::getDefaultResources();
+            $dResources = self::getDefaultRoutes();
             self::cacheRoutes($dResources);
         }
         return require($routeFile);
@@ -89,8 +89,10 @@ Class SysOperation
     public static function cacheRoutes($datas)
     {
         $results = [];
-        foreach ($datas as $rCode => $rData) {
-            $results[$rCode] = self::_cacheRoute($rCode, $rData);
+        foreach ($datas as $rData) {
+            $rCode = $rData['resource'];
+            $routes = self::_cacheRoute($rCode, $rData);
+            $results[$rCode] = isset($results[$rCode]) ? array_merge($results[$rCode], $routes) : $routes;
         }
         $routeFile = self::getCachePath('route');
         $str = "<?php\nreturn " . var_export($results, true) . ' ;';
@@ -108,25 +110,43 @@ Class SysOperation
             'delete' => 'post'
         ];
         $data = [];
-        $basePath = !empty($rData['module']) ? "/{$rData['module']}" : '';
         $baseCallback = 'App\Controller\\';
         $baseCallback .= !empty($rData['module']) ? self::toUpper($rData['module']) . '\\' : '\\';
         $baseCallback .= self::toUpper($rCode) . 'Controller@';
-        foreach (['index', 'put', 'store', 'show', 'delete'] as $action) {
-            $method = !empty($rData['method']) ? $rData['method'] : $actionMethods[$action];
+        $actions = isset($rData['action']) ? (array) $rData['action'] : array_keys($actionMethods);
+        foreach ($actions as $action) {
+            $method = !empty($rData['method']) ? $rData['method'] : (isset($actionMethods[$action]) ? $actionMethods[$action] : 'get');
             $method = (array) explode(',', $method);
             foreach ($method as & $value) {
                 $value = strtoupper($value);
             }
-            $path = $basePath . "/{$rCode}s";
-            $path .= in_array($action, ['put', 'delete', 'show']) ? "/{id:\d+}" : '';
             $data[$action] = [
                 'method' => $method,
-                'path' => $path,
+                'path' => self::_getRoutePath($action, $rData),
                 'callback' => $baseCallback . $action,
             ];
         }
         return $data;
+    }
+
+    public static function _getRoutePath($action, $rData)
+    {
+        if (isset($rData['path'])) {
+            return $rData['path'];
+        }
+        $basePath = !empty($rData['module']) ? "/{$rData['module']}" : '';
+        $path = $basePath . "/{$rData['resource']}s";
+        if (in_array($action, ['put', 'delete', 'show'])) {
+            return $path . "/{id:\d+}";
+        }
+        if (in_array($action, ['index', 'store'])) {
+            return $path;
+        }
+        return $path . "/{$action}";
+    }
+
+    public static function _getRouteMethod($action, $rData)
+    {
     }
 
     public static function getApp($config)
@@ -176,6 +196,18 @@ Class SysOperation
         return BASE_PATH . '/runtime/cache/' . $type . '.php';
     }
 
+    protected static function getDefaultRoutes()
+    {
+        return [
+            ['resource' => 'user', 'module' => 'passport'], 
+            ['resource' => 'permission', 'module' => 'passport'], 
+            ['resource' => 'permission', 'module' => 'passport', 'action' => 'tree'], 
+            ['resource' => 'role', 'module' => 'passport'], 
+            ['resource' => 'resource', 'module' => 'passport'], 
+            ['resource' => 'manager-backend', 'module' => 'passport'], 
+        ];
+    }
+
     protected static function getDefaultResources()
     {
         return [
@@ -186,6 +218,7 @@ Class SysOperation
                 ],
             ],
             'easysms' => ['service' => 'Swoolecan\\Baseapp\\Services\\EasysmsService'],
+            'tree' => ['service' => 'Swoolecan\\Baseapp\\Services\\TreeService'],
             'user' => ['module' => 'passport'], 
             'permission' => ['module' => 'passport'], 
             'role' => ['module' => 'passport'], 

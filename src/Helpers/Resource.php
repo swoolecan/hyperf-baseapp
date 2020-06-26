@@ -53,14 +53,14 @@ Class Resource
         return $code;
     }
 
-    public function getObject($type, $code, $throw = true)
+    public function getObject($type, $code, $params = [])//$throw = true)
     {
-        $class = $this->_formatClass($type, $code, $throw);
+        $class = $this->_formatClass($type, $code);
         if (empty($class)) {
-            if ($throw) {
+            //if ($throw) {
                 throw new BusinessException(500, '资源不存在-' . $code);
-            }
-            return null;
+            //}
+            //return null;
         }
 
         if (isset($this->objects[$class])) {
@@ -69,7 +69,7 @@ Class Resource
         //echo $class . "\n cccccc \n";
         $obj = make($class, ['resource' => $this]);//new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
         if (method_exists($obj, 'init')) {
-            $obj->init($this);
+            $obj->init($params);
         }
         //echo get_class($obj) . "\n rrrrrr \n";
         $this->objects[$class] = $obj;
