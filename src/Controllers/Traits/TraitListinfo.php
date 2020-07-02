@@ -11,7 +11,7 @@ Trait TraitListinfo
         $pageSize = $this->request->input('per_page', 15);
         $params = [];
         $list = $this->getServiceRepo()->all();//null, $params, (int) $pageSize);
-        return $list;
+        return $this->success($list);
     }
 
     public function tree()
@@ -23,7 +23,7 @@ Trait TraitListinfo
         $treeParams['infos'] = $infos;
         $infos = $this->getServiceObj('tree', $treeParams)->getTree();
 
-        return $infos;
+        return $this->success($infos);
     }
 
     protected function _treeParams()
