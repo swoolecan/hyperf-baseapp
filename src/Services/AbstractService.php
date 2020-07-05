@@ -6,7 +6,7 @@ namespace Swoolecan\Baseapp\Services;
 
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Contract\ConfigInterface;
-use Swoolecan\Baseapp\Helpers\Resource;
+use Swoolecan\Baseapp\Helpers\ResourceContainer;
 use Swoolecan\Baseapp\Repositories\AbstractRepository;
 
 abstract class AbstractService
@@ -19,7 +19,7 @@ abstract class AbstractService
 
     /**
      * @Inject                
-     * @var Resource
+     * @var ResourceContainer
      */
     public $resource;
 

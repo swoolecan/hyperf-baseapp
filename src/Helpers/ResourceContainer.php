@@ -12,7 +12,7 @@ use Swoolecan\Baseapp\Exceptions\BusinessException;
 /**
  * 系统资源
  */
-Class Resource
+Class ResourceContainer
 {
     /**
      * @Inject

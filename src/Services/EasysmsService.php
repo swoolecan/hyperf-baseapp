@@ -13,6 +13,7 @@ class EasysmsService extends AbstractService
     protected $createInfo;
 
     protected $returnInfo;
+    protected $noRepository = true;
 
     public function __construct()
     {

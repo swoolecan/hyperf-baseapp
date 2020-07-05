@@ -12,7 +12,7 @@ namespace Swoolecan\Baseapp\Repositories;
 //use Illuminate\Container\Container as App;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Contract\ConfigInterface;
-use Swoolecan\Baseapp\Helpers\Resource;
+use Swoolecan\Baseapp\Helpers\ResourceContainer;
 use Swoolecan\Baseapp\Contracts\RepositoryInterface;
 use Swoolecan\Baseapp\Contracts\CriteriaInterface;
 use Swoolecan\Baseapp\Criteria\Criteria;
@@ -28,7 +28,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
 
     /**
      * @Inject                
-     * @var Resource
+     * @var ResourceContainer
      */
     protected $resource;
 

@@ -21,7 +21,7 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Contract\ConfigInterface;
 use Swoolecan\Baseapp\Helpers\Helper;
-use Swoolecan\Baseapp\Helpers\Resource;
+use Swoolecan\Baseapp\Helpers\ResourceContainer;
 use Swoolecan\Baseapp\Controllers\Traits\OperationTrait;
 
 abstract class AbstractController
@@ -66,7 +66,7 @@ abstract class AbstractController
 
     /**
      * @Inject                
-     * @var Resource
+     * @var ResourceContainer
      */
     protected $resource;
 
