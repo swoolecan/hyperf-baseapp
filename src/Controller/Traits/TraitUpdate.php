@@ -1,6 +1,6 @@
 <?php
 
-namespace Swoolecan\Baseapp\Controllers\Trait;
+namespace Swoolecan\Baseapp\Controller\Traits;
 
 use Yii;
 
