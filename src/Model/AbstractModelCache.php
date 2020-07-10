@@ -10,7 +10,7 @@ declare(strict_types = 1);
  * @license  https://github.com/swoolecan/hyperf-baseapp/blob/master/LICENSE.md
  */
 
-namespace Swoolecan\Baseapp\Models;
+namespace Swoolecan\Baseapp\Model;
 
 use Hyperf\ModelCache\Cacheable;
 use Hyperf\ModelCache\CacheableInterface;

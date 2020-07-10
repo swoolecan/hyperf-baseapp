@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Criteria;
 
-use Swoolecan\Baseapp\Contracts\RepositoryInterface as Repository;
+use Swoolecan\Baseapp\Contract\RepositoryInterface as Repository;
 
 abstract class Criteria
 {

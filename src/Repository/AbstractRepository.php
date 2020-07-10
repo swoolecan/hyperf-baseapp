@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Repositories;
+namespace Swoolecan\Baseapp\Repositorie;
 
 //use Doctrine\Common\Collections\Collection;
 //use MyBlog\User;
@@ -12,9 +12,9 @@ namespace Swoolecan\Baseapp\Repositories;
 //use Illuminate\Container\Container as App;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Contract\ConfigInterface;
-use Swoolecan\Baseapp\Helpers\ResourceContainer;
-use Swoolecan\Baseapp\Contracts\RepositoryInterface;
-use Swoolecan\Baseapp\Contracts\CriteriaInterface;
+use Swoolecan\Baseapp\Helper\ResourceContainer;
+use Swoolecan\Baseapp\Contract\RepositoryInterface;
+use Swoolecan\Baseapp\Contract\CriteriaInterface;
 use Swoolecan\Baseapp\Criteria\Criteria;
 //use Bosnadev\Repositories\Exceptions\RepositoryException;
 

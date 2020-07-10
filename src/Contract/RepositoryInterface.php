@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Contracts;
+namespace Swoolecan\Baseapp\Contract;
 
 /**
  * Interface RepositoryInterface

@@ -2,14 +2,14 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Middlewares;
+namespace Swoolecan\Baseapp\Middleware;
 
 use Hyperf\Utils\Context;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Swoolecan\Baseapp\Helpers\SysOperation;
+use Swoolecan\Baseapp\Helper\SysOperation;
 
 class InitResourceMiddleware implements MiddlewareInterface
 {

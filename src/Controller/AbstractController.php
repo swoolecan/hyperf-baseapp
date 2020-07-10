@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @license  https://github.com/swoolecan/hyperf-baseapp/blob/master/LICENSE.md
  */
 
-namespace Swoolecan\Baseapp\Controllers;
+namespace Swoolecan\Baseapp\Controller;
 
 
 use Psr\Container\ContainerInterface;
@@ -20,9 +20,9 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Contract\ConfigInterface;
-use Swoolecan\Baseapp\Helpers\Helper;
-use Swoolecan\Baseapp\Helpers\ResourceContainer;
-use Swoolecan\Baseapp\Controllers\Traits\OperationTrait;
+use Swoolecan\Baseapp\Helper\Helper;
+use Swoolecan\Baseapp\Helper\ResourceContainer;
+use Swoolecan\Baseapp\Controller\Trait\OperationTrait;
 
 abstract class AbstractController
 {

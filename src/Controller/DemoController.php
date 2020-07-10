@@ -1,11 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Controllers;
+namespace Swoolecan\Baseapp\Controller;
 
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
-use App\Services\UserService;
+use App\Http\Resource\UserCollection;
+use App\Http\Resource\UserResource;
+use App\Service\UserService;
 use Illuminate\Http\Request;
 
 class DemoController extends AbstractController

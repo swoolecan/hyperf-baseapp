@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Helpers;
+namespace Swoolecan\Baseapp\Helper;
 
 use Hyperf\Utils\Str;
 use EasyWeChat\Factory;

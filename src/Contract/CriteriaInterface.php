@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Contracts;
+namespace Swoolecan\Baseapp\Contract;
 
 use Swoolecan\Baseapp\Criteria\Criteria;
 

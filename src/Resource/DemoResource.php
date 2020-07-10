@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Resources;
+namespace Swoolecan\Baseapp\Resource;
 
 //use Illuminate\Http\Resources\Json\JsonResource;
 
