@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Exception;
+namespace Swoolecan\Baseapp\Exceptions;
 
 use Throwable;
 use Hyperf\Server\Exception\ServerException;

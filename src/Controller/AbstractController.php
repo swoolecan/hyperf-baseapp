@@ -22,7 +22,7 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Contract\ConfigInterface;
 use Swoolecan\Baseapp\Helper\Helper;
 use Swoolecan\Baseapp\Helper\ResourceContainer;
-use Swoolecan\Baseapp\Controller\Trait\OperationTrait;
+use Swoolecan\Baseapp\Controller\Traits\OperationTrait;
 
 abstract class AbstractController
 {

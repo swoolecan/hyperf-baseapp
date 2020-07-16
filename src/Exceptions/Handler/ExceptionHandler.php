@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Exception\Handler;
+namespace Swoolecan\Baseapp\Exceptions\Handler;
 
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\ExceptionHandler\ExceptionHandler as ExceptionHandlerBase;

@@ -29,7 +29,7 @@ Class SysOperation
     {
         $results = [];
         foreach ($datas as $rCode => $rData) {
-            $code = empty($rData['module']) ? $rCode : "{$rCode}-{$rData['module']}";
+            $code = $rCode;//empty($rData['module']) ? $rCode : "{$rCode}-{$rData['module']}";
             $results[$code] = self::_cacheResource($rCode, $rData);
         }
         $resourceFile = self::getCachePath('resource');
@@ -41,7 +41,7 @@ Class SysOperation
     public static function _cacheResource($rCode, $rData)
     {
         $data = [];
-        $code = !empty($rData['module']) ? self::toUpper($rData['module']) . '\\' : '';
+        $code = '';//!empty($rData['module']) ? self::toUpper($rData['module']) . '\\' : '';
         $code .= self::toUpper($rCode);
 
         foreach (['request', 'resource', 'model', 'service', 'repository'] as $elem) {

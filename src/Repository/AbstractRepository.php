@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Repositorie;
+namespace Swoolecan\Baseapp\Repository;
 
 //use Doctrine\Common\Collections\Collection;
 //use MyBlog\User;
