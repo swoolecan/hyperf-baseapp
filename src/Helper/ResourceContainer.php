@@ -7,7 +7,7 @@ use Hyperf\Utils\Str;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Swoolecan\Baseapp\Helper\SysOperation;
-use Swoolecan\Baseapp\Exception\BusinessException;
+use Swoolecan\Baseapp\Exceptions\BusinessException;
 
 /**
  * 系统资源
@@ -41,6 +41,9 @@ Class ResourceContainer
         $code = $count == 4 ? $elems[3] : $elems[2];
         $type = $elems[1];
 
+        if (is_null($type)) {
+            echo 'tttttttttt-' . $class . "ooooo \n";
+        }
         $type = Str::singular($type);
 
         //$code = str_replace(['Controller', 'Repository'], ['', ''], $code);
@@ -66,12 +69,12 @@ Class ResourceContainer
         if (isset($this->objects[$class])) {
             return $this->objects[$class];
         }
-        //echo $class . "\n cccccc \n";
+        echo $class . "\n cccccc \n";
         $obj = make($class, ['resource' => $this]);//new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
         if (method_exists($obj, 'init')) {
             $obj->init($params);
         }
-        //echo get_class($obj) . "\n rrrrrr \n";
+        echo get_class($obj) . "\n rrrrrr \n";
         $this->objects[$class] = $obj;
         return $obj;
     }
@@ -90,6 +93,7 @@ Class ResourceContainer
         if (empty($class) && $type == 'service-repo') {
             $class = isset($info['service']) ? $info['service'] : (isset($info['repository']) ? $info['repository'] : '');
         }
+        echo $class . "\n";
         return strval($class);
     }
 

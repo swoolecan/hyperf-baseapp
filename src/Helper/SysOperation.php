@@ -223,7 +223,7 @@ Class SysOperation
             'permission' => ['module' => 'passport'], 
             'role' => ['module' => 'passport'], 
             'resource' => ['module' => 'passport'], 
-            'manager-backend' => ['module' => 'passport'], 
+            'manager' => ['module' => 'passport'], 
         ];
     }
 
