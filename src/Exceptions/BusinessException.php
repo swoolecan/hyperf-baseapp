@@ -6,7 +6,7 @@ namespace Swoolecan\Baseapp\Exceptions;
 
 use Throwable;
 use Hyperf\Server\Exception\ServerException;
-use Swoolecan\Baseapp\Constant\Code;
+use Swoolecan\Baseapp\Constants\Code;
 
 class BusinessException extends ServerException
 {

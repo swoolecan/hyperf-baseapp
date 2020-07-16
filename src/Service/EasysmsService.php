@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Service;
+namespace Swoolecan\Baseapp\Services;
 
 use Overtrue\EasySms\EasySms;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CachePut;
-use Swoolecan\Baseapp\Helper\SysOperation;
+use Swoolecan\Baseapp\Helpers\SysOperation;
 
 class EasysmsService extends AbstractService
 {

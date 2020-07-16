@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Service;
+namespace Swoolecan\Baseapp\Services;
 
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Contract\ConfigInterface;
-use Swoolecan\Baseapp\Helper\ResourceContainer;
-use Swoolecan\Baseapp\Repository\AbstractRepository;
+use Swoolecan\Baseapp\Helpers\ResourceContainer;
+use Swoolecan\Baseapp\Repositories\AbstractRepository;
 
 abstract class AbstractService
 {

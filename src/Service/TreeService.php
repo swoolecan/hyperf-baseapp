@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Service;
+namespace Swoolecan\Baseapp\Services;
 
 class TreeService extends AbstractService
 {
