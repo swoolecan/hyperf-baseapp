@@ -50,21 +50,26 @@ Class SysOperation
                 continue;
             }
             $elemCode = self::toUpper($elem);
+            $elemCodes = $elem == 'repository' ? 'Repositories' : "{$elemCode}s";
             if ($elem == 'model') {
-                $class = "App\\{$elemCode}\\{$code}";
+                $class = "App\\{$elemCodes}\\{$code}";
             } else {
-                $class = "App\\{$elemCode}\\{$code}{$elemCode}";
+                $class = "App\\{$elemCodes}\\{$code}{$elemCode}";
             }
             if (class_exists($class)) {
                 $data[$elem] = $class;
+            } else {
+                //echo $class . "====\n";
             }
 
             if (in_array($elem, ['request', 'resource']) && isset($rData[$elem]) && is_array($rData[$elem])) {
                 foreach ($rData[$elem] as $key => $value) {
                     $codeExt = $code . ucfirst($key);
-                    $class = !empty($value) ? $value : "App\\{$elemCode}\\{$codeExt}{$elemCode}";
+                    $class = !empty($value) ? $value : "App\\{$elemCodes}\\{$codeExt}{$elemCode}";
                     if (class_exists($class)) {
                         $data[$elem . '-' . $key] = $class;
+                    } else {
+                        //echo $class . "\n";
                     }
                 }
             }
@@ -110,7 +115,7 @@ Class SysOperation
             'delete' => 'post'
         ];
         $data = [];
-        $baseCallback = 'App\Controller\\';
+        $baseCallback = 'App\Controllers\\';
         $baseCallback .= !empty($rData['module']) ? self::toUpper($rData['module']) . '\\' : '\\';
         $baseCallback .= self::toUpper($rCode) . 'Controller@';
         $actions = isset($rData['action']) ? (array) $rData['action'] : array_keys($actionMethods);
@@ -213,8 +218,8 @@ Class SysOperation
         return [
             'entrance' => [
                 'request' => [
-                    'signupin' => 'App\\Request\\EntranceSignupinRequest',
-                    'token' => 'App\\Request\\EntranceTokenRequest',
+                    'signupin' => 'App\\Requests\\EntranceSignupinRequest',
+                    'token' => 'App\\Requests\\EntranceTokenRequest',
                 ],
             ],
             'easysms' => ['service' => 'Swoolecan\\Baseapp\\Services\\EasysmsService'],
