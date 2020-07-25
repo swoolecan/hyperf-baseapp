@@ -74,4 +74,9 @@ abstract class AbstractService
 
         return true;
     }
+
+    public function throwException($code, $message = null)
+    {
+        return $this->resource->throwException($code, $message);
+    }
 }

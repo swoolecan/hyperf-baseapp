@@ -102,4 +102,9 @@ abstract class AbstractController
     {
         return ['code' => 200, 'message' => $message, 'datas' => $datas];
     }
+
+    public function throwException($code, $message = null)
+    {
+        return $this->resource->throwException($code, $message);
+    }
 }

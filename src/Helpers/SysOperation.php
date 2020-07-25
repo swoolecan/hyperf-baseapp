@@ -115,8 +115,8 @@ Class SysOperation
             'delete' => 'post'
         ];
         $data = [];
-        $baseCallback = 'App\Controllers\\';
-        $baseCallback .= !empty($rData['module']) ? self::toUpper($rData['module']) . '\\' : '\\';
+        $baseCallback = 'App\Controllers';
+        $baseCallback .= !empty($rData['controller_pre']) ? '\\' . self::toUpper($rData['controller_pre']) . '\\' : '\\';
         $baseCallback .= self::toUpper($rCode) . 'Controller@';
         $actions = isset($rData['action']) ? (array) $rData['action'] : array_keys($actionMethods);
         foreach ($actions as $action) {
@@ -139,7 +139,7 @@ Class SysOperation
         if (isset($rData['path'])) {
             return $rData['path'];
         }
-        $basePath = !empty($rData['module']) ? "/{$rData['module']}" : '';
+        $basePath = !empty($rData['path_pre']) ? "/{$rData['path_pre']}" : '';
         $path = $basePath . "/{$rData['resource']}s";
         if (in_array($action, ['put', 'delete', 'show'])) {
             return $path . "/{id:\d+}";
@@ -209,7 +209,7 @@ Class SysOperation
             ['resource' => 'permission', 'module' => 'passport', 'action' => 'tree'], 
             ['resource' => 'role', 'module' => 'passport'], 
             ['resource' => 'resource', 'module' => 'passport'], 
-            ['resource' => 'manager-backend', 'module' => 'passport'], 
+            ['resource' => 'manager', 'module' => 'passport'], 
         ];
     }
 
@@ -222,6 +222,7 @@ Class SysOperation
                     'token' => 'App\\Requests\\EntranceTokenRequest',
                 ],
             ],
+            'userPermission' => ['service' => 'App\\Services\\UserPermissionService'],
             'easysms' => ['service' => 'Swoolecan\\Baseapp\\Services\\EasysmsService'],
             'tree' => ['service' => 'Swoolecan\\Baseapp\\Services\\TreeService'],
             'user' => ['module' => 'passport'], 

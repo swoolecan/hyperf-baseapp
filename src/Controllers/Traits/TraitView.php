@@ -8,7 +8,7 @@ Trait TraitView
     {
         $result = $this->getServiceRepo()->find($id);
         if (!$result) {
-            return $this->resource->throwException(404);
+            return $this->throwException(404);
         }
         //$result->permissions;
         return $result;

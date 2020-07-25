@@ -58,7 +58,7 @@ class EasysmsService extends AbstractService
             $easySms = new EasySms($this->getConfig());
             $easySms->send($mobile, $content);
         } catch (\Exception $e) {
-            return $this->resource->throwException(400, '短信发送失败，请稍后重新操作0');
+            return $this->throwException(400, '短信发送失败，请稍后重新操作0');
         }
         return ['code' => 200, 'message' => 'success'];
     }
@@ -71,7 +71,7 @@ class EasysmsService extends AbstractService
         $type = $data['type'];
         $typeConfig = $this->getConfig('verifyCode', $type);
         if (empty($typeConfig)) {
-            return $this->resource->throwException(400, "验证码类型{$type}有误");
+            return $this->throwException(400, "验证码类型{$type}有误");
         }
         $infoExist = $this->getCodeInfo($mobile . '-' . $type);
         $check = $this->checkSend($infoExist, $typeConfig);
@@ -97,17 +97,17 @@ class EasysmsService extends AbstractService
         $info = $this->getCodeInfo($data['mobile'] . '-' . $type);
 
 		if (empty($info)) {
-			return $this->resource->throwException(400, '没有向该手机号发送验证码，请重新操作');
+			return $this->throwException(400, '没有向该手机号发送验证码，请重新操作');
 		}
 
 		if ($info['code'] != $data['code']) {
 			$message = $this->getConfig('isTest') ? 'codeError-' . $info['code'] : '验证码错误';
-			return $this->resource->throwException(400, $message);
+			return $this->throwException(400, $message);
 		}
 
         $expire = isset($typeConfig['expire']) ? $typeConfig['expire'] : 300;
         if (time() > $info['updatedAt'] + $expire) {
-			return $this->resource->throwException(400, '您的验证码已经过期，请重新获取');
+			return $this->throwException(400, '您的验证码已经过期，请重新获取');
         }
         return ['code' => 200, 'message' => 'success'];
 	}
@@ -162,14 +162,14 @@ class EasysmsService extends AbstractService
 
         $sendTimes = isset($typeConfig['sendTimes']) ? $typeConfig['sendTimes'] : 5;
         if ($info['sendTimes'] > $sendTimes) {
-            return $this->resource->throwException(400, '您今天获取验证的次数已达到上限，请您暂停再操作');
+            return $this->throwException(400, '您今天获取验证的次数已达到上限，请您暂停再操作');
         }
 
         $sleep = isset($typeConfig['sleep']) ? $typeConfig['sleep'] : 60;
         $diff = time() - $info['updatedAt'];
         if ($diff < $sleep) {
             $remain = $sleep - $diff;
-            return $this->resource->throwException(400, "请您{$remain}秒后，再获取验证码");
+            return $this->throwException(400, "请您{$remain}秒后，再获取验证码");
         }
 
         return true;
@@ -182,7 +182,7 @@ class EasysmsService extends AbstractService
             $templates = SysOperation::getCacheElems('easysms');
         }
         if (!isset($templates[$templateCode])) {
-            return $this->resource->throwException(400, "短信模板{$templateCode}有误");
+            return $this->throwException(400, "短信模板{$templateCode}有误");
         }
         $template = $templates[$templateCode];
         $template['templateCode'] = $templateCode;
