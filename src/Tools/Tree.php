@@ -1,19 +1,20 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Services;
+namespace Swoolecan\Baseapp\Tools;
 
-class TreeService extends AbstractService
+class Tree
 {
     protected $parentField;
     protected $keyField;
     protected $infos;
 
-    public function init($params)//($infos, $keyField = 'code', $parentField = 'parent_code')
+    public function __construct($params)
     {
         $this->keyField = $params['keyField'];
         $this->parentField = $params['parentField'];
         $infos = $params['infos'];
+        echo count($infos) . 'uuuuuu=======';
         if (!isset($params['hasKey'])) {
             $datas = [];
             foreach ($infos as $info) {

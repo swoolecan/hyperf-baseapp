@@ -18,10 +18,9 @@ Trait TraitListinfo
     {
         //$infos = $model->getFormatedInfos();
         $params = $this->request->all();
-        $infos = $this->getServiceObj()->getTreeInfos($params);
+        $infos = $this->getServiceObj()->all($params);
         $treeParams = $this->_treeParams();
-        $treeParams['infos'] = $infos;
-        $infos = $this->getServiceObj('tree', $treeParams)->getTree();
+        $treeInfos = $this->getServiceObj()->formatToTree($infos, $treeParams);
 
         return $this->success($infos);
     }

@@ -8,6 +8,7 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\Contract\ConfigInterface;
 use Swoolecan\Baseapp\Helpers\ResourceContainer;
 use Swoolecan\Baseapp\Repositories\AbstractRepository;
+use Swoolecan\Baseapp\Tools\Tree;
 
 abstract class AbstractService
 {
@@ -48,10 +49,13 @@ abstract class AbstractService
         return $this->resource->getObject('repository', $code);
     }
 
-    public function getTreeInfos($params)
+    public function formatToTree($infos, $treeParams)
     {
-        $infos = $this->repository->all();//$params);
-        //print_r($infos);
+        $treeParams['infos'] = $infos;
+        //$tree = $this->resource->getObject('service', 'tree', $treeParams);
+        $tree = new Tree($treeParams);
+        
+        $infos = $tree->getTree();
         return $infos;
     }
 
