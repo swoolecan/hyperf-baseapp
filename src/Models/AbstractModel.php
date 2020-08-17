@@ -14,9 +14,12 @@ declare(strict_types = 1);
 namespace Swoolecan\Baseapp\Models;
 
 use Hyperf\DbConnection\Model\Model as BaseModel;
+use Swoolecan\Baseapp\Models\Traits\Rest;
 
 abstract class AbstractModel extends BaseModel
 {
+    use Rest;
+
     public static $status = [
         0 => '禁用',
         1 => '正常'
@@ -57,4 +60,18 @@ abstract class AbstractModel extends BaseModel
         }
         return $list;
     }*/
+
+    public function getColumnElems($type = 'keyValue')
+    {
+        $results = $this->getConnection()->getSchemaBuilder()->getColumnTypeListing($this->model->getTable());
+        $datas = [];
+        if ($type == 'keyValue') {
+            $datas = [];
+            foreach ($results as $result) {
+                $datas[$result['COLUMN_NAME']] = empty($result['COLUMN_COMMENT']) ? $result['COLUMN_NAME'] : $result['COLUMN_COMMENT'];
+            }
+            return $datas;
+        }
+        return $results;
+    }
 }

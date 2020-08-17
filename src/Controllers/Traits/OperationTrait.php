@@ -14,4 +14,5 @@ trait OperationTrait
 	use TraitUpdate;
 	//use TraitPriv;
 	use TraitView;
+    use Rest;
 }

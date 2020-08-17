@@ -76,6 +76,12 @@ abstract class AbstractController
         return $this->resource->getObject('service-repo', $code);
     }
 
+    public function getRepositoryObj($code = '', $params = [])
+    {
+        $code = !empty($code) ? $code : get_called_class();
+        return $this->resource->getObject('repository', $code, $params);
+    }
+
     public function getServiceObj($code = '', $params = [])
     {
         $code = !empty($code) ? $code : get_called_class();
