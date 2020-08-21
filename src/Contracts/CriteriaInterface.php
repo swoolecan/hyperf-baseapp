@@ -26,7 +26,7 @@ interface CriteriaInterface {
      * @param Criteria $criteria
      * @return $this
      */
-    public function getByCriteria(Criteria $criteria);
+    //public function getByCriteria(Criteria $criteria);
 
     /**
      * @param Criteria $criteria
@@ -35,7 +35,8 @@ interface CriteriaInterface {
     public function pushCriteria(Criteria $criteria);
 
     /**
+     * @param $query
      * @return $this
      */
-    public function  applyCriteria();
+    public function  applyCriteria($query = null);
 }

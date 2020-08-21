@@ -3,14 +3,27 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Criteria;
 
-use Swoolecan\Baseapp\Contract\RepositoryInterface as Repository;
+use Swoolecan\Baseapp\Contracts\RepositoryInterface as Repository;
 
 abstract class Criteria
 {
+    protected $params;
+
+    public function __construct($params = [])
+    {
+        $this->params = $params;
+    }
+
     /**
-     * @param $model
+     * @param $query
      * @param Repository $repository
+     * @param array $params
      * @return mixed
      */
-    public abstract function apply($model, Repository $repository);
+    public abstract function apply($query, Repository $repository);
+
+    public function getField()
+    {
+        return isset($this->params['field']) ? $this->params['field'] : false;
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace Swoolecan\Baseapp\Controllers\Traits;
 
+use Swoolecan\Baseapp\Criteria\GreaterCriteria;
+
 Trait TraitListinfo
 {
     public function index()
@@ -10,7 +12,12 @@ Trait TraitListinfo
         
         $pageSize = $this->request->input('per_page', 15);
         $params = [];
-        $list = $this->getServiceRepo()->all();//null, $params, (int) $pageSize);
+        $repository = $this->getRepositoryObj();
+        $criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
+        $repository->pushCriteria($criteria);
+        $list = $repository->paginate();
+        //$list = $repository->all();//null, $params, (int) $pageSize);
+        //$list = $repository->getByCriteria($criteria)->all();
         return $this->success($list);
     }
 
