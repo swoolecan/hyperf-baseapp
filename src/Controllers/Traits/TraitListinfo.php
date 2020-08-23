@@ -3,6 +3,7 @@
 namespace Swoolecan\Baseapp\Controllers\Traits;
 
 use Swoolecan\Baseapp\Criteria\GreaterCriteria;
+use App\Resources\UserCollection;
 
 Trait TraitListinfo
 {
@@ -14,8 +15,12 @@ Trait TraitListinfo
         $params = [];
         $repository = $this->getRepositoryObj();
         $criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
-        $repository->pushCriteria($criteria);
+        //$repository->pushCriteria($criteria);
         $list = $repository->paginate();
+        $collection = new UserCollection($list);
+        $collection->setScene('base');
+        //$list = $repository->all();
+        return $collection->toResponse();
         //$list = $repository->all();//null, $params, (int) $pageSize);
         //$list = $repository->getByCriteria($criteria)->all();
         return $this->success($list);
