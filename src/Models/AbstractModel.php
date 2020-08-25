@@ -38,6 +38,35 @@ abstract class AbstractModel extends BaseModel
         return array_key_exists($key, $enum) ? $enum[$key] : $default;
     }
 
+    public function getColumnElems($type = 'keyValue')
+    {
+        $results = $this->getConnection()->getSchemaBuilder()->getColumnTypeListing($this->getTable());
+        $datas = [];
+        if ($type == 'keyValue') {
+            $datas = [];
+            foreach ($results as $result) {
+                $datas[$result['COLUMN_NAME']] = empty($result['COLUMN_COMMENT']) ? $result['COLUMN_NAME'] : $result['COLUMN_COMMENT'];
+            }
+            return $datas;
+        }
+        return $results;
+    }
+
+    public function attributeNames()
+    {
+        return array_merge($this->getColumnElems(), $this->extAttributeNames());
+    }
+
+    public function fieldFormElems()
+    {
+        return array_merge($this->extFieldFormElems(), [
+            'id' => [
+                'type' => 'int',
+                'value' => null,
+            ],
+        ]);
+    }
+
     /*protected $attributes = [
         'status' => 1,
     ];
@@ -60,18 +89,4 @@ abstract class AbstractModel extends BaseModel
         }
         return $list;
     }*/
-
-    public function getColumnElems($type = 'keyValue')
-    {
-        $results = $this->getConnection()->getSchemaBuilder()->getColumnTypeListing($this->model->getTable());
-        $datas = [];
-        if ($type == 'keyValue') {
-            $datas = [];
-            foreach ($results as $result) {
-                $datas[$result['COLUMN_NAME']] = empty($result['COLUMN_COMMENT']) ? $result['COLUMN_NAME'] : $result['COLUMN_COMMENT'];
-            }
-            return $datas;
-        }
-        return $results;
-    }
 }

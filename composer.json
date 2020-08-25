@@ -54,7 +54,8 @@
         "hyperf/utils": "~2.0.0",
         "hyperf/validation": "^2.0",
         "league/fractal": "^0.19.2",
-        "overtrue/easy-sms": "^1.1"
+        "overtrue/easy-sms": "^1.1",
+        "swoolecan/baseapp": "dev-master"
     },
     "require-dev": {
         "hyperf/testing": "~2.0.0"

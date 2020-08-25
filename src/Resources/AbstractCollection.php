@@ -8,6 +8,7 @@ use Fangx\Resource\Json\ResourceCollection;
 class AbstractCollection extends ResourceCollection
 {
     protected $_scene = 'list';
+    protected $_model;
 
     /**
      * Create a new resource instance.
@@ -28,12 +29,25 @@ class AbstractCollection extends ResourceCollection
      */
     public function toArray() :array
     {
+        echo 'aaaaaaaaa';
         return [
             'data' => $this->collection,
             'links' => [
                 'self' => 'link-value',
             ],
+            'baseFields' => $this->getModel()->getColumnElems(),
         ];
+    }
+
+    public function getModel()
+    {
+        return $this->collection->first();
+        return $this->_model;
+    }
+
+    public function setModel($model)
+    {
+        $this->_model = $model;
     }
 
     public function setScene($scene = 'list')
@@ -77,10 +91,7 @@ class AbstractCollection extends ResourceCollection
         $this->collection = $collects && ! $resource->first() instanceof $collects
             ? $resource->mapInto($collects)
             : $resource->toBase();
-        echo 'ttttssss';
-        echo get_class($this->collection->first()) . 'uuuuuuuuuoooo' . $this->getScene();
         foreach ($this->collection as $collection) {
-            echo get_class($collection) . 'yyyy';
             $collection->setScene($this->getScene());
         }
 

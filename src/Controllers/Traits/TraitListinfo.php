@@ -15,15 +15,16 @@ Trait TraitListinfo
         $params = [];
         $repository = $this->getRepositoryObj();
         $criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
-        //$repository->pushCriteria($criteria);
+        $repository->pushCriteria($criteria);
         $list = $repository->paginate();
         $collection = new UserCollection($list);
         $collection->setScene('base');
+        //$collection->setModel($repository->model);
         //$list = $repository->all();
         return $collection->toResponse();
         //$list = $repository->all();//null, $params, (int) $pageSize);
         //$list = $repository->getByCriteria($criteria)->all();
-        return $this->success($list);
+        return $this->success($datas);
     }
 
     public function tree()
