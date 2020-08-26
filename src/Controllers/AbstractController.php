@@ -88,13 +88,17 @@ abstract class AbstractController
         return $this->resource->getObject('service', $code, $params);
     }
 
-    public function getRequestObj($action = '', $code = '')
+    public function getRequestObj($scene = '', $code = '')
     {
-        $type = empty($action) ? 'request' : 'request-' . $action;
+        //$type = empty($action) ? 'request' : 'request-' . $action;
         $code = !empty($code) ? $code : get_called_class();
-        $request = $this->resource->getObject($type, $code, false);
+        //$request = $this->resource->getObject($type, $code, false);
+        $request = $this->resource->getObject('request', $code, false);
         if (empty($request)) {
             return $this->request;
+        }
+        if (!empty($scene)) {
+            $request->setScene($scene);
         }
 
         if (method_exists($request, 'validateResolved')) {

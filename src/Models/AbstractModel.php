@@ -89,4 +89,15 @@ abstract class AbstractModel extends BaseModel
         }
         return $list;
     }*/
+
+    public function fieldTypes()
+    {
+        return [
+            'created_at' => 'timestamp',
+            'updated_at' => 'timestamp',
+            'last_at' => 'timestamp',
+            'status' => 'checkbox',
+            'type' => 'dropdown',
+        ];
+    }
 }

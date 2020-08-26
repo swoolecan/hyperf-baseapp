@@ -9,6 +9,8 @@ use Hyperf\HttpServer\Router\Dispatched;
 
 class AbstractRequest extends FormRequest
 {
+    protected $_scene;
+
     public function authorize(): bool
     {
         return true;
@@ -23,4 +25,13 @@ class AbstractRequest extends FormRequest
         return array_key_exists($key, $route->params) ? $route->params[$key] : $default;
     }
 
+    public function setScene($scene)
+    {
+        $this->_scene = $scene;
+    }
+
+    public function getScene()
+    {
+        return $this->_scene;
+    }
 }

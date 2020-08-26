@@ -6,6 +6,8 @@ namespace Swoolecan\Baseapp\Helpers;
 use Hyperf\Utils\Str;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\Cache\Annotation\Cacheable;
+use Hyperf\Contract\ConfigInterface;
 use Swoolecan\Baseapp\Helpers\SysOperation;
 use Swoolecan\Baseapp\Exceptions\BusinessException;
 
@@ -20,13 +22,23 @@ Class ResourceContainer
      */
     protected $request;
 
+    /**
+     * @Inject
+     * @var ConfigInterface
+     */
+    protected $config;
+
     protected $resources;
     protected $objects = [];
     public $params = [];
 
     public function __construct()
     {
-        $this->resources = SysOperation::initResourceDatas();
+        //$this->resources = SysOperation::initResourceDatas();
+        $resources = $this->getResourceDatas('resource');
+        $resources = isset($resources[$this->config->get('app_code')]) ? $resources[$this->config->get('app_code')] : $resources;
+        $this->resources = $resources;
+        //var_dump($this->bakresources);exit();
     }
 
     public function setParams($params)
@@ -112,5 +124,14 @@ Class ResourceContainer
     public function throwException($code, $message = null)
     {
         throw new BusinessException($code, $message);
+    }
+
+    /**
+     * @Cacheable(prefix="user")
+     */
+    protected function getResourceDatas($key)
+    {
+        $datas = $this->config->get('resource');
+        return $datas;
     }
 }
