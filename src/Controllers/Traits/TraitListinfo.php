@@ -17,7 +17,9 @@ Trait TraitListinfo
         $criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
         $repository->pushCriteria($criteria);
         $list = $repository->paginate();
-        $collection = new UserCollection($list);
+
+        $collectionClass = $this->getCollectionClass();
+        $collection = new $collectionClass($list);
         $collection->setScene('base');
         //$collection->setModel($repository->model);
         //$list = $repository->all();

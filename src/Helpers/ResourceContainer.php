@@ -68,21 +68,18 @@ Class ResourceContainer
         return $code;
     }
 
-    public function getObject($type, $code, $params = [])//$throw = true)
+    public function getObject($type, $code, $params = [])
     {
-        $class = $this->_formatClass($type, $code);
+        $class = $this->getClassName($type, $code);
         if (empty($class)) {
-            //if ($throw) {
-                throw new BusinessException(500, '资源不存在-' . $code);
-            //}
-            //return null;
+            throw new BusinessException(500, '资源不存在-' . $class);
         }
 
         if (isset($this->objects[$class])) {
             return $this->objects[$class];
         }
         echo $class . "\n cccccc \n";
-        $obj = make($class, ['resource' => $this]);//new $class();//$type == 'model' ? new $class([], $this) : new $class($this);
+        $obj = make($class);
         if (method_exists($obj, 'init')) {
             $obj->init($params);
         }
@@ -91,7 +88,7 @@ Class ResourceContainer
         return $obj;
     }
 
-    public function _formatClass($type, $code)
+    public function getClassName($type, $code)
     {
         if (!isset($this->resources[$code])) {
             $code = $this->getResourceCode($code);

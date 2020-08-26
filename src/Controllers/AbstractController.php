@@ -88,6 +88,11 @@ abstract class AbstractController
         return $this->resource->getObject('service', $code, $params);
     }
 
+    public function getCollectionClass($code = null)
+    {
+        return $this->resource->getClassName('collection', $code ? $code : get_called_class());
+    }
+
     public function getRequestObj($scene = '', $code = '')
     {
         //$type = empty($action) ? 'request' : 'request-' . $action;
