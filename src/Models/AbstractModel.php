@@ -48,21 +48,6 @@ abstract class AbstractModel extends BaseModel
         return $results;
     }
 
-    public function attributeNames()
-    {
-        return array_merge($this->getColumnElems(), $this->extAttributeNames());
-    }
-
-    public function fieldFormElems()
-    {
-        return array_merge($this->extFieldFormElems(), [
-            'id' => [
-                'type' => 'int',
-                'value' => null,
-            ],
-        ]);
-    }
-
     /*protected $attributes = [
         'status' => 1,
     ];

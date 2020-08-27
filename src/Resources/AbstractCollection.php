@@ -9,18 +9,20 @@ class AbstractCollection extends ResourceCollection
 {
     protected $_scene = 'list';
     protected $_model;
+    protected $repository;
 
     /**
      * Create a new resource instance.
      *
      * @param mixed $resource
      */
-    /*public function __construct($resource, $scene)
+    public function __construct($resource, $scene, $repository)
     {
         parent::__construct($resource);
 
         $this->setScene($scene);
-    }*/
+        $this->repository = $repository;
+    }
 
     /**
      * Transform the resource collection into an array.
@@ -35,7 +37,8 @@ class AbstractCollection extends ResourceCollection
             'links' => [
                 'self' => 'link-value',
             ],
-            'baseFields' => $this->getModel()->getColumnElems(),
+            'baseFields' => $this->repository->attributeNames(),
+            'formFields' => $this->repository->fieldFormElems(),
         ];
     }
 

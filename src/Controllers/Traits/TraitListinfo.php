@@ -19,8 +19,7 @@ Trait TraitListinfo
         $list = $repository->paginate();
 
         $collectionClass = $this->getCollectionClass();
-        $collection = new $collectionClass($list);
-        $collection->setScene('base');
+        $collection = new $collectionClass($list, 'base', $repository);
         //$collection->setModel($repository->model);
         //$list = $repository->all();
         return $collection->toResponse();
