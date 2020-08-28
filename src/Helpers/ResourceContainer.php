@@ -74,7 +74,7 @@ Class ResourceContainer
     {
         $class = $this->getClassName($type, $code);
         if (empty($class)) {
-            throw new BusinessException(500, '资源不存在-' . $class);
+            $this->throwException(500, '资源不存在-' . $class);
         }
 
         if (isset($this->objects[$class])) {
@@ -138,9 +138,14 @@ Class ResourceContainer
     {
         $appCode = $this->config->get('app_code');
         $routes = $this->_routeDatas($this->appCode);
+        //$routes = require('/data/htmlwww/docker/container/passport/config/autoload/routes.php');
+        //var_dump($routes);
         if (!$routes) {
-            $routes = PassportBaseService::getRouteDatas();
+            $this->throwException(500, '路由信息不存在-' . $appCode);
+            //$passportBase = make(PassportBaseService::class);
+            //$routes = $passportBase->getRouteDatas();
         }
+        //$routes = require('/data/htmlwww/docker/container/passport/config/autoload/routes.php');
         return $routes;
     }
 
@@ -150,7 +155,7 @@ Class ResourceContainer
     protected function _routeDatas($key)
     {
         if ($this->appCode == 'passport') {
-            //return $this->config->get('routes');
+            return $this->config->get('routes');
         }
         return null;
     }

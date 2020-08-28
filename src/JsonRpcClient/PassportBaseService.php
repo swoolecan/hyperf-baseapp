@@ -30,6 +30,8 @@ class PassportBaseService extends AbstractServiceClient
 
     public function getRouteDatas(): array
     {
-        return $this->__request(__FUNCTION__);
+        $p = 'a';
+        //return require('/data/htmlwww/docker/container/passport/config/autoload/routes.php');
+        return $this->__request(__FUNCTION__, ['a' => 'b']);
     }
 }
