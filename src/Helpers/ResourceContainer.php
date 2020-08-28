@@ -10,6 +10,7 @@ use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Contract\ConfigInterface;
 use Swoolecan\Baseapp\Helpers\SysOperation;
 use Swoolecan\Baseapp\Exceptions\BusinessException;
+use Swoolecan\Baseapp\JsonRpcClient\PassportBaseService;
 
 /**
  * 系统资源
@@ -30,13 +31,14 @@ Class ResourceContainer
 
     protected $resources;
     protected $objects = [];
+    public $appCode;
     public $params = [];
 
     public function __construct()
     {
-        //$this->resources = SysOperation::initResourceDatas();
+        $this->appCode = $appCode = $this->config->get('app_code');
         $resources = $this->getResourceDatas('resource');
-        $resources = isset($resources[$this->config->get('app_code')]) ? $resources[$this->config->get('app_code')] : $resources;
+        $resources = isset($resources[$appCode]) ? $resources[$appCode] : $resources;
         $this->resources = $resources;
         //var_dump($this->bakresources);exit();
     }
@@ -124,11 +126,32 @@ Class ResourceContainer
     }
 
     /**
-     * @Cacheable(prefix="user")
+     * @Cacheable(prefix="common-resource")
      */
     protected function getResourceDatas($key)
     {
         $datas = $this->config->get('resource');
         return $datas;
+    }
+
+    public function initRouteDatas()
+    {
+        $appCode = $this->config->get('app_code');
+        $routes = $this->_routeDatas($this->appCode);
+        if (!$routes) {
+            $routes = PassportBaseService::getRouteDatas();
+        }
+        return $routes;
+    }
+
+    /**
+     * @Cacheable(prefix="common-route")
+     */
+    protected function _routeDatas($key)
+    {
+        if ($this->appCode == 'passport') {
+            //return $this->config->get('routes');
+        }
+        return null;
     }
 }

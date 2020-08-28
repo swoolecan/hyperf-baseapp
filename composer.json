@@ -50,6 +50,7 @@
         "hyperf/process": "~2.0.0",
         "hyperf/redis": "~2.0.0",
         "hyperf/rpc-server": "^2.0",
+        "hyperf/rpc-client": "^2.0",
         "hyperf/service-governance": "~2.0.0",
         "hyperf/tracer": "~2.0.0",
         "hyperf/translation": "^2.0",
