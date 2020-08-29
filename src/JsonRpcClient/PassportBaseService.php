@@ -34,4 +34,11 @@ class PassportBaseService extends AbstractServiceClient
         //return require('/data/htmlwww/docker/container/passport/config/autoload/routes.php');
         return $this->__request(__FUNCTION__, ['a' => 'b']);
     }
+
+    public function checkPermission($token): array
+    {
+        $p = 'a';
+        //return require('/data/htmlwww/docker/container/passport/config/autoload/routes.php');
+        return $this->__request(__FUNCTION__, ['token' => $token]);
+    }
 }

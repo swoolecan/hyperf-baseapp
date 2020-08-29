@@ -20,4 +20,9 @@ class PassportBaseService
     {
         return ['a' => 'b'];
     }
+
+    public function checkPermission(): array
+    {
+        return ['code' => 200, 'message' => 'OK'];
+    }
 }

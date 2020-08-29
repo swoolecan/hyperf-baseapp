@@ -17,6 +17,8 @@ class PermissionMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $passportBase = make(PassportBaseService::class);
+        $permission = $passportBase->checkPermission('fff');
+        var_dump($permission);
         $token = $request->token;
         return $handler->handle($request);
     }
