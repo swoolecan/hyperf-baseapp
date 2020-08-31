@@ -38,9 +38,11 @@ Class ResourceContainer
     {
         $this->appCode = $appCode = $this->config->get('app_code');
         $resources = $this->getResourceDatas('resources');
-        $resources = isset($resources[$appCode]) ? $resources[$appCode] : $resources;
-        $this->resources = $resources;
-        //var_dump($this->bakresources);exit();
+        if (!isset($resources[$appCode])) {
+            $this->throwException(500, '应用资源不存在-' . $appCode);
+        }
+        $this->resources = $resources[$appCode];
+        //var_dump($this->resources);
     }
 
     public function setParams($params)
@@ -74,13 +76,13 @@ Class ResourceContainer
     {
         $class = $this->getClassName($type, $code);
         if (empty($class)) {
-            $this->throwException(500, '资源不存在-' . $class);
+            $this->throwException(500, '资源不存在-' . $class . '-' . $type . '==' . $code);
         }
 
         if (isset($this->objects[$class])) {
             return $this->objects[$class];
         }
-        echo $class . "\n cccccc \n";
+        //echo $class . "\n cccccc \n";
         $obj = make($class);
         if (method_exists($obj, 'init')) {
             $obj->init($params);
@@ -95,6 +97,7 @@ Class ResourceContainer
         if (!isset($this->resources[$code])) {
             $code = $this->getResourceCode($code);
         }
+        print_r($this->resources);
         if (!isset($this->resources[$code])) {
             return false;
         }
