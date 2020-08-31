@@ -7,7 +7,7 @@ use App\Resources\UserCollection;
 
 Trait TraitListinfo
 {
-    public function index()
+    public function listinfo()
     {
         $params = $this->request->all();
         

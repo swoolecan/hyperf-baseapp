@@ -37,7 +37,7 @@ Class ResourceContainer
     public function __construct()
     {
         $this->appCode = $appCode = $this->config->get('app_code');
-        $resources = $this->getResourceDatas('resource');
+        $resources = $this->getResourceDatas('resources');
         $resources = isset($resources[$appCode]) ? $resources[$appCode] : $resources;
         $this->resources = $resources;
         //var_dump($this->bakresources);exit();
@@ -128,7 +128,7 @@ Class ResourceContainer
     /**
      * @Cacheable(prefix="common-resource")
      */
-    protected function getResourceDatas($key)
+    protected function getResourceDatas($key = 'resources')
     {
         $datas = $this->config->get('resource');
         return $datas;
@@ -136,17 +136,15 @@ Class ResourceContainer
 
     public function initRouteDatas()
     {
-        $appCode = $this->config->get('app_code');
-        $routes = $this->_routeDatas($this->appCode);
-        //$routes = require('/data/htmlwww/docker/container/passport/config/autoload/routes.php');
-        //var_dump($routes);
-        if (!$routes) {
-            $this->throwException(500, '路由信息不存在-' . $appCode);
+        $routes = $this->_routeDatas('routes');
+        //$routes = $this->config->get('routes');
+        //print_r($routes);
+        if (!$routes || !isset($routes[$this->appCode])) {
+            $this->throwException(500, '路由信息不存在-' . $this->appCode);
             //$passportBase = make(PassportBaseService::class);
             //$routes = $passportBase->getRouteDatas();
         }
-        //$routes = require('/data/htmlwww/docker/container/passport/config/autoload/routes.php');
-        return $routes;
+        return $routes[$this->appCode];
     }
 
     /**
@@ -154,9 +152,23 @@ Class ResourceContainer
      */
     protected function _routeDatas($key)
     {
+        //$routes = require('/data/htmlwww/docker/container/passport/config/autoload/routes.php');
         if ($this->appCode == 'passport') {
             return $this->config->get('routes');
         }
         return null;
+    }
+
+    public function formatClass($elem, $code)
+    {
+        $codeUpper = Str::studly($code);
+        $elemUpper = Str::studly($elem);
+        $elemPath = $elem == 'repository' ? 'Repositories' : ($elem == 'collection' ? 'Resources' : "{$elemUpper}s");
+        $class = "App\\{$elemPath}\\{$codeUpper}";
+
+        if (!in_array($elem, ['model', 'resource'])) {
+            $class .= "{$elemUpper}";
+        }
+        return $class;
     }
 }
