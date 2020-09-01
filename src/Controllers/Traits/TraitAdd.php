@@ -6,12 +6,14 @@ use Yii;
 
 trait TraitAdd
 {
-    public function store(RequestInterface $request)
+    public function add()
     {
-        $data = $request->all();
+        $request = $this->getRequestObj('add');
+        $data = $this->request->all();
+        print_r($data);
         //$permissions = $request->input('permissions', []);
         //unset($data['permissions']);
-        $result = $this->getRelateModel()->create($data);
+        $result = $this->getRepositoryObj()->create($data);
         //$result->permissions()->sync($permissions);
         return $result;
     }

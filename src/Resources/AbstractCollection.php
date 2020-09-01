@@ -31,7 +31,6 @@ class AbstractCollection extends ResourceCollection
      */
     public function toArray() :array
     {
-        echo 'aaaaaaaaa';
         return [
             'data' => $this->collection,
             'links' => [

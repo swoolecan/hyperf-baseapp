@@ -16,6 +16,22 @@ class AbstractRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     */
+    public function rules(): array
+    {
+        $scene = $this->getScene();
+        $method = "_{$scene}Rule";
+        echo $method; 
+        if (method_exists($this, $method)) {
+            echo 'ffffffff';
+            return $this->$method();
+        }
+        echo 'oooooo';
+        return [];
+    }
+
     public function routeParam(string $key, $default)
     {
         $route = $this->getAttribute(Dispatched::class);

@@ -2,18 +2,27 @@
 
 namespace Swoolecan\Baseapp\Controllers\Traits;
 
-use Yii;
-
 trait TraitUpdate
 {
-    public function update(RequestInterface $request, $id)
+    public function update()
     {
-        $data = $request->all();
+        echo 'aaaa';exit();
+        //print_r($this->request->all());
+        echo $this->request->path();
+        //print_R($this->request);
+        print_R($this->request->query());
+        exit();
+        //print_R($this->request->route('id'));
+        //$request = $this->getRequestObj('update');
+        $data = $this->request->all();
+        //$data = $request->all();
+        print_R($data);
+        return $data;
         //$permissions = $request->input('permissions', []);
-        $result = $this->getRelateModel()->find($id);
+        /*$result = $this->getRelateModel()->find($id);
         if (!$result) {
             throw new BusinessException(404);
-        }
+        }*/
         //unset($data['permissions']);
         //$result->update($data);
         //$result->syncPermissions($permissions);
