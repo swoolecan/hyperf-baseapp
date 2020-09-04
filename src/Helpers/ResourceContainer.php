@@ -97,7 +97,6 @@ Class ResourceContainer
         if (!isset($this->resources[$code])) {
             $code = $this->getResourceCode($code);
         }
-        print_r($this->resources);
         if (!isset($this->resources[$code])) {
             return false;
         }

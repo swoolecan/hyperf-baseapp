@@ -1,0 +1,18 @@
+<?php
+
+namespace %NAMESPACE%;
+
+use Swoolecan\Baseapp\Resources\AbstractCollection;
+
+class %CLASS% extends AbstractCollection
+{
+    /**
+     * Transform the resource collection into an array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return parent::toArray();
+    }
+}

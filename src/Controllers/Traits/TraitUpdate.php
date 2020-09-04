@@ -6,13 +6,11 @@ trait TraitUpdate
 {
     public function update()
     {
-        echo 'aaaa';exit();
         //print_r($this->request->all());
         echo $this->request->path();
         //print_R($this->request);
         print_R($this->request->query());
-        exit();
-        //print_R($this->request->route('id'));
+        print_R($this->request->route('id'));
         //$request = $this->getRequestObj('update');
         $data = $this->request->all();
         //$data = $request->all();

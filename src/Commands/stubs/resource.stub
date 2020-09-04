@@ -1,0 +1,21 @@
+<?php
+
+namespace %NAMESPACE%;
+
+use Swoolecan\Baseapp\Resources\AbstractResource;
+
+class %CLASS% extends AbstractResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
+    }
+}
