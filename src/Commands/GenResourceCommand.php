@@ -11,7 +11,9 @@ namespace Swoolecan\Baseapp\Commands;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Devtool\Generator\GeneratorCommand;
 use Hyperf\Utils\Str;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @Command
@@ -26,18 +28,109 @@ class GenResourceCommand extends GeneratorCommand
     public function configure()
     {
         parent::configure();
-        $this->setDescription('create a new resource');
-        $this->addOption('collection', 'c', InputOption::VALUE_NONE, 'Create a resource collection');
-        $this->addOption('grpc', null, InputOption::VALUE_NONE, 'Create a resource collection');
+        $this->setDescription('create elems of a resource such as model request response collection repository service');
+        $this->addOption('service', 's', InputOption::VALUE_NONE, 'Create elems include service');
+        $this->addOption('rpc-client', null, InputOption::VALUE_NONE, 'Create elems include rpc-client');
+        $this->addOption('rpc-server', null, InputOption::VALUE_NONE, 'Create elems include rpc-server');
     }
 
-    protected function getStub(): string
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function execute(InputInterface $input, OutputInterface $output)
     {
-        return $this->isGrpc()
-            ? __DIR__ . '/stubs/resource-grpc.stub'
-            : ($this->isCollection()
-                ? __DIR__ . '/stubs/resource-collection.stub'
-                : __DIR__ . '/stubs/resource.stub');
+        $this->input = $input;
+        $this->output = $output;
+
+        $name = $this->getNameInput();
+        $name = ucfirst($name);
+        $rpcClient = $this->input->getOption('rpc-client');
+        $rpcService = $this->input->getOption('rpc-server');
+        $service = $this->input->getOption('service');
+        $force = $input->getOption('force');
+        $elems = ['controller', 'model', 'repository', 'resource', 'collection', 'request'];
+        if ($rpcClient) {
+            $elems[] = 'rpc-client';
+        }
+        if ($rpcService) {
+            $elems[] = 'rpc-service';
+        }
+        if ($service) {
+            $elems[] = 'service';
+        }
+        foreach ($elems as $elem) {
+
+            $path = $this->getPath($elem);
+            echo $name . "\n";
+            $className = $this->getClassName($name, $elem);
+            $file = $path . '/' . $className . '.php';
+            $file = str_replace('\\', '/', $file);
+            echo $file . "\n";
+    
+            // code is untouched. Otherwise, we will continue generating this class' files.
+            if (empty($force) && file_exists($file)) {
+                $output->writeln(sprintf('<fg=red>%s</>', $name . ' already exists!'));
+                continue;
+            }
+    
+            $this->makeDirectory($path);
+    
+            file_put_contents($file, $this->createClass($className, $elem));
+    
+            $output->writeln(sprintf('<info>%s</info>', $name . ' created successfully.'));
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param string $elem
+     * @return string
+     */
+    protected function getClassName($name, $elem)
+    {
+        $suffix = ucfirst($elem);
+        switch ($elem) {
+        case 'resource':
+        case 'model':
+            $suffix = '';
+            break;
+        case 'rpc-cliet':
+        case 'rpc-server':
+            $suffix = 'Service';
+            break;
+        }
+        return $name . $suffix;
+    }
+
+    /**
+     * Get the destination class path.
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function getPath($elem)
+    {
+        $path = ucfirst($elem);
+        switch ($elem) {
+        case 'repository':
+            $path = 'Repositories';
+            break;
+        case 'rpc-cliet':
+            $path = 'JsonRpcClient';
+            break;
+        case 'rpc-server':
+            $path = 'JsonRpcServer';
+            break;
+        case 'collection':
+            $path = 'Resources';
+            break;
+        default:
+            $path = ucfirst($elem) . 's';
+        }
+        return BASE_PATH . '/app/' . $path;
     }
 
     protected function getDefaultNamespace(): string
@@ -45,14 +138,22 @@ class GenResourceCommand extends GeneratorCommand
         return $this->getConfig()['namespace'] ?? 'App\\Resource';
     }
 
-    protected function isCollection()
+    /**
+     * Build the class with the given name.
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function createClass($className, $elem)
     {
-        return $this->input->getOption('collection') ||
-            Str::endsWith($this->input->getArgument('name'), 'Collection');
+        $stub = __DIR__ . '/stubs/' . $elem . '.stub';
+        $content = file_get_contents($stub);
+
+        return $this->replaceNamespace($content, $className)->replaceClass($content, $className);
     }
 
-    protected function isGrpc()
+    protected function getStub(): string
     {
-        return $this->input->getOption('grpc');
+        return '';
     }
 }

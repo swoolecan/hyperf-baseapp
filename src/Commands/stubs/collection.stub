@@ -1,0 +1,9 @@
+<?php
+
+namespace App\Resources;
+
+use Swoolecan\Baseapp\Resources\AbstractCollection;
+
+class %CLASS% extends AbstractCollection
+{
+}

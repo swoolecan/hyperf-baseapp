@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Requests;
 
-class MerchantRequest extends AbstractRequest
+class %CLASS% extends AbstractRequest
 {
     protected function _updateRule()
     {
@@ -16,16 +16,14 @@ class MerchantRequest extends AbstractRequest
     public function attributes(): array
     {
         return [
-            'username' => '用户名',
-            'password' => '密码'
+            //'name' => '名称',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'username.required' => '请填写用户名',
-            'password.required' => '请填写密码',
+            //'name.required' => '请填写名称',
         ];
     }
 }

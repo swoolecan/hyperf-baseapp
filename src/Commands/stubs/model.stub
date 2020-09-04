@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace App\Models;
 
-class Merchant extends AbstractModel
+class %CLASS% extends AbstractModel
 {
-    protected $table = 'merchant';
+    //protected $table = '';
     protected $fillable = ['name'];
 
 }

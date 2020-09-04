@@ -3,11 +3,6 @@ declare(strict_types = 1);
 
 namespace App\Repositories;
 
-use Hyperf\Cache\Annotation\CachePut;
-
-/**
- * Class MerchantRepository
- */
-class MerchantRepository extends AbstractRepository
+class %CLASS% extends AbstractRepository
 {
 }
