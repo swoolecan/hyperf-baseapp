@@ -54,21 +54,20 @@ Class ResourceContainer
     {
         $elems = explode('\\', $class);
         $count = count($elems);
-        $code = $count == 4 ? $elems[3] : $elems[2];
+        if ($count < 3) {
+            return $class;
+        }
+        $code = $elems[2];
         $type = $elems[1];
 
-        if (is_null($type)) {
-            echo 'tttttttttt-' . $class . "ooooo \n";
-        }
         $type = Str::singular($type);
 
-        //$code = str_replace(['Controller', 'Repository'], ['', ''], $code);
         $pos = strripos($code, $type);
         if ($pos !== false) {
             $code = substr($code, 0, $pos);
         }
-        $code = Str::snake($code, '-');
-        $code .= $count == 4 ? '-' . strtolower($elems[2]) : '';
+        //$code = Str::snake($code, '-');
+        $code = lcfirst($code);
         return $code;
     }
 
