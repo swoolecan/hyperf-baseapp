@@ -56,6 +56,7 @@
         "hyperf/translation": "^2.0",
         "hyperf/utils": "~2.0.0",
         "hyperf/validation": "^2.0",
+        "phper666/jwt-auth": "~3.0.4",
         "league/fractal": "^0.19.2",
         "overtrue/easy-sms": "^1.1",
         "swoolecan/hyperf-resource": "dev-master"
