@@ -16,7 +16,7 @@ Trait TraitListinfo
         $repository = $this->getRepositoryObj();
         $criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
         //$repository->pushCriteria($criteria);
-        //$list = $repository->paginate();
+        $list = $repository->paginate();
 
         $collectionClass = $this->getCollectionClass();
         $collection = new $collectionClass($list, 'base', $repository);
