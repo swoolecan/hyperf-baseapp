@@ -14,11 +14,17 @@ trait TraitField
     public function fieldFormElems()
     {
         return array_merge($this->extFieldFormElems(), [
-            'id' => [
-                'type' => 'int',
-                'value' => null,
-            ],
         ]);
+    }
+
+    protected function updateFields()
+    {
+        return array_keys($this->fieldFormElems());
+    }
+
+    protected function createFields()
+    {
+        return array_keys($this->fieldFormElems());
     }
 
     protected function extFieldFormElems()
@@ -29,5 +35,18 @@ trait TraitField
     protected function extAttributeNames()
     {
         return [];
+    }
+
+    public function getKeyValues($elem, $value = null)
+    {
+        $method = "_{$elem}KeyDatas";
+        $datas = $this->$method();
+        if (is_null($value)) {
+            return $datas;
+        }
+        if (isset($datas[$value])) {
+            return $datas[$value];
+        }
+        return $value;
     }
 }
