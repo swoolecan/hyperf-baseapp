@@ -10,18 +10,16 @@ Trait TraitListinfo
     public function listinfo()
     {
         $params = $this->request->all();
+        $pageSize = $params['page_size'] ?? 15;
+        $scene = $params['point_scene'] ?? 'list';
         
-        $pageSize = $this->request->input('per_page', 15);
-        $params = [];
         $repository = $this->getRepositoryObj();
-        $criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
+        //$criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
         //$repository->pushCriteria($criteria);
         $list = $repository->paginate();
 
         $collectionClass = $this->getCollectionClass();
-        $collection = new $collectionClass($list, 'base', $repository);
-        //$collection->setModel($repository->model);
-        //$list = $repository->all();
+        $collection = new $collectionClass($list, $scene, $repository);
         return $collection->toResponse();
         //$list = $repository->all();//null, $params, (int) $pageSize);
         //$list = $repository->getByCriteria($criteria)->all();

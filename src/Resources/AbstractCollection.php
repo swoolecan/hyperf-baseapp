@@ -18,10 +18,9 @@ class AbstractCollection extends ResourceCollection
      */
     public function __construct($resource, $scene, $repository)
     {
-        parent::__construct($resource);
-
         $this->setScene($scene);
         $this->repository = $repository;
+        parent::__construct($resource);
     }
 
     /**
@@ -41,10 +40,19 @@ class AbstractCollection extends ResourceCollection
         ];
     }
 
+    /*public function toArray($request)
+    {
+        return $this->collection->map(function ($item) {
+            return [
+                'nickname' => $item->name,
+                'email' => $item->email,
+            ];
+        })->all();
+    }*/
+
     public function getModel()
     {
-        return $this->collection->first();
-        return $this->_model;
+        return $this->_model ?? $this->collection->first();
     }
 
     public function setModel($model)
@@ -61,16 +69,6 @@ class AbstractCollection extends ResourceCollection
     {
         return $this->_scene;
     }
-
-    /*public function toArray($request)
-    {
-        return $this->collection->map(function ($item) {
-            return [
-                'nickname' => $item->name,
-                'email' => $item->email,
-            ];
-        })->all();
-    }*/
 
     /**
      * Map the given collection resource into its individual resources.
@@ -95,6 +93,8 @@ class AbstractCollection extends ResourceCollection
             : $resource->toBase();
         foreach ($this->collection as $collection) {
             $collection->setScene($this->getScene());
+            echo get_class($this->repository);
+            $collection->setRepository($this->repository);
         }
 
         return $this->isPaginatorResource($resource)

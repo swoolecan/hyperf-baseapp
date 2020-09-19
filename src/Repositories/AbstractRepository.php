@@ -22,6 +22,7 @@ use Swoolecan\Baseapp\Criteria\Criteria;
 abstract class AbstractRepository implements RepositoryInterface, CriteriaInterface
 {
     use TraitField;
+    use TraitData;
     /**
      * @Inject
      * @var ConfigInterface

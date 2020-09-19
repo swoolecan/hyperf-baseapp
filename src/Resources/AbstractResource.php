@@ -8,6 +8,7 @@ use Fangx\Resource\Json\JsonResource;
 class AbstractResource extends JsonResource
 {
     protected $_scene;
+    protected $_repository;
 
     /**
      * Transform the resource into an array.
@@ -27,6 +28,16 @@ class AbstractResource extends JsonResource
         ];
     }
 
+    public function setRepository($repository)
+    {
+        $this->_repository = $repository;
+    }
+
+    public function getRepository()
+    {
+        return $this->_repository;
+    }
+
     public function setScene($scene)
     {
         $this->_scene = $scene;
@@ -35,5 +46,32 @@ class AbstractResource extends JsonResource
     public function getScene()
     {
         return $this->_scene;
+    }
+
+    protected function _listArray()
+    {
+        $datas = [];
+        $fields = $this->_showFields();
+        foreach ($fields as $field => $data) {
+            $type = $data['type'] ?? 'common';
+            $valueType = $data['valueType'] ?? 'self';
+            $datas[$field] = array_merge($data, [
+                'value' => $this->getValue($field, $valueType),
+                'type' => $type,
+            ]);
+        }
+
+        return $datas;
+    }
+
+    protected function getValue($field, $valueType)
+    {
+        switch ($valueType) {
+        case 'key':
+            return $this->getRepository()->getKeyValues($field, $this->$field);
+        case 'relate':
+        default:
+            return $this->$field;
+        }
     }
 }
