@@ -50,28 +50,36 @@ class AbstractResource extends JsonResource
 
     protected function _listArray()
     {
+        return $this->_formatShowFields('list');
+    }
+
+    protected function _formatShowFields($scene)
+    {
+        $fields = $this->getRepository()->getSceneFields($scene);
+        $showFields = $this->getRepository()->getShowFields();
         $datas = [];
-        $fields = $this->_showFields();
-        foreach ($fields as $field => $data) {
-            $type = $data['type'] ?? 'common';
+        foreach ($fields as $field) {
+            if (!isset($showFields[$field])) {
+                $datas[$field] = ['showType' => 'common', 'value' => $this->$field, 'valueSource' => $this->$field];
+                continue ;
+            }
+
+            $data = $showFields[$field];
+            $data['type'] = $data['type'] ?? 'common';
             $valueType = $data['valueType'] ?? 'self';
-            $datas[$field] = array_merge($data, [
-                'value' => $this->getValue($field, $valueType),
-                'type' => $type,
-            ]);
+            if ($valueType == 'key') {
+                $value = $this->getRepository()->getKeyValues($field, $this->$field);
+            } elseif ($valueType == 'point') {
+                $relate = $data['resource'];
+                $value = $relate ? $this->$relate->$field : $this->$field;
+            } else {
+                $value = $this->$field;
+            }
+            $data['value'] = $value;
+            $data['valueSource'] = $this->$field;
+            $datas[$field] = $data;
         }
 
         return $datas;
-    }
-
-    protected function getValue($field, $valueType)
-    {
-        switch ($valueType) {
-        case 'key':
-            return $this->getRepository()->getKeyValues($field, $this->$field);
-        case 'relate':
-        default:
-            return $this->$field;
-        }
     }
 }

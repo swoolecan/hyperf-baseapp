@@ -6,9 +6,21 @@ namespace Swoolecan\Baseapp\Repositories;
 
 trait TraitField
 {
-    public function attributeNames()
+    public function getAttributeNames($scene = null)
     {
-        return array_merge($this->model->getColumnElems(), $this->extAttributeNames());
+        $datas = array_merge($this->model->getColumnElems(), $this->extAttributeNames());
+        if (is_null($scene)) {
+            return $datas;
+        }
+        $fields = $this->getSceneFields($scene);
+        if (empty($fields)) {
+            return $datas;
+        }
+        $result = [];
+        foreach ($fields as $field) {
+            $result[$field] = $datas[$field] ?? $field;
+        }
+        return $result;
     }
 
     public function fieldFormElems()
@@ -33,6 +45,29 @@ trait TraitField
     }
 
     protected function extAttributeNames()
+    {
+        return [];
+    }
+
+    public function getSceneFields($scene = null)
+    {   
+        $fields = $this->_sceneFields();  
+        if (is_null($scene)) {
+            return $fields;
+        }
+
+        if (isset($fields[$scene])) {
+            return $fields[$scene];
+        }
+        return [];
+    }
+
+    protected function _sceneFields()
+    {
+        return [];
+    }
+
+    public function getShowFields()
     {
         return [];
     }

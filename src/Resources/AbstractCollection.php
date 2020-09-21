@@ -35,7 +35,7 @@ class AbstractCollection extends ResourceCollection
             'links' => [
                 'self' => 'link-value',
             ],
-            'baseFields' => $this->repository->attributeNames(),
+            'fieldNames' => $this->repository->getAttributeNames($this->getScene()),
             'formFields' => $this->repository->fieldFormElems(),
         ];
     }
@@ -93,7 +93,6 @@ class AbstractCollection extends ResourceCollection
             : $resource->toBase();
         foreach ($this->collection as $collection) {
             $collection->setScene($this->getScene());
-            echo get_class($this->repository);
             $collection->setRepository($this->repository);
         }
 
