@@ -157,6 +157,16 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
     }
 
     /**
+     * @param $info
+     * @param array $data
+     * @return mixed
+     */
+    public function updateInfo($info, array $data)
+    {
+        return $info->update($data);
+    }
+
+    /**
      * @param array $data
      * @param $id
      * @param string $attribute
@@ -164,6 +174,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      */
     public function update(array $data, $id, $attribute = "id")
     {
+        echo get_class($this->model->where($attribute, '=', $id));
         return $this->model->where($attribute, '=', $id)->update($data);
     }
 
@@ -179,6 +190,15 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
         }
 
         return $model->fill($data)->save();
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function deleteInfo($info)
+    {
+        return $this->model->destroy($id);
     }
 
     /**

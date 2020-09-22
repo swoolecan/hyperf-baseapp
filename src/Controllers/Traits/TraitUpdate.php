@@ -4,27 +4,22 @@ namespace Swoolecan\Baseapp\Controllers\Traits;
 
 trait TraitUpdate
 {
-    public function update()
+    public function update($id)
     {
-        //print_r($this->request->all());
-        echo $this->request->path();
-        //print_R($this->request);
-        print_R($this->request->query());
-        print_R($this->request->route('id'));
-        //$request = $this->getRequestObj('update');
+        if (empty($id)) {
+            return $this->throwException(422, '参数有误');
+        }
+        $repository = $this->getRepositoryObj();
+        $exist = $repository->find($id);
+        if (empty($exist)) {
+            return $this->throwException(422, '信息不存在');
+        }
+
+        $request = $this->getRequestObj('update', $repository);
+        //echo $this->request->path(); print_R($this->request->query()); print_R($this->request->route('id'));
         $data = $this->request->all();
-        //$data = $request->all();
-        print_R($data);
-        return $data;
-        //$permissions = $request->input('permissions', []);
-        /*$result = $this->getRelateModel()->find($id);
-        if (!$result) {
-            throw new BusinessException(404);
-        }*/
-        //unset($data['permissions']);
-        //$result->update($data);
-        //$result->syncPermissions($permissions);
-        return $result;
+        $result = $repository->updateInfo($exist, $data);
+        return $this->success([]);
     }
 
 	public function actionEdit()

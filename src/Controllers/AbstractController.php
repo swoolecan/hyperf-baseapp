@@ -93,7 +93,7 @@ abstract class AbstractController
         return $this->resource->getClassName('collection', $code ? $code : get_called_class());
     }
 
-    public function getRequestObj($scene = '', $code = '')
+    public function getRequestObj($scene = '', $repository = null, $code = '')
     {
         //$type = empty($action) ? 'request' : 'request-' . $action;
         $code = !empty($code) ? $code : get_called_class();
@@ -102,11 +102,15 @@ abstract class AbstractController
         if (empty($request)) {
             return $this->request;
         }
+        if ($repository) {
+            $request->setRepository($repository);
+        }
         if (!empty($scene)) {
             $request->setScene($scene);
         }
 
         if (method_exists($request, 'validateResolved')) {
+            echo 'aaaa';
             var_dump($request->all());
             $request->validateResolved();
         }

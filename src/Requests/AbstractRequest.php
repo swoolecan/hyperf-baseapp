@@ -10,6 +10,8 @@ use Hyperf\HttpServer\Router\Dispatched;
 class AbstractRequest extends FormRequest
 {
     protected $_scene;
+    protected $_repository;
+    protected $_info;
 
     public function authorize(): bool
     {
@@ -49,5 +51,25 @@ class AbstractRequest extends FormRequest
     public function getScene()
     {
         return $this->_scene;
+    }
+
+    public function setRepository($repository)
+    {
+        $this->_repository = $repository;
+    }
+
+    public function getRepository()
+    {
+        return $this->_repository;
+    }
+
+    public function setInfo($info)
+    {
+        $this->_info = $info;
+    }
+
+    public function getInfo()
+    {
+        return $this->_info;
     }
 }

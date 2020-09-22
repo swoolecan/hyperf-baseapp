@@ -6,6 +6,11 @@ use Yii;
 
 trait TraitDelete
 {
+    public function delete($id = '')
+    {
+        return $this->_deleteInfo($id);
+    }
+
     public function destroy($id)
     {
         $result = $this->getRelateModel()->find($id);
@@ -13,11 +18,6 @@ trait TraitDelete
             throw new BusinessException(404);
         }
         return $result->delete();
-    }
-
-    public function actionDelete($id = '')
-    {
-        return $this->_deleteInfo($id);
     }
 
     public function actionRemove($id = '')
