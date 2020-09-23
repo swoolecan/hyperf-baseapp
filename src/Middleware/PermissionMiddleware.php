@@ -10,14 +10,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Swoolecan\Baseapp\Helper\SysOperation;
-use Swoolecan\Baseapp\JsonRpcClient\PassportBaseService;
+use Swoolecan\Baseapp\RpcClient\PassportBaseRpcClient;
 use Swoolecan\Baseapp\Exceptions\BusinessException;
 
 class PermissionMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $passportBase = make(PassportBaseService::class);
+        $passportBase = make(PassportBaseRpcClient::class);
         $dispatcher = $request->getAttribute('Hyperf\HttpServer\Router\Dispatched');
         $routeCode = $dispatcher->handler->options['routeCode'];
         $permission = $passportBase->checkPermission($userId, $routeCode);

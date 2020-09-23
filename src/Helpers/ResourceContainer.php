@@ -10,7 +10,6 @@ use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Contract\ConfigInterface;
 use Swoolecan\Baseapp\Helpers\SysOperation;
 use Swoolecan\Baseapp\Exceptions\BusinessException;
-use Swoolecan\Baseapp\JsonRpcClient\PassportBaseService;
 
 /**
  * 系统资源
@@ -142,8 +141,6 @@ Class ResourceContainer
         //print_r($routes);
         if (!$routes || !isset($routes[$this->appCode])) {
             $this->throwException(500, '路由信息不存在-' . $this->appCode);
-            //$passportBase = make(PassportBaseService::class);
-            //$routes = $passportBase->getRouteDatas();
         }
         return $routes[$this->appCode];
     }
