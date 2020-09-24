@@ -10,4 +10,14 @@ trait TraitData
     {
         return array_merge($this->model->getColumnElems(), $this->extAttributeNames());
     }
+
+    public function getCacheDatas()
+    {
+        $models = User::findManyFromCache($ids);
+    }
+
+    public function getCacheData($key, $keyField = 'id')
+    {
+        $model = User::findFromCache($key);
+    }
 }

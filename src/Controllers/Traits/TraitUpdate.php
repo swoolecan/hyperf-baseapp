@@ -4,13 +4,16 @@ namespace Swoolecan\Baseapp\Controllers\Traits;
 
 trait TraitUpdate
 {
-    public function update($id)
+    public function update($id, $code)
     {
-        if (empty($id)) {
+        $key = $id ? $id : $code;
+        if (empty($key)) {
             return $this->throwException(422, '参数有误');
         }
+        var_dump($key);
         $repository = $this->getRepositoryObj();
-        $exist = $repository->find($id);
+        $exist = $repository->find($key);
+        //var_dump($exist);exit();
         if (empty($exist)) {
             return $this->throwException(422, '信息不存在');
         }

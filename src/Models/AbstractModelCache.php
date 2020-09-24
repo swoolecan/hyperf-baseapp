@@ -18,4 +18,12 @@ use Hyperf\ModelCache\CacheableInterface;
 abstract class AbstractModelCache extends AbstractModel implements CacheableInterface
 {
     use Cacheable;
+
+    public function hasOneCache($related, $foreignKey, $localKey)
+    {
+        $instance = $this->newRelatedInstance($related);
+        $model = $instance->findFromCache($this->$localKey);
+        return $model;
+        var_dump($model);exit();
+    }
 }

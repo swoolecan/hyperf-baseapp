@@ -110,8 +110,6 @@ abstract class AbstractController
         }
 
         if (method_exists($request, 'validateResolved')) {
-            echo 'aaaa';
-            var_dump($request->all());
             $request->validateResolved();
         }
         return $request;
