@@ -14,6 +14,8 @@ declare(strict_types = 1);
 namespace Swoolecan\Baseapp\Models;
 
 use Hyperf\DbConnection\Model\Model as BaseModel;
+use Hyperf\Database\Model\Events\Saving;
+use Hyperf\Database\Model\Events\Saved;
 use Swoolecan\Baseapp\Models\Traits\Rest;
 
 abstract class AbstractModel extends BaseModel
@@ -80,5 +82,17 @@ abstract class AbstractModel extends BaseModel
             'status' => 'checkbox',
             'type' => 'dropdown',
         ];
+    }
+
+    public function saved(Saved $event)
+    {
+echo 'sssssyyyy';
+        //$this->setCreatedAt('2019-01-01');
+    }
+
+    public function saving(Saving $event)
+    {
+echo 'iiiiiiiiioooo';
+        //$this->setCreatedAt('2019-01-01');
     }
 }

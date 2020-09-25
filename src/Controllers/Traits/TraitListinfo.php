@@ -7,25 +7,6 @@ use App\Resources\UserCollection;
 
 Trait TraitListinfo
 {
-    public function listinfo()
-    {
-        $params = $this->request->all();
-        $pageSize = $params['page_size'] ?? 15;
-        $scene = $params['point_scene'] ?? 'list';
-        
-        $repository = $this->getRepositoryObj();
-        //$criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
-        //$repository->pushCriteria($criteria);
-        $list = $repository->paginate();
-
-        $collectionClass = $this->getCollectionClass();
-        $collection = new $collectionClass($list, $scene, $repository);
-        return $collection->toResponse();
-        //$list = $repository->all();//null, $params, (int) $pageSize);
-        //$list = $repository->getByCriteria($criteria)->all();
-        return $this->success($datas);
-    }
-
     public function tree()
     {
         //$infos = $model->getFormatedInfos();

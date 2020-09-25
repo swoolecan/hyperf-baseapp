@@ -6,15 +6,6 @@ use Yii;
 
 trait TraitAdd
 {
-    public function add()
-    {
-        $repository = $this->getRepositoryObj();
-        $request = $this->getRequestObj('add', $repository);
-        $data = $this->request->all();
-        $result = $repository->create($data);
-        return $this->success($result);
-    }
-
 	public function actionCreate()
 	{
 		$this->frontPriv();

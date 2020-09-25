@@ -4,16 +4,6 @@ namespace Swoolecan\Baseapp\Controllers\Traits;
 
 Trait TraitView
 {
-    public function show($id)
-    {
-        $result = $this->getServiceRepo()->find($id);
-        if (!$result) {
-            return $this->throwException(404);
-        }
-        //$result->permissions;
-        return $result;
-    }
-
 	/*public function actionShow($id = null)
 	{
 		$this->frontPriv(false, true);

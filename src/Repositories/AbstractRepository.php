@@ -70,6 +70,11 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      */
     protected $preventCriteriaOverwriting = true;
 
+    public function __call($name, $arguments)
+    {   
+        return $this->model->{$name}(...$arguments);
+    }
+
     /**
      * @param $resource
      */
