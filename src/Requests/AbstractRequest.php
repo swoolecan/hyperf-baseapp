@@ -79,11 +79,9 @@ class AbstractRequest extends FormRequest
         $method = "_{$type}Rule";
         $fields = array_keys($this->$method());
         $inputs = $this->all();
-        var_dump($inputs);
         $data = [];
         $check = true;
         foreach ($fields as $field) {
-            var_dump($inputs[$field]);
             if (isset($inputs[$field])) {
                 $data[$field] = $inputs[$field];
             }

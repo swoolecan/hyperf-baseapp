@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Swoolecan\baseapp\RpcClient;
+namespace Swoolecan\Baseapp\RpcClient;
 
 use Hyperf\RpcClient\AbstractServiceClient;
 use Hyperf\Cache\Annotation\Cacheable;
@@ -24,10 +24,13 @@ class AbstractRpcClient extends AbstractServiceClient
      */
     public function getCacheData($app, $resource, $key, $keyField = 'id')
     {
-        $app = ucfirst($app);
-        $class = "\App\RpcServer\\{$app}CacheRpcServer";
-        $client = make($class);
-        return $client->getCacheData($app, $resource, $key, $keyField);
+        $data = [
+            'app' => $app,
+            'resource' => $resource,
+            'key' => $key,
+            'keyField' => $keyField
+        ];
+        return $this->__request(__FUNCTION__, $data);
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Repositories;
 
-use Swoolecan\Baseapp\RpcClient\PassportRpcClient;
+//use Swoolecan\Baseapp\RpcClient\PassportRpcClient;
 use Swoolecan\Baseapp\RpcClient\ThirdBaseRpcClient;
 
 trait TraitData
@@ -14,10 +14,10 @@ trait TraitData
         return array_merge($this->model->getColumnElems(), $this->extAttributeNames());
     }
 
-    public function getOutCacheData($app, $resource, $key, $keyField = 'id')
+    public function getCacheOutData($app, $resource, $key, $keyField = 'id')
     {
         $app = ucfirst($app);
-        $class = "\Swoolecan\Baseapp\RpcClien\\{$app}CacheRpcClient";
+        $class = "\Swoolecan\Baseapp\RpcClient\\{$app}RpcClient";
         $client = make($class);
         return $client->getCacheData($app, $resource, $key, $keyField);
         //$model = User::findFromCache($key);

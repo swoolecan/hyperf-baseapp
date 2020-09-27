@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Swoolecan\baseapp\JsonRpcClient;
+namespace Swoolecan\Baseapp\RpcClient;
 
 /**
  * 服务消费者
@@ -13,7 +13,7 @@ class PassportRpcClient extends AbstractRpcClient
      * 定义对应服务提供者的服务名称
      * @var string
      */
-    protected $serviceName = 'PassportRpcClient';
+    protected $serviceName = 'PassportRpcServer';
 
     public function getResourceDatas(int $a, int $b): array
     {

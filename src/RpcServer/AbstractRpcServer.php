@@ -24,11 +24,10 @@ class AbstractRpcServer
      */
     protected $resource;
 
-    /**
-     * @Cacheable(prefix="", value="mc:#{app}:m:#{resource}:#{$keyField}:#{$key}")
-     */
     public function getCacheData($resource, $key, $keyField = 'id')
     {
+        $repository = $this->resource->getObject('repository', $resource);
+        return $repository->getCacheData($resource, $key);
         $app = ucfirst($app);
         $class = "\App\RpcServer\\{$app}CacheRpcServer";
         $client = make($class);

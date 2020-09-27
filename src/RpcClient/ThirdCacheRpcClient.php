@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Swoolecan\baseapp\RpcClient;
+namespace Swoolecan\Baseapp\RpcClient;
 
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CachePut;

@@ -113,10 +113,7 @@ trait TraitField
                 $relateField = $data['relateField'] ?? 'name';
                 $value = $relate ? $relate[$relateField] : $value;
             } elseif ($valueType == 'cacheOut') {
-                $relate = $data['relate'];
-                $relate = $relate ? $this->get($relate) : false;
-                $relateField = $data['relateField'] ?? 'name';
-                $value = $relate ? $relate[$relateField] : $value;
+                $value = $this->getCacheOutData($data['app'], $data['relate'], $value, $data['keyField']);
             }
             $data['value'] = $value;
             $datas[$field] = $data;
@@ -139,6 +136,17 @@ trait TraitField
         return [
             'status' => ['valueType' => 'key'],
             'user_id' => ['valueType' => 'point', 'relate' => 'user'],
+            'region_code' => ['valueType' => 'cacheOut', 'relate' => 'region', 'app' => 'passport', 'keyField' => 'code'],
         ];
+    }
+
+    public function getFormFields()
+    {
+        return [];
+    }
+
+    public function getShowFields()
+    {
+        return [];
     }
 }
