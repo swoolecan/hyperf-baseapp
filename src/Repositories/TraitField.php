@@ -51,14 +51,6 @@ trait TraitField
         return [];
     }
 
-    public function getDefaultShowFields()
-    {
-        return [
-            'status' => ['valueType' => 'key'],
-            'user_id' => ['valueType' => 'point', 'relate' => 'user'],
-        ];
-    }
-
     public function getKeyValues($elem, $value = null)
     {
         $method = "_{$elem}KeyDatas";
@@ -99,11 +91,12 @@ trait TraitField
             $defaultShowField = $defaultShowFields[$field] ?? [];
             $showField = $showFields[$field] ?? [];
             $data = array_merge($defaultShowField, $showField);
-            if (!empty($data)) {
+            if (empty($data)) {
                 $datas[$field] = ['showType' => 'common', 'value' => $value, 'valueSource' => $value];
                 continue ;
             }
 
+            $data['valueSource'] = $value;
             $data['showType'] = $data['showType'] ?? 'common';
             $valueType = $data['valueType'] ?? 'self';
 
@@ -113,16 +106,19 @@ trait TraitField
                 $relate = $data['relate'];
                 $relate = $relate ? $model->$relate : false;
                 $relateField = $data['relateField'] ?? 'name';
-                print_r($relate);
                 $value = $relate ? $relate->$relateField : $value;
-            } elseif ($valueType == 'pointCache') {
+            } elseif ($valueType == 'cache') {
                 $relate = $data['relate'];
-                $relate = $relate ? $model->$relate : false;
+                $relate = $relate ? $this->get($relate) : false;
                 $relateField = $data['relateField'] ?? 'name';
-                $value = $relate ? $relate->$relateField : $value;
+                $value = $relate ? $relate[$relateField] : $value;
+            } elseif ($valueType == 'cacheOut') {
+                $relate = $data['relate'];
+                $relate = $relate ? $this->get($relate) : false;
+                $relateField = $data['relateField'] ?? 'name';
+                $value = $relate ? $relate[$relateField] : $value;
             }
             $data['value'] = $value;
-            $data['valueSource'] = $value;
             $datas[$field] = $data;
         }
 
@@ -135,6 +131,14 @@ trait TraitField
             'nickname' => ['type' => 'input', 'require' => ['add']],
             'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
             'status' => ['type' => 'radio', 'infos' => $this->getKeyValues('status')],
+        ];
+    }
+
+    public function getDefaultShowFields()
+    {
+        return [
+            'status' => ['valueType' => 'key'],
+            'user_id' => ['valueType' => 'point', 'relate' => 'user'],
         ];
     }
 }

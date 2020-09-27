@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Swoolecan\baseapp\RpcClient;
-
-use Hyperf\Cache\Annotation\Cacheable;
-use Hyperf\Cache\Annotation\CachePut;
+namespace Swoolecan\baseapp\JsonRpcClient;
 
 /**
  * 服务消费者
  */
-class PassportCacheRpcClient extends AbstractRpcClient
+class PassportRpcClient extends AbstractRpcClient
 {
     /**
      * 定义对应服务提供者的服务名称
@@ -37,12 +34,8 @@ class PassportCacheRpcClient extends AbstractRpcClient
         return $this->__request(__FUNCTION__, ['token' => $token]);
     }
 
-    /**
-     * @Cacheable(prefix="common-route")
-     */
-    public function getPermissionDatas($key = 'routes')
+    public function getUserById($id): array
     {
-        $passportBase = make(PassportBaseService::class);
-        $routes = $passportBase->getRouteDatas();
+        return $this->__request(__FUNCTION__, ['id' => $id]);
     }
 }

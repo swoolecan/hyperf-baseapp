@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Swoolecan\Baseapp\RpcClient\PassportBaseRpcClient;
+use Swoolecan\Baseapp\RpcClient\PassportRpcClient;
 use Swoolecan\Baseapp\Exceptions\BusinessException;
 
 class JWTUserMiddleware implements MiddlewareInterface
@@ -18,7 +18,7 @@ class JWTUserMiddleware implements MiddlewareInterface
     {
         $jwtResult = $request->getAttribute('jwtResult');
         print_r($jwtResult);
-        $passportBase = make(PassportBaseRpcClient::class);
+        $passportBase = make(PassportRpcClient::class);
         if (empty($jwtResult) || !isset($jwtResult['user_id']) || empty($jwtResult['user_id'])) {
             throw new BusinessException(400, 'Token有误');
         }

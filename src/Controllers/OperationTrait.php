@@ -1,20 +1,20 @@
 <?php
 
-namespace Swoolecan\Baseapp\Controllers\Traits;
+namespace Swoolecan\Baseapp\Controllers;
 
 trait OperationTrait
 {
-	use TraitAdd;
-	use TraitAddMul;
+	//use TraitAdd;
+	//use TraitAddMul;
 	//use TraitCommon;
-	use TraitDelete;
+	//use TraitDelete;
 	//use TraitImexport;
-	use TraitListinfo;
+	//use TraitListinfo;
 	//use TraitListinfoTree;
-	use TraitUpdate;
+	//use TraitUpdate;
 	//use TraitPriv;
-	use TraitView;
-    use Rest;
+	//use TraitView;
+    //use Rest;
 
     public function listinfo()
     {
