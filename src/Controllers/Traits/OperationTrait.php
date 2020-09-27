@@ -39,7 +39,7 @@ trait OperationTrait
     {
         $repository = $this->getRepositoryObj();
         $request = $this->getRequestObj('add', $repository);
-        $data = $this->request->all();
+        $data = $request->getInputDatas('add');
         $result = $repository->create($data);
         return $this->success($result);
     }
@@ -50,7 +50,11 @@ trait OperationTrait
         $request = $this->getRequestObj('update', $repository);
         $info = $this->getPointInfo($repository, $request);
 
-        $data = $this->request->all();
+        $data = $request->getInputDatas('update');
+        if (empty($data)) {
+            return $this->throwException(422, '没有输入参数');
+        }
+        $data = $request->validated();
         $result = $repository->updateInfo($info, $data);
         return $this->success([]);
     }

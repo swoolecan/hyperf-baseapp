@@ -50,36 +50,6 @@ class AbstractResource extends JsonResource
 
     protected function _listArray()
     {
-        return $this->_formatShowFields('list');
-    }
-
-    protected function _formatShowFields($scene)
-    {
-        $fields = $this->getRepository()->getSceneFields($scene);
-        $showFields = $this->getRepository()->getShowFields();
-        $datas = [];
-        foreach ($fields as $field) {
-            if (!isset($showFields[$field])) {
-                $datas[$field] = ['showType' => 'common', 'value' => $this->$field, 'valueSource' => $this->$field];
-                continue ;
-            }
-
-            $data = $showFields[$field];
-            $data['type'] = $data['type'] ?? 'common';
-            $valueType = $data['valueType'] ?? 'self';
-            if ($valueType == 'key') {
-                $value = $this->getRepository()->getKeyValues($field, $this->$field);
-            } elseif ($valueType == 'point') {
-                $relate = $data['resource'];
-                $value = $relate ? $this->$relate->$field : $this->$field;
-            } else {
-                $value = $this->$field;
-            }
-            $data['value'] = $value;
-            $data['valueSource'] = $this->$field;
-            $datas[$field] = $data;
-        }
-
-        return $datas;
+        return $this->getRepository()->getFormatShowFields('list', $this);
     }
 }

@@ -23,22 +23,6 @@ trait TraitField
         return $result;
     }
 
-    public function fieldFormElems()
-    {
-        return array_merge($this->extFieldFormElems(), [
-        ]);
-    }
-
-    protected function updateFields()
-    {
-        return array_keys($this->fieldFormElems());
-    }
-
-    protected function createFields()
-    {
-        return array_keys($this->fieldFormElems());
-    }
-
     protected function extFieldFormElems()
     {
         return [];
@@ -67,9 +51,12 @@ trait TraitField
         return [];
     }
 
-    public function getShowFields()
+    public function getDefaultShowFields()
     {
-        return [];
+        return [
+            'status' => ['valueType' => 'key'],
+            'user_id' => ['valueType' => 'point', 'relate' => 'user'],
+        ];
     }
 
     public function getKeyValues($elem, $value = null)
@@ -83,5 +70,71 @@ trait TraitField
             return $datas[$value];
         }
         return $value;
+    }
+
+    public function getFormatFormFields($scene)
+    {
+        $fields = $this->getSceneFields($scene);
+        $defaultFormFields = $this->getDefaultFormFields();
+        $formFields = $this->getFormFields();
+        $datas = [];
+        foreach ($fields as $field) {
+            $defaultFormField = $defaultFormFields[$field] ?? [];
+            $formField = $formFields[$field] ?? [];
+            $data = array_merge($defaultFormField, $formField);
+            $datas[$field] = empty($data) ? ['type' => 'input'] : $data;
+        }
+
+        return $datas;
+    }
+
+    public function getFormatShowFields($scene, $model)
+    {
+        $fields = $this->getSceneFields($scene);
+        $defaultShowFields = $this->getDefaultShowFields();
+        $showFields = $this->getShowFields();
+        $datas = [];
+        foreach ($fields as $field) {
+            $value = $model->$field;
+            $defaultShowField = $defaultShowFields[$field] ?? [];
+            $showField = $showFields[$field] ?? [];
+            $data = array_merge($defaultShowField, $showField);
+            if (!empty($data)) {
+                $datas[$field] = ['showType' => 'common', 'value' => $value, 'valueSource' => $value];
+                continue ;
+            }
+
+            $data['showType'] = $data['showType'] ?? 'common';
+            $valueType = $data['valueType'] ?? 'self';
+
+            if ($valueType == 'key') {
+                $value = $this->getKeyValues($field, $model->$field);
+            } elseif ($valueType == 'point') {
+                $relate = $data['relate'];
+                $relate = $relate ? $model->$relate : false;
+                $relateField = $data['relateField'] ?? 'name';
+                print_r($relate);
+                $value = $relate ? $relate->$relateField : $value;
+            } elseif ($valueType == 'pointCache') {
+                $relate = $data['relate'];
+                $relate = $relate ? $model->$relate : false;
+                $relateField = $data['relateField'] ?? 'name';
+                $value = $relate ? $relate->$relateField : $value;
+            }
+            $data['value'] = $value;
+            $data['valueSource'] = $value;
+            $datas[$field] = $data;
+        }
+
+        return $datas;
+    }
+
+    public function getDefaultFormFields()
+    {
+        return [
+            'nickname' => ['type' => 'input', 'require' => ['add']],
+            'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
+            'status' => ['type' => 'radio', 'infos' => $this->getKeyValues('status')],
+        ];
     }
 }

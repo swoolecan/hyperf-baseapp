@@ -36,19 +36,10 @@ class AbstractCollection extends ResourceCollection
                 'self' => 'link-value',
             ],
             'fieldNames' => $this->repository->getAttributeNames($this->getScene()),
-            'formFields' => $this->repository->fieldFormElems(),
+            'addFormFields' => $this->repository->getFormatFormFields('add'),
+            'updateFormFields' => $this->repository->getFormatFormFields('update'),
         ];
     }
-
-    /*public function toArray($request)
-    {
-        return $this->collection->map(function ($item) {
-            return [
-                'nickname' => $item->name,
-                'email' => $item->email,
-            ];
-        })->all();
-    }*/
 
     public function getModel()
     {

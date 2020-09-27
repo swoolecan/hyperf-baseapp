@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Requests;
 
+use Hyperf\Validation\Rule;
 use Hyperf\Validation\Request\FormRequest;
 use Hyperf\HttpServer\Router\Dispatched;
 
@@ -71,5 +72,27 @@ class AbstractRequest extends FormRequest
     public function getInfo()
     {
         return $this->_info;
+    }
+
+    public function getInputDatas($type)
+    {
+        $method = "_{$type}Rule";
+        $fields = array_keys($this->$method());
+        $inputs = $this->all();
+        var_dump($inputs);
+        $data = [];
+        $check = true;
+        foreach ($fields as $field) {
+            var_dump($inputs[$field]);
+            if (isset($inputs[$field])) {
+                $data[$field] = $inputs[$field];
+            }
+        }
+        return $data;
+    }
+
+    protected function _getKeyValues($field)
+    {
+        return Rule::in(array_keys($this->getRepository()->getKeyValues($field)));
     }
 }
