@@ -4,9 +4,6 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Repositories;
 
-//use Swoolecan\Baseapp\RpcClient\PassportRpcClient;
-use Swoolecan\Baseapp\RpcClient\ThirdBaseRpcClient;
-
 trait TraitData
 {
     public function getPointValues($resourceCode)
@@ -20,7 +17,6 @@ trait TraitData
         $class = "\Swoolecan\Baseapp\RpcClient\\{$app}RpcClient";
         $client = make($class);
         return $client->getCacheData($app, $resource, $key, $keyField);
-        //$model = User::findFromCache($key);
     }
 
     public function getCacheData($resource, $key)

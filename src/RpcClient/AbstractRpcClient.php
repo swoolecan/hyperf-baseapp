@@ -25,7 +25,6 @@ class AbstractRpcClient extends AbstractServiceClient
     public function getCacheData($app, $resource, $key, $keyField = 'id')
     {
         $data = [
-            'app' => $app,
             'resource' => $resource,
             'key' => $key,
             'keyField' => $keyField
