@@ -23,8 +23,7 @@ trait OperationTrait
         $scene = $params['point_scene'] ?? 'list';
         
         $repository = $this->getRepositoryObj();
-        //$criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
-        //$repository->pushCriteria($criteria);
+        $repository = $this->dealCriteria($scene, $repository, $params);
         $list = $repository->paginate();
 
         $collectionClass = $this->getCollectionClass();

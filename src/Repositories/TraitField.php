@@ -126,6 +126,29 @@ trait TraitField
         return $datas;
     }
 
+    public function getFormatSearchFields($scene, $params)
+    {
+        $fields = $this->getSceneFields($scene . 'Search');
+        $defaultSearchFields = $this->getDefaultSearchFields();
+        $showFields = $this->getSearchFields();
+        $datas = [];
+        foreach ($fields as $field) {
+            if (!isset($params[$field])) {
+                continue;
+            }
+            $value = $params[$field];
+            $defaultSearchField = $defaultSearchFields[$field] ?? [];
+            $showField = $showFields[$field] ?? [];
+            $data = array_merge($defaultSearchField, $showField);
+            $data['field'] = $data['field'] ?? $field;
+            $data['type'] = $data['type'] ?? 'common';
+            $data['operator'] = $data['operator'] ?? '=';
+            $datas[$field] = $data;
+        }
+
+        return $datas;
+    }
+
     public function getDefaultFormFields()
     {
         return [
@@ -144,12 +167,28 @@ trait TraitField
         ];
     }
 
+    public function getDefaultSearchFields()
+    {
+        return [
+            'status' => [],
+            'user_id' => [],
+            'region_code' => [],
+            'start_at' => ['operation' => '>=', 'field' => 'created_at'],
+            'end_at' => ['operation' => '<', 'field' => 'created_at'],
+        ];
+    }
+
     public function getFormFields()
     {
         return [];
     }
 
     public function getShowFields()
+    {
+        return [];
+    }
+
+    public function getSearchFields()
     {
         return [];
     }

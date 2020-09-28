@@ -7,7 +7,7 @@ use Swoolecan\Baseapp\Contracts\CriteriaInterface;
 use Swoolecan\Baseapp\Contracts\RepositoryInterface as Repository;
 use Swoolecan\Baseapp\Contracts\RepositoryInterface;
 
-class EqualCriteria extends Criteria
+class CommonCriteria extends Criteria
 {
     /**
      * @param $model
@@ -20,9 +20,10 @@ class EqualCriteria extends Criteria
         if (empty($field)) {
             return $query;
         }
-        $operator = '=';
+        $operator = $this->params['operator'];
         $value = $this->params['value'];
         $query->where($field, $operator, $value);
+        //echo $query->toSql() . '=======';
 
         return $query;
     }

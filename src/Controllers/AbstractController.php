@@ -123,4 +123,11 @@ abstract class AbstractController
     {
         return $this->resource->throwException($code, $message);
     }
+
+
+    public function dealCriteria($scene, $repository, $params)
+    {
+        //$criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
+        //$repository->pushCriteria($criteria);
+    }
 }
