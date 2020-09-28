@@ -74,7 +74,11 @@ trait TraitField
             $defaultFormField = $defaultFormFields[$field] ?? [];
             $formField = $formFields[$field] ?? [];
             $data = array_merge($defaultFormField, $formField);
-            $datas[$field] = empty($data) ? ['type' => 'input'] : $data;
+            $data = empty($data) ? ['type' => 'input'] : $data;
+            if (in_array($data['type'], ['radio', 'selelct']) && !isset($data['infos'])) {
+                $data['infos'] = $this->getKeyValues($field);
+            }
+            $datas[$field] = $data;
         }
 
         return $datas;
@@ -127,7 +131,7 @@ trait TraitField
         return [
             'nickname' => ['type' => 'input', 'require' => ['add']],
             'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
-            'status' => ['type' => 'radio', 'infos' => $this->getKeyValues('status')],
+            'status' => ['type' => 'radio'],
         ];
     }
 
