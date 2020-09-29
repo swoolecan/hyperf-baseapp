@@ -5,14 +5,4 @@ namespace App\Repositories;
 
 class %CLASS% extends AbstractRepository
 {
-    protected function extFieldFormElems()
-    {
-        return [
-            //'' => ['type' => 'input'],
-            //'' => ['type' => 'download-search', 'infos' => $this->getKeyValues('resource'), 'require' => true],
-            //'' => ['type' => 'radio-input', 'infos' => $this->getKeyValues('')],
-            //'' => ['type' => 'radio', 'infos' => $this->getKeyValues('')],
-            //'' => ['type' => 'text'],
-        ];
-    }
 }
