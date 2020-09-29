@@ -127,7 +127,6 @@ abstract class AbstractController
 
     public function dealCriteria($scene, $repository, $params)
     {
-        //$criteria = new GreaterCriteria(['field' => 'id', 'equal' => true, 'value' => 3]);
-        //$repository->pushCriteria($criteria);
+        return $repository->getFormatSearchFields($scene, $params);
     }
 }

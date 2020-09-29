@@ -68,7 +68,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      * Prevents from overwriting same criteria in chain usage
      * @var bool
      */
-    protected $preventCriteriaOverwriting = true;
+    protected $preventCriteriaOverwriting = false;
 
     public function __call($name, $arguments)
     {   

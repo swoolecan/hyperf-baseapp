@@ -129,24 +129,33 @@ trait TraitField
     public function getFormatSearchFields($scene, $params)
     {
         $fields = $this->getSceneFields($scene . 'Search');
+        if (empty($params) || empty($fields)) {
+            return $this;
+        }
         $defaultSearchFields = $this->getDefaultSearchFields();
         $showFields = $this->getSearchFields();
         $datas = [];
         foreach ($fields as $field) {
-            if (!isset($params[$field])) {
-                continue;
-            }
-            $value = $params[$field];
             $defaultSearchField = $defaultSearchFields[$field] ?? [];
             $showField = $showFields[$field] ?? [];
             $data = array_merge($defaultSearchField, $showField);
+            if (!isset($params[$field]) && !isset($data['value'])) {
+                continue;
+            }
             $data['field'] = $data['field'] ?? $field;
-            $data['type'] = $data['type'] ?? 'common';
             $data['operator'] = $data['operator'] ?? '=';
-            $datas[$field] = $data;
+            $data['value'] = isset($params[$field]) ? $params[$field] : $data['value'];
+            //print_r($data);
+            //$datas[$field] = $data;
+            $type = $data['type'] ?? 'common';
+            $type = ucfirst($type);
+
+            $criteriaClass = "\Swoolecan\Baseapp\Criteria\\{$type}Criteria";
+            $this->pushCriteria(new $criteriaClass($data));
+            //$repository->pushCriteria($criteria);
         }
 
-        return $datas;
+        return $this;
     }
 
     public function getDefaultFormFields()
@@ -172,6 +181,7 @@ trait TraitField
         return [
             'status' => [],
             'user_id' => [],
+            'name' => ['operator' => 'like'],
             'region_code' => [],
             'start_at' => ['operation' => '>=', 'field' => 'created_at'],
             'end_at' => ['operation' => '<', 'field' => 'created_at'],

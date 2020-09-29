@@ -7,10 +7,10 @@ use Swoolecan\Baseapp\Contracts\CriteriaInterface;
 use Swoolecan\Baseapp\Contracts\RepositoryInterface as Repository;
 use Swoolecan\Baseapp\Contracts\RepositoryInterface;
 
-class CommonCriteria extends Criteria
+class OrCriteria extends Criteria
 {
     /**
-     * @param $model
+     * @param $query
      * @param RepositoryInterface $repository
      * @return mixed
      */
@@ -20,19 +20,8 @@ class CommonCriteria extends Criteria
         if (empty($field)) {
             return $query;
         }
-        print_r($this->params);
         $operator = $this->params['operator'];
         $value = $this->params['value'];
-        if ($operator == 'like-left') {
-            $operator = 'like';
-            $value = "%{$value}";
-        } elseif ($operator == 'like-right') {
-            $operator = 'like';
-            $value = "{$value}%";
-        } else if ($operator == 'like') {
-            $value = "%{$value}%";
-        }
-        
         $query->where($field, $operator, $value);
         //echo $query->toSql() . '=======';
 
