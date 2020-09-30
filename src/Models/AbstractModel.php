@@ -95,4 +95,14 @@ echo 'sssssyyyy';
 echo 'iiiiiiiiioooo';
         //$this->setCreatedAt('2019-01-01');
     }
+
+    public function getParentField($keyField = 'id')
+    {
+        return "parent_{$keyField}";
+    }
+
+    public function getParentFirstValue($keyField = 'id')
+    {
+        return $keyField == 'id' ? 0 : '';
+    }
 }

@@ -69,6 +69,7 @@ trait TraitField
         $fields = $this->getSceneFields($scene);
         $defaultFormFields = $this->getDefaultFormFields();
         $formFields = $this->getFormFields();
+        $fieldNames = $this->getAttributeNames($scene);
         $datas = [];
         foreach ($fields as $field) {
             $defaultFormField = $defaultFormFields[$field] ?? [];
@@ -78,6 +79,7 @@ trait TraitField
             if (in_array($data['type'], ['radio', 'selelct']) && !isset($data['infos'])) {
                 $data['infos'] = $this->getKeyValues($field);
             }
+            $data['label'] = $fieldNames[$field] ?? $field;
             $datas[$field] = $data;
         }
 
@@ -164,6 +166,7 @@ trait TraitField
             'nickname' => ['type' => 'input', 'require' => ['add']],
             'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
             'status' => ['type' => 'radio'],
+            'area' => ['type' => 'cascader'],
         ];
     }
 
