@@ -30,14 +30,18 @@ class AbstractCollection extends ResourceCollection
      */
     public function toArray() :array
     {
+        $addFormFields = $this->repository->getFormatFormFields('add');
+        $updateFormFields = $this->repository->getFormatFormFields('add');
+        $searchFields = $this->repository->getFormatSearchFields($this->getScene() . 'Search');
         return [
             'data' => $this->collection,
             'links' => [
                 'self' => 'link-value',
             ],
             'fieldNames' => $this->repository->getAttributeNames($this->getScene()),
-            'addFormFields' => $this->repository->getFormatFormFields('add'),
-            'updateFormFields' => $this->repository->getFormatFormFields('update'),
+            'addFormFields' => $addFormFields ? $addFormFields : (object)[],
+            'updateFormFields' => $updateFormFields ? $updateFormFields : (object)[],
+            'searchFields' => $searchFields ? $searchFields : (object)[],
         ];
     }
 

@@ -127,6 +127,6 @@ abstract class AbstractController
 
     public function dealCriteria($scene, $repository, $params)
     {
-        return $repository->getFormatSearchFields($scene, $params);
+        return $repository->getDealSearchFields($scene, $params);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Repositories;
 use Hyperf\Cache\Annotation\CachePut;
+use Hyperf\Cache\Annotation\Cacheable;
 
 trait TraitData
 {
@@ -65,7 +66,7 @@ trait TraitData
     }
 
     /**
-     * @CachePut(prefix="fulltable-cache")
+     * @Cacheable(prefix="fulltable-cache")
      */
     protected function _cacheDatas($app, $resource, $type)
     {

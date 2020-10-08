@@ -76,7 +76,11 @@ trait OperationTrait
         $info = $this->getPointInfo($repository, $request);
 
         //$result->permissions;
-        return $info->delete();
+        $result = $info->delete();
+        if ($result) {
+            return $this->success(['message' => '删除成功']);
+        }
+        return $this->success(['message' => '删除失败']);
     }
 
     protected function getPointInfo($repository, $request, $throw = true)
