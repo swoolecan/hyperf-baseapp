@@ -24,7 +24,8 @@ trait OperationTrait
         
         $repository = $this->getRepositoryObj();
         $repository = $this->dealCriteria($scene, $repository, $params);
-        $list = $repository->paginate();
+        $perPage = $params['per_page'] ?? 25;
+        $list = $repository->paginate(intval($perPage));
 
         $collectionClass = $this->getCollectionClass();
         $collection = new $collectionClass($list, $scene, $repository);

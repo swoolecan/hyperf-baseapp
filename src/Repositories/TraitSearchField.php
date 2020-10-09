@@ -21,7 +21,7 @@ trait TraitSearchField
             $defaultSearchField = $defaultSearchFields[$field] ?? [];
             $showField = $showFields[$field] ?? [];
             $data = array_merge($defaultSearchField, $showField);
-            if (!isset($params[$field]) && !isset($data['value'])) {
+            if ((!isset($params[$field]) || $params[$field] === '') && !isset($data['value'])) {
                 continue;
             }
             $data['field'] = $data['field'] ?? $field;
