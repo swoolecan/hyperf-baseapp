@@ -80,7 +80,6 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      */
     public function init($params = null)//$resource)//App $app, Collection $collection)
     {
-        //echo get_class($resource) . "\n aewwwwwwwww";
         $modelCode = !empty($this->pointModel) ? $this->pointModel : get_called_class();
         $this->model = $this->resource->getObject('model', $modelCode);
         //$this->criteria = $collection;
@@ -179,7 +178,6 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      */
     public function update(array $data, $id, $attribute = "id")
     {
-        echo get_class($this->model->where($attribute, '=', $id));
         return $this->model->where($attribute, '=', $id)->update($data);
     }
 
@@ -371,9 +369,9 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
 
     protected function getQuery()
     {
-        if (empty($this->query)) {
+        //if (empty($this->query)) {
             $this->query = $this->model->query();
-        }
+        //}
         return $this->query;
     }
 }

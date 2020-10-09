@@ -31,7 +31,7 @@ class AbstractCollection extends ResourceCollection
     public function toArray() :array
     {
         $addFormFields = $this->repository->getFormatFormFields('add');
-        $updateFormFields = $this->repository->getFormatFormFields('add');
+        $updateFormFields = $this->repository->getFormatFormFields('update');
         $searchFields = $this->repository->getFormatSearchFields($this->getScene() . 'Search');
         return [
             'data' => $this->collection,

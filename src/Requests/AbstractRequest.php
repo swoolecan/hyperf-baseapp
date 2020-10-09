@@ -26,12 +26,9 @@ class AbstractRequest extends FormRequest
     {
         $scene = $this->getScene();
         $method = "_{$scene}Rule";
-        echo $method; 
         if (method_exists($this, $method)) {
-            echo 'ffffffff';
             return $this->$method();
         }
-        echo 'oooooo';
         return [];
     }
 
@@ -77,8 +74,12 @@ class AbstractRequest extends FormRequest
     public function getInputDatas($type)
     {
         $method = "_{$type}Rule";
-        $fields = array_keys($this->$method());
         $inputs = $this->all();
+        if (!method_exists($this, $method)) {
+            return $inputs;
+        }
+
+        $fields = array_keys($this->$method());
         $data = [];
         $check = true;
         foreach ($fields as $field) {

@@ -23,7 +23,6 @@ trait OperationTrait
         $scene = $params['point_scene'] ?? 'list';
         
         $repository = $this->getRepositoryObj();
-        print_r($params);
         $repository = $this->dealCriteria($scene, $repository, $params);
         $list = $repository->paginate();
 

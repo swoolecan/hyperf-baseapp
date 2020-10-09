@@ -15,6 +15,8 @@ trait TraitSearchField
         $defaultSearchFields = $this->getDefaultSearchDealFields();
         $showFields = $this->getSearchDealFields();
         $datas = [];
+        $this->criteria = $this->criteria->make([]);
+        //$this->criteria = [];
         foreach ($fields as $field) {
             $defaultSearchField = $defaultSearchFields[$field] ?? [];
             $showField = $showFields[$field] ?? [];
