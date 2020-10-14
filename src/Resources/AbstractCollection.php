@@ -10,6 +10,7 @@ class AbstractCollection extends ResourceCollection
     protected $_scene = 'list';
     protected $_model;
     protected $repository;
+    protected $params;
 
     /**
      * Create a new resource instance.

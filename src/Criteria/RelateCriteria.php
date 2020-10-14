@@ -7,7 +7,7 @@ use Swoolecan\Baseapp\Contracts\CriteriaInterface;
 use Swoolecan\Baseapp\Contracts\RepositoryInterface as Repository;
 use Swoolecan\Baseapp\Contracts\RepositoryInterface;
 
-class SortCriteria extends Criteria
+class RelateCriteria extends Criteria
 {
     /**
      * @param $query
@@ -16,11 +16,15 @@ class SortCriteria extends Criteria
      */
     public function apply($query, Repository $repository)
     {
-        foreach ($this->params as $field => $sortType) {
-            $sortType = in_array($sortType, ['asc', 'desc']) ? $sortType : 'desc';
-            $query->orderBy($field, $sortType);
+        $field = $this->getField();
+        if (empty($field)) {
+            return $query;
         }
-        echo 'iiiiiiiiiii' . $query->toSql() . '=======';
+
+        $params = $this->params;
+        $query = $query->whereHas($params['elem'], function ($query) use ($field, $params) {
+            $query->where($params['field'], $params['operator'], "%{$params['value']}");
+        });
 
         return $query;
     }

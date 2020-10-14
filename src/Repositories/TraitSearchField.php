@@ -9,13 +9,20 @@ trait TraitSearchField
     public function getDealSearchFields($scene, $params)
     {
         $fields = $this->getSceneFields($scene . 'Search');
+        $this->criteria = $this->criteria->make([]);
+
+        $sortElem = $params['sort_elem'] ? json_decode($params['sort_elem'], true) : false;
+        if (!empty($sortElem)) {
+            $criteriaClass = '\Swoolecan\Baseapp\Criteria\SortCriteria';
+            $this->pushCriteria(new $criteriaClass($sortElem));
+        }
+
         if (empty($params) || empty($fields)) {
             return $this;
         }
         $defaultSearchFields = $this->getDefaultSearchDealFields();
         $showFields = $this->getSearchDealFields();
         $datas = [];
-        $this->criteria = $this->criteria->make([]);
         //$this->criteria = [];
         foreach ($fields as $field) {
             $defaultSearchField = $defaultSearchFields[$field] ?? [];
@@ -42,8 +49,6 @@ trait TraitSearchField
 
     public function getDealSortFields($sortElem)
     {
-        $criteriaClass = '\Swoolecan\Baseapp\Criteria\SortCriteria';
-        $this->pushCriteria(new $criteriaClass($sortElem));
 
         return $this;
     }
