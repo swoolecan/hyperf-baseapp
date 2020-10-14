@@ -124,6 +124,15 @@ abstract class AbstractController
         return $this->resource->throwException($code, $message);
     }
 
+    public function dealSort($repository, $params)
+    {
+        $sortElem = $params['sort_elem'] ? json_decode($params['sort_elem'], true) : false;
+        if (empty($sortElem)) {
+            return $repository;
+        }
+
+        return $repository->getDealSortFields($sortElem);
+    }
 
     public function dealCriteria($scene, $repository, $params)
     {

@@ -40,15 +40,23 @@ trait TraitSearchField
         return $this;
     }
 
+    public function getDealSortFields($sortElem)
+    {
+        $criteriaClass = '\Swoolecan\Baseapp\Criteria\SortCriteria';
+        $this->pushCriteria(new $criteriaClass($sortElem));
+
+        return $this;
+    }
+
     public function getDefaultSearchDealFields()
     {
         return [
             'status' => [],
             'user_id' => [],
             'name' => ['operator' => 'like'],
+            'code' => ['operator' => 'like'],
             'region_code' => [],
-            'start_at' => ['operation' => '>=', 'field' => 'created_at'],
-            'end_at' => ['operation' => '<', 'field' => 'created_at'],
+            'created_at' => ['type' => 'between'],
         ];
     }
 
@@ -85,6 +93,7 @@ trait TraitSearchField
             'nickname' => ['type' => 'input', 'require' => ['add']],
             'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
             'status' => ['type' => 'radio'],
+            'created_at' => ['type' => 'datetimerange'],
             'area' => ['type' => 'cascader'],
         ];
     }

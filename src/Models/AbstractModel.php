@@ -26,6 +26,7 @@ abstract class AbstractModel extends BaseModel
         0 => '禁用',
         1 => '正常'
     ];
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     const STATUS_DELETED = -1; //status 为-1表示删除
     const STATUS_DISABLE = 0; //status 为0表示未启用

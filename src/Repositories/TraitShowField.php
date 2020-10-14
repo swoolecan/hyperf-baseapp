@@ -40,6 +40,9 @@ trait TraitShowField
                 $value = $relate ? $relate[$relateField] : $value;
             } elseif ($valueType == 'cacheOut') {
                 $value = $this->getCacheOutData($data['app'], $data['relate'], $value, $data['keyField']);
+            } elseif ($valueType == 'datetime') {
+                $value = $model->$field->toDateTimeString();
+                $data['valueSource'] = $value;
             }
             $data['value'] = $value;
             $datas[$field] = $data;
@@ -52,6 +55,8 @@ trait TraitShowField
     {
         return [
             'status' => ['valueType' => 'key'],
+            'created_at' => ['valueType' => 'datetime'],
+            'updated_at' => ['valueType' => 'datetime'],
             'user_id' => ['valueType' => 'point', 'relate' => 'user'],
             'region_code' => ['valueType' => 'cacheOut', 'relate' => 'region', 'app' => 'passport', 'keyField' => 'code'],
         ];

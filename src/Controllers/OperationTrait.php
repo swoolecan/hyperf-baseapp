@@ -19,11 +19,11 @@ trait OperationTrait
     public function listinfo()
     {
         $params = $this->request->all();
-        $pageSize = $params['page_size'] ?? 15;
         $scene = $params['point_scene'] ?? 'list';
         
         $repository = $this->getRepositoryObj();
         $repository = $this->dealCriteria($scene, $repository, $params);
+        $repository = $this->dealSort($repository, $params);
         $perPage = $params['per_page'] ?? 25;
         $list = $repository->paginate(intval($perPage));
 
