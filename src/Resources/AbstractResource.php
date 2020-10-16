@@ -9,6 +9,7 @@ class AbstractResource extends JsonResource
 {
     protected $_scene;
     protected $_repository;
+    public $preserveKeys = true;
 
     /**
      * Transform the resource into an array.
@@ -19,13 +20,11 @@ class AbstractResource extends JsonResource
     {
         $scene = $this->getScene();
         $method = "_{$scene}Array";
+        echo $method . 'mmmmmmmmmmmmmmm';
         if (method_exists($this, $method)) {
             return $this->$method();
         }
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-        ];
+        return $this->_keyvalueArray();
     }
 
     public function setRepository($repository)
@@ -46,6 +45,15 @@ class AbstractResource extends JsonResource
     public function getScene()
     {
         return $this->_scene;
+    }
+
+    protected function _keyvalueArray()
+    {
+        $keyField = $this->resource->getKeyName();
+        return [
+            $keyField => $this->$keyField,
+            'name' => $this->name,
+        ];
     }
 
     protected function _listArray()

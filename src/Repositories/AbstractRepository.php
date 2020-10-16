@@ -95,10 +95,12 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      * @param array $columns
      * @return mixed
      */
-    public function all($columns = ['*'])
+    public function all($columns = null)
     {
+        $columns = $columns ?? $this->_getColumns();
+
         $query = $this->applyCriteria();
-        return $query->get($columns);
+        return $query->limit(2000)->get($columns)->keyBy->id;
     }
 
     /**
@@ -106,10 +108,16 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      * @param array $columns
      * @return mixed
      */
-    public function paginate($perPage = 25, $columns = ['*'])
+    public function paginate($perPage = 25, $columns = null)
     {
+        $columns = $columns ?? $this->_getColumns();
         $query = $this->applyCriteria();
         return $this->query->paginate($perPage, $columns);
+    }
+
+    protected function _getColumns()
+    {
+        return ['*'];
     }
 
     /**

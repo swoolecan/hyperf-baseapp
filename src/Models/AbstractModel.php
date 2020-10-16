@@ -106,4 +106,14 @@ echo 'iiiiiiiiioooo';
     {
         return $keyField == 'id' ? 0 : '';
     }
+
+    public function getKeyField()
+    {
+        return 'id';
+    }
+
+    public function getNameField()
+    {
+        return 'name';
+    }
 }

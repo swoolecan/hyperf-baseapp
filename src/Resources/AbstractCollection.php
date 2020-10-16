@@ -31,6 +31,32 @@ class AbstractCollection extends ResourceCollection
      */
     public function toArray() :array
     {
+        $scene = $this->getScene();
+        $method = "_{$scene}Array";
+        if (method_exists($this, $method)) {
+            return $this->$method();
+        }
+        return [];
+    }
+
+    protected function _keyvalueArray()
+    {
+        return [
+            'key' => $this->getModel()->getKeyField(),
+            'name' => $this->getModel()->getNameField(),
+            'data' => $this->collection->toArray(),
+        ];
+        $result = [];
+        foreach ($datas as $data) {
+            $tmp = array_values($data);
+            $result[$tmp[0]] = $tmp[1];
+        }
+        print_r($result);
+        return ['data' => $result];
+    }
+
+    protected function _listArray()
+    {
         $addFormFields = $this->repository->getFormatFormFields('add');
         $updateFormFields = $this->repository->getFormatFormFields('update');
         $searchFields = $this->repository->getFormatSearchFields($this->getScene() . 'Search');
