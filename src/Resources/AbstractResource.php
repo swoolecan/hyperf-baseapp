@@ -58,6 +58,6 @@ class AbstractResource extends JsonResource
 
     protected function _listArray()
     {
-        return $this->getRepository()->getFormatShowFields('list', $this);
+        return $this->getRepository()->getFormatShowFields('list', $this->resource);
     }
 }

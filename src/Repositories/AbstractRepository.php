@@ -86,6 +86,11 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
         $this->resetScope();
     }
 
+    public function getModel()
+    {
+        return $this->model;
+    }
+
     public function getModelObj($code, $params = [])
     {
         return $this->resource->getObject('model', $code);
@@ -100,7 +105,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
         $columns = $columns ?? $this->_getColumns();
 
         $query = $this->applyCriteria();
-        return $query->limit(2000)->get($columns)->keyBy->id;
+        return $query->limit(2000)->get($columns);
     }
 
     /**

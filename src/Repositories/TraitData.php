@@ -36,8 +36,16 @@ trait TraitData
         $results = [];
     }
 
-    public function cacheDatas($resource, $type = 'origin')
+    public function cacheDatas($resource, $type = 'origin', $throw = true)
     {
+        $model = $this->getModelObj($resource);
+        $total = $model->count();
+        if ($total > 5000) {
+            if ($throw) {
+                return $this->throwException('数据太多');
+            }
+            return false;
+        }
         return $this->_cacheDatas($this->config->get('app_code'), $resource, $type);
     }
 
@@ -86,21 +94,48 @@ trait TraitData
         return $datas;
     }
 
-    public function _formatTreeDatas($infos, $key, $parentKey, $parent)
+    public function _formatTreeDatas($infos, $key, $parentKey, $parent, $forceArray = false)
     { 
-        echo count($infos) . '===';
-        if (count($infos) > 5000) {
-            return $this->throwException('数据太多');
-        }
         $datas = [];          
-        foreach ($infos as $iKey => $iValue) { 
-            $info = $iValue->toArray();    
+        foreach ($infos as $iKey => $info) { 
+            //$info = $iValue->toArray();    
             if ($info[$parentKey] == $parent) {
                 unset($infos[$iKey]);
-                $info['subInfos'] = $this->_formatTreeDatas($infos, $key, $parentKey, $info[$key]);
-                $datas[$info[$key]] = $info;   
+                $formatInfo = $this->getFormatShowFields('list', $info);
+                //$formatInfo = $info->toArray();
+                $formatInfo['subInfos'] = $this->_formatTreeDatas($infos, $key, $parentKey, $info[$key], $forceArray);
+                //$formatInfo['hasChildren'] = count($formatInfo['subInfos']) > 0 ? true : false;
+                $keyField = $info->getKeyName();
+                $formatInfo['keyField'] = $info->$keyField;
+                if ($forceArray) {
+                    $datas[] = $formatInfo;
+                } else {
+                    $datas[$info[$key]] = $formatInfo;   
+                }
             }
         }
         return $datas;        
+    }
+
+    public function getTreeInfos()
+    {
+        $model = $this->model;
+        $total = $model->count();
+        if ($total > 5000) {
+            return $this->throwException('数据太多');
+        }
+        $infos = $this->all();
+        $keyField = $model->getKeyName();
+        $parentField = $model->getParentField($keyField);
+        $parentFirstValue = $model->getParentFirstValue($keyField);
+        $infos = $this->_formatTreeDatas($infos, $keyField, $parentField, $parentFirstValue, true);
+        $addFormFields = $this->getFormatFormFields('add');
+        $updateFormFields = $this->getFormatFormFields('update');
+        return [
+            'data' => $infos,
+            'fieldNames' => $this->getAttributeNames('list'),
+            'addFormFields' => $addFormFields ? $addFormFields : (object)[],
+            'updateFormFields' => $updateFormFields ? $updateFormFields : (object)[],
+        ];
     }
 }

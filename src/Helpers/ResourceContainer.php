@@ -49,7 +49,7 @@ Class ResourceContainer
         $this->params = array_merge($this->params, $params);
     }
 
-    protected function getResourceCode($class)
+    public function getResourceCode($class)
     {
         $elems = explode('\\', $class);
         $count = count($elems);

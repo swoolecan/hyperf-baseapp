@@ -26,10 +26,16 @@ class AbstractRequest extends FormRequest
     {
         $scene = $this->getScene();
         $method = "_{$scene}Rule";
-        if (method_exists($this, $method)) {
-            return $this->$method();
+        if (!method_exists($this, $method)) {
+            return [];
         }
-        return [];
+
+        $data = [];
+        $fields = $this->getRepository()->getSceneFields('update');
+        foreach ($fields as $field) {
+            $data[$field] = [];
+        }
+        return array_merge($data, $this->$method());
     }
 
     public function routeParam(string $key, $default)
@@ -75,11 +81,11 @@ class AbstractRequest extends FormRequest
     {
         $method = "_{$type}Rule";
         $inputs = $this->all();
-        if (!method_exists($this, $method)) {
+        /*if (!method_exists($this, $method)) {
             return $inputs;
-        }
+        }*/
 
-        $fields = array_keys($this->$method());
+        $fields = $this->getRepository()->getSceneFields($type);
         $data = [];
         $check = true;
         foreach ($fields as $field) {

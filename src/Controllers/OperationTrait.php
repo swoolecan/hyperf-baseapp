@@ -38,6 +38,19 @@ trait OperationTrait
         return $this->success($datas);
     }
 
+    public function listinfoTree()
+    {
+        $resource = $this->resource->getResourceCode(get_called_class());
+        $repository = $this->getRepositoryObj();
+        /*$infos = $repository->cacheDatas($resource, 'tree', false);
+        $collectionClass = $this->getCollectionClass();
+        $collection = new $collectionClass($infos, 'tree', $repository);
+        $collection->setModel($repository->getModel());
+        return $collection->toResponse();*/
+        return $this->success($repository->getTreeInfos());
+        return $this->success($infos);
+    }
+
     public function add()
     {
         $repository = $this->getRepositoryObj();

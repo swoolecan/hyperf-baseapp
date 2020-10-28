@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Resources;
 
+use Hyperf\Utils\Collection;
 use Fangx\Resource\Json\ResourceCollection;
 
 class AbstractCollection extends ResourceCollection
@@ -53,6 +54,21 @@ class AbstractCollection extends ResourceCollection
         }
         print_r($result);
         return ['data' => $result];
+    }
+
+    protected function _treeArray()
+    {
+        $addFormFields = $this->repository->getFormatFormFields('add');
+        $updateFormFields = $this->repository->getFormatFormFields('update');
+        return [
+            'data' => $this->collection,
+            'links' => [
+                'self' => 'link-value',
+            ],
+            'fieldNames' => $this->repository->getAttributeNames('list'),
+            'addFormFields' => $addFormFields ? $addFormFields : (object)[],
+            'updateFormFields' => $updateFormFields ? $updateFormFields : (object)[],
+        ];
     }
 
     protected function _listArray()
