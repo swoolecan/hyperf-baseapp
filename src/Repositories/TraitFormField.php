@@ -21,7 +21,7 @@ trait TraitFormField
             if (in_array($data['type'], ['radio', 'selelct']) && !isset($data['infos'])) {
                 $data['infos'] = $this->getKeyValues($field);
             }
-            $data['label'] = $fieldNames[$field] ?? $field;
+            $data['options'] = $fieldNames[$field] ?? ['name' => $field];
             $datas[$field] = $data;
         }
 

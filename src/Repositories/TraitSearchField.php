@@ -85,7 +85,7 @@ trait TraitSearchField
             if (in_array($data['type'], ['radio', 'select']) && !isset($data['infos'])) {
                 $data['infos'] = $this->getKeyValues($field);
             }
-            $data['label'] = $fieldNames[$field] ?? $field;
+            $data['options'] = $fieldNames[$field] ?? ['name' => $field];
             $datas[$field] = $data;
         }
 

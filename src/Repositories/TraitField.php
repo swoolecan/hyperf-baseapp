@@ -21,10 +21,30 @@ trait TraitField
             return $datas;
         }
         $result = [];
+        $options  = $this->getFieldOptions();
         foreach ($fields as $field) {
-            $result[$field] = $datas[$field] ?? $field;
+            $default = [
+                'name' => $datas[$field] ?? $field,
+                'width' => 80,
+                'align' => 'center',
+            ];
+            $result[$field] = isset($options[$field]) ? array_merge($default, $options[$field]) : $default;
         }
         return $result;
+    }
+
+    protected function getFieldOptions()
+    {
+        return array_merge([
+            'id' => ['width' => '60'],
+            'name' => ['width' => '80'],
+            'created_at' => ['width' => '160'],
+        ], $this->_getFieldOptions());
+    }
+
+    protected function _getFieldOptions()
+    {
+        return [];
     }
 
     protected function extAttributeNames()
