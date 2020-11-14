@@ -90,7 +90,11 @@ class AbstractCollection extends ResourceCollection
 
     public function getModel()
     {
-        return $this->_model ?? $this->collection->first();
+        if (empty($this->_model)) {
+            $this->_model = $this->repository->getModel();
+        }
+        return $this->_model;
+        //return $this->_model ?? $this->collection->first();
     }
 
     public function setModel($model)

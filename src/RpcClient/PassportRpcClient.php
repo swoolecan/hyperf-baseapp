@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace Swoolecan\Baseapp\RpcClient;
 
+use Hyperf\Di\Annotation\Inject;
+use Phper666\JWTAuth\JWT;
+
 /**
  * 服务消费者
  */
 class PassportRpcClient extends AbstractRpcClient
 {
+    /**
+     * @Inject
+     * @var JWT
+     */
+    protected $jwt;
+
     /**
      * 定义对应服务提供者的服务名称
      * @var string

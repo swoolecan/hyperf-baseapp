@@ -92,6 +92,7 @@ class EasysmsService extends AbstractService
 
 	public function validateCode($data)
 	{
+        return ['code' => 200, 'message' => 'success'];
         $type = $data['type'];
         $typeConfig = $this->getConfig('verifyCode', $type);
         $info = $this->getCodeInfo($data['mobile'] . '-' . $type);

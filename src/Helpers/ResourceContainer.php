@@ -85,7 +85,7 @@ Class ResourceContainer
         if (method_exists($obj, 'init')) {
             $obj->init($params);
         }
-        echo get_class($obj) . "\n rrrrrr \n";
+        //echo get_class($obj) . "\n rrrrrr \n";
         $this->objects[$class] = $obj;
         return $obj;
     }
@@ -104,7 +104,6 @@ Class ResourceContainer
         if (empty($class) && $type == 'service-repo') {
             $class = isset($info['service']) ? $info['service'] : (isset($info['repository']) ? $info['repository'] : '');
         }
-        echo $class . "\n";
         return strval($class);
     }
 

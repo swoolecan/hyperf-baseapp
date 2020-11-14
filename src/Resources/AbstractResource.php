@@ -20,7 +20,6 @@ class AbstractResource extends JsonResource
     {
         $scene = $this->getScene();
         $method = "_{$scene}Array";
-        echo $method . 'mmmmmmmmmmmmmmm';
         if (method_exists($this, $method)) {
             return $this->$method();
         }

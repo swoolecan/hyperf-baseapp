@@ -87,13 +87,11 @@ abstract class AbstractModel extends BaseModel
 
     public function saved(Saved $event)
     {
-echo 'sssssyyyy';
         //$this->setCreatedAt('2019-01-01');
     }
 
     public function saving(Saving $event)
     {
-echo 'iiiiiiiiioooo';
         //$this->setCreatedAt('2019-01-01');
     }
 

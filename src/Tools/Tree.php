@@ -14,7 +14,6 @@ class Tree
         $this->keyField = $params['keyField'];
         $this->parentField = $params['parentField'];
         $infos = $params['infos'];
-        echo count($infos) . 'uuuuuu=======';
         if (!isset($params['hasKey'])) {
             $datas = [];
             foreach ($infos as $info) {
