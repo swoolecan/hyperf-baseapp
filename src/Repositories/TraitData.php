@@ -138,4 +138,26 @@ trait TraitData
             'updateFormFields' => $updateFormFields ? $updateFormFields : (object)[],
         ];
     }
+
+    public function getParentChains($info)
+    {
+        $model = $this->getModel();
+        $keyField = $model->getKeyName();
+        $parentField = $model->getParentField($keyField);
+        $parentFirstValue = $model->getParentFirstValue($keyField);
+
+        $parents = [];
+        $currentInfo = $info;
+        $parentValue = $info[$parentField];
+        while ($parentValue != $parentFirstValue) {
+            $parent = $model->find($parentValue);
+            $parentValue = $parentFirstValue;
+            if (!empty($parent)) {
+                $parents[] = $parent;
+                $parentValue = $parent[$parentField];
+            }
+        }
+        $parents = array_reverse($parents);
+        return $parents;
+    }
 }

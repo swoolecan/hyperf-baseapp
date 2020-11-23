@@ -18,7 +18,7 @@ trait TraitFormField
             $formField = $formFields[$field] ?? [];
             $data = array_merge($defaultFormField, $formField);
             $data = empty($data) ? ['type' => 'input'] : $data;
-            if (in_array($data['type'], ['radio', 'selelct']) && !isset($data['infos'])) {
+            if (in_array($data['type'], ['radio', 'select']) && !isset($data['infos'])) {
                 $data['infos'] = $this->getKeyValues($field);
             }
             $data['options'] = $fieldNames[$field] ?? ['name' => $field];

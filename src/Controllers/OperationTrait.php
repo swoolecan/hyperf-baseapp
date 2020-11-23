@@ -82,7 +82,7 @@ trait OperationTrait
         $info = $this->getPointInfo($repository, $request);
 
         //$result->permissions;
-        return $info;
+        return $this->success($info);
     }
 
     public function delete()
