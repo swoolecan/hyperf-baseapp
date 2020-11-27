@@ -52,7 +52,6 @@ class AbstractCollection extends ResourceCollection
             $tmp = array_values($data);
             $result[$tmp[0]] = $tmp[1];
         }
-        print_r($result);
         return ['data' => $result];
     }
 

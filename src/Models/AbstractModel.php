@@ -16,11 +16,19 @@ namespace Swoolecan\Baseapp\Models;
 use Hyperf\DbConnection\Model\Model as BaseModel;
 use Hyperf\Database\Model\Events\Saving;
 use Hyperf\Database\Model\Events\Saved;
+use Hyperf\Di\Annotation\Inject;
+use Swoolecan\Baseapp\Helpers\ResourceContainer;
 use Swoolecan\Baseapp\Models\Traits\Rest;
 
 abstract class AbstractModel extends BaseModel
 {
     use Rest;
+
+    /**
+     * @Inject                
+     * @var ResourceContainer
+     */
+    protected $resource;
 
     public static $status = [
         0 => '禁用',

@@ -96,6 +96,11 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
         return $this->resource->getObject('model', $code);
     }
 
+    public function getCollectionClass($code = null)
+    {
+        return $this->resource->getClassName('collection', $code ? $code : get_called_class());
+    }
+
     /**
      * @param array $columns
      * @return mixed

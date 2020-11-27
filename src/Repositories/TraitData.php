@@ -8,10 +8,10 @@ use Hyperf\Cache\Annotation\Cacheable;
 
 trait TraitData
 {
-    public function getPointValues($resourceCode)
+    /*public function getPointValues($resourceCode)
     {
         return array_merge($this->model->getColumnElems(), $this->extAttributeNames());
-    }
+    }*/
 
     public function getCacheOutData($app, $resource, $key, $keyField = 'id')
     {
@@ -159,5 +159,13 @@ trait TraitData
         }
         $parents = array_reverse($parents);
         return $parents;
+    }
+
+    public function getPointKeyValues($where = [], $scene = 'keyvalue')
+    {
+        $datas = $this->findWhere($where);
+        $collectionClass = $this->getCollectionClass();
+        $collection = new $collectionClass($datas, $scene, $this);
+        return $collection->toArray();
     }
 }

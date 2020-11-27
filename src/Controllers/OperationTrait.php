@@ -30,7 +30,7 @@ trait OperationTrait
             $list = $repository->all();
         }
 
-        $collectionClass = $this->getCollectionClass();
+        $collectionClass = $repository->getCollectionClass();
         $collection = new $collectionClass($list, $scene, $repository);
         return $collection->toResponse();
         //$list = $repository->all();//null, $params, (int) $pageSize);
@@ -89,10 +89,11 @@ trait OperationTrait
     {
         $repository = $this->getRepositoryObj();
         $request = $this->getRequestObj('', $repository);
-        $info = $this->getPointInfo($repository, $request);
+        $info = $this->getPointInfo($repository, $request, false);
 
         //$result->permissions;
-        $result = $info->delete();
+        //$result = $info->delete();
+        $result = ['aaa'];
         if ($result) {
             return $this->success(['message' => '删除成功']);
         }
@@ -106,21 +107,26 @@ trait OperationTrait
         $key = $pointKey ? $pointKey : $repository->getKeyName();
         $value = $request->route($key);
         if (empty($key)) {
-            return $this->throwException(422, '参数有误');
+            return $throw ? $this->throwException(422, '参数有误') : false;
         }
         $info = $repository->find($value);
         if (empty($info)) {
-            return $this->throwException(404, '信息不存在');
+            return $throw ? $this->throwException(404, '信息不存在') : false;
         }
 
         $limitPriv = $request->getAttribute('limitPriv');
         if ($limitPriv) {
             $priv = $info->checkLimitPriv($limitPriv);
             if (empty($priv)) {
-                return $this->throwException(403, '您没有执行该操作的权限');
+                return $throw ? $this->throwException(403, '您没有执行该操作的权限') : false;
             }
         }
         return $info;
         //echo $this->request->path(); print_R($this->request->query()); print_R($this->request->route('id'));
+    }
+
+    public function allowMulDelete()
+    {
+        return true;
     }
 }
