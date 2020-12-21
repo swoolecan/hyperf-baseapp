@@ -45,6 +45,8 @@ class AbstractCollection extends ResourceCollection
         return [
             'key' => $this->getModel()->getKeyField(),
             'name' => $this->getModel()->getNameField(),
+            'extField' => 'extField',
+            'extField2' => 'extField2',
             'data' => $this->collection->toArray(),
         ];
         $result = [];

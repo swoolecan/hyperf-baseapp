@@ -91,11 +91,24 @@ trait OperationTrait
         $request = $this->getRequestObj('', $repository);
         $info = $this->getPointInfo($repository, $request, false);
 
+        $number = 0;
+        if (empty($info)) {
+            $ids = $request->input($repository->getKeyName());
+            foreach ($ids as $id) {
+                $info = $repository->find($id);
+                if (!empty($info)) {
+                    $info->delete();
+                    $number++;
+                }
+            }
+        } else {
+            $result = $info->delete();
+            $number = 1;
+        }
+
         //$result->permissions;
-        //$result = $info->delete();
-        $result = ['aaa'];
-        if ($result) {
-            return $this->success(['message' => '删除成功']);
+        if ($number) {
+            return $this->success(['message' => "成功删除了{$number}条信息"]);
         }
         return $this->success(['message' => '删除失败']);
     }

@@ -99,9 +99,7 @@ abstract class AbstractController
         if ($repository) {
             $request->setRepository($repository);
         }
-        if (!empty($scene)) {
-            $request->setScene($scene);
-        }
+        $request->setScene($scene);
 
         if (method_exists($request, 'validateResolved')) {
             $request->validateResolved();
