@@ -20,7 +20,6 @@ class SortCriteria extends Criteria
             $sortType = in_array($sortType, ['asc', 'desc']) ? $sortType : 'desc';
             $query->orderBy($field, $sortType);
         }
-        //echo 'iiiiiiiiiii' . $query->toSql() . '=======';
 
         return $query;
     }

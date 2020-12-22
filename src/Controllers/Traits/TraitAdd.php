@@ -37,7 +37,6 @@ trait TraitAdd
     			return $this->returnResult($eData);
 			}
 		}
-		//var_dump($this->addView);exit();
 		$viewData = ['view' => $this->addView, 'currentView' => $this->viewPrefix, 'type' => 'add'];
 		return $this->returnInfoResult($model, $viewData);
     }

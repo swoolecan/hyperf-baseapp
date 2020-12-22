@@ -11,6 +11,7 @@ class AbstractCollection extends ResourceCollection
     protected $_scene = 'list';
     protected $_model;
     protected $repository;
+    protected $simpleResult;
     protected $params;
 
     /**
@@ -18,10 +19,11 @@ class AbstractCollection extends ResourceCollection
      *
      * @param mixed $resource
      */
-    public function __construct($resource, $scene, $repository)
+    public function __construct($resource, $scene, $repository, $simpleResult)
     {
         $this->setScene($scene);
         $this->repository = $repository;
+        $this->simpleResult = $simpleResult;
         parent::__construct($resource);
     }
 
@@ -137,6 +139,7 @@ class AbstractCollection extends ResourceCollection
         foreach ($this->collection as $collection) {
             $collection->setScene($this->getScene());
             $collection->setRepository($this->repository);
+            $collection->setSimpleResult($this->simpleResult);
         }
 
         return $this->isPaginatorResource($resource)

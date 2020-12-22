@@ -15,7 +15,6 @@ trait TraitPriv
 
 		$method = "_{$type}DealPriv";
 		return $this->$method($privInfos);
-		//var_dump($this->privInfos);exit();
 	}
 
 	public function _listinfoDealPriv($privInfos)

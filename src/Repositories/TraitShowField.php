@@ -6,7 +6,7 @@ namespace Swoolecan\Baseapp\Repositories;
 
 trait TraitShowField
 {
-    public function getFormatShowFields($scene, $model)
+    public function getFormatShowFields($scene, $model, $simple = false)
     {
         $fields = $this->getSceneFields($scene);
         $defaultShowFields = $this->getDefaultShowFields();
@@ -48,7 +48,7 @@ trait TraitShowField
                 $data['valueSource'] = $value;
             }
             $data['value'] = $value;
-            $datas[$field] = $data;
+            $datas[$field] = $simple ? $value : $data;
         }
 
         return $datas;

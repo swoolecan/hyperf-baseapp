@@ -25,7 +25,6 @@ trait TraitAddMul
     			return $this->returnResult($result);
             }
 		}
-		//var_dump($this->addView);exit();
 		$viewData = ['view' => $this->addMulView, 'currentView' => $this->viewPrefix, 'type' => 'add-mul'];
 		return $this->returnInfoResult($model, $viewData);
     }

@@ -32,7 +32,6 @@ class Tree
     public function getFormatedInfos()
     {
         $infos = $this->find()->indexBy('code')->asArray()->all();
-        //var_dump($infos);exit();
         $formatedInfos = $this->getTreeInfos($infos, 'code', 'parent_code', 'name', '');
         return $formatedInfos;
     }

@@ -9,7 +9,16 @@ class AbstractResource extends JsonResource
 {
     protected $_scene;
     protected $_repository;
+    protected $_simpleResult;
     public $preserveKeys = true;
+
+    public function __construct($resource, $scene, $repository, $simpleResult)
+    {
+        $this->setScene($scene);
+        $this->_repository = $repository;
+        $this->_simpleResult = $simpleResult;
+        parent::__construct($resource);
+    }
 
     /**
      * Transform the resource into an array.
@@ -41,6 +50,16 @@ class AbstractResource extends JsonResource
         $this->_scene = $scene;
     }
 
+    public function setSimpleResult($simpleResult)
+    {
+        $this->_simpleResult = $simpleResult;
+    }
+
+    public function getSimpleResult()
+    {
+        return $this->_simpleResult;
+    }
+
     public function getScene()
     {
         return $this->_scene;
@@ -55,8 +74,13 @@ class AbstractResource extends JsonResource
         ];
     }
 
+    protected function _viewArray()
+    {
+        return $this->getRepository()->getFormatShowFields('view', $this->resource, $this->getSimpleResult());
+    }
+
     protected function _listArray()
     {
-        return $this->getRepository()->getFormatShowFields('list', $this->resource);
+        return $this->getRepository()->getFormatShowFields('list', $this->resource, $this->getSimpleResult());
     }
 }

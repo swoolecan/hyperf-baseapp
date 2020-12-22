@@ -17,7 +17,6 @@ class JWTUserMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $jwtResult = $request->getAttribute('jwtResult');
-        print_r($jwtResult);
         $passportBase = make(PassportRpcClient::class);
         if (empty($jwtResult) || !isset($jwtResult['user_id']) || empty($jwtResult['user_id'])) {
             throw new BusinessException(400, 'Token有误');

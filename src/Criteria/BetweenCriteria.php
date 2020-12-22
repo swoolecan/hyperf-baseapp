@@ -24,7 +24,6 @@ class BetweenCriteria extends Criteria
         $value = explode('|', $value);
 
         $query->whereBetween($field, $value);
-        //echo $query->toSql() . '=======';
 
         return $query;
     }

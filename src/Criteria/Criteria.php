@@ -42,7 +42,6 @@ abstract class Criteria
         $value = $this->params['value'];
         $operator = $this->params['operator'];
         $query->where($field, $operator, $value);
-        //echo $query->toSql() . '=======';
 
         return $query;
     }

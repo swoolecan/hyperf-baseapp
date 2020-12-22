@@ -20,7 +20,6 @@ class CommonCriteria extends Criteria
         if (empty($field)) {
             return $query;
         }
-        print_r($this->params);
         $operator = $this->params['operator'];
         $value = $this->params['value'];
         if ($operator == 'like-left') {

@@ -23,7 +23,6 @@ class OrCriteria extends Criteria
         $operator = $this->params['operator'];
         $value = $this->params['value'];
         $query->where($field, $operator, $value);
-        //echo $query->toSql() . '=======';
 
         return $query;
     }

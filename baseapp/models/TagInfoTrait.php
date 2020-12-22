@@ -32,7 +32,6 @@ Trait TagInfoTrait
 	{
 		$result = self::updateAll(['status' => 0], $baseData);
 		$tagModel = $this->getPointModel('tag-' . $this->_infocmsCode());
-		print_r($tags);
 		foreach ($tags as $tag) {
 			$tInfo = $tagModel->createRecord(trim($tag));
 

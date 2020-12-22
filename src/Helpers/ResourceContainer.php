@@ -80,7 +80,6 @@ Class ResourceContainer
         if (isset($this->objects[$class])) {
             return $this->objects[$class];
         }
-        //echo $class . "\n cccccc \n";
         $obj = make($class);
         if (method_exists($obj, 'init')) {
             $obj->init($params);

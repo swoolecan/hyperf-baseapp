@@ -34,7 +34,7 @@ class ExceptionHandler extends ExceptionHandlerBase
 
     public function handle(Throwable $throwable, ResponseInterface $response)
     {
-        echo get_class($throwable);
+        //echo get_class($throwable);
         $this->stopPropagation();
 
         $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));

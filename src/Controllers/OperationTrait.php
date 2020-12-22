@@ -20,6 +20,7 @@ trait OperationTrait
     {
         $params = $this->request->all();
         $scene = $params['point_scene'] ?? 'list';
+        $simpleResult = $params['simple_result'] ?? false;
         
         $repository = $this->getRepositoryObj();
         $repository = $this->dealCriteria($scene, $repository, $params);
@@ -31,7 +32,7 @@ trait OperationTrait
         }
 
         $collectionClass = $repository->getCollectionClass();
-        $collection = new $collectionClass($list, $scene, $repository);
+        $collection = new $collectionClass($list, $scene, $repository, $simpleResult);
         return $collection->toResponse();
         //$list = $repository->all();//null, $params, (int) $pageSize);
         //$list = $repository->getByCriteria($criteria)->all();
@@ -80,6 +81,12 @@ trait OperationTrait
         $repository = $this->getRepositoryObj();
         $request = $this->getRequestObj('', $repository);
         $info = $this->getPointInfo($repository, $request);
+
+        $scene = $params['point_scene'] ?? 'view';
+        $simpleResult = $params['simple_result'] ?? false;
+        $resourceClass = $repository->getResourceClass();
+        $resource = new $resourceClass($info, $scene, $repository, $simpleResult);
+        return $resource->toResponse();
 
         //$result->permissions;
         return $this->success($info);
