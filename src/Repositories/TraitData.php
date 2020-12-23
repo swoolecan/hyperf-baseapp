@@ -17,7 +17,10 @@ trait TraitData
     {
         $app = ucfirst($app);
         $class = "\Swoolecan\Baseapp\RpcClient\\{$app}RpcClient";
+        var_dump(class_exists($class));
+        echo $class;
         $client = make($class);
+        echo get_class($client); echo 'cccccccccccccccc';
         return $client->getCacheData($app, $resource, $key, $keyField);
     }
 

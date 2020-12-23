@@ -18,7 +18,7 @@ trait TraitShowField
             $showField = $showFields[$field] ?? [];
             $data = array_merge($defaultShowField, $showField);
             if (empty($data)) {
-                $datas[$field] = ['showType' => 'common', 'value' => $value, 'valueSource' => $value];
+                $datas[$field] = $simple ? $value : ['showType' => 'common', 'value' => $value, 'valueSource' => $value];
                 continue ;
             }
 

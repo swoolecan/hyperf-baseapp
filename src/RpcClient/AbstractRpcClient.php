@@ -29,6 +29,7 @@ class AbstractRpcClient extends AbstractServiceClient
             'key' => $key,
             'keyField' => $keyField
         ];
+        print_r($data);echo 'dddddddddd';
         return $this->__request(__FUNCTION__, $data);
     }
 

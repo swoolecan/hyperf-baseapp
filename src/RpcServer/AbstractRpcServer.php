@@ -26,10 +26,10 @@ class AbstractRpcServer
 
     public function getCacheData($resource, $key, $keyField = 'id')
     {
-        $repository = $this->resource->getObject('repository', $resource);
-        return $repository->getCacheData($resource, $key);
+        //$repository = $this->resource->getObject('repository', $resource);
+        //return $repository->getCacheData($resource, $key);
         $app = ucfirst($app);
-        $class = "\App\RpcServer\\{$app}CacheRpcServer";
+        $class = "\App\RpcServer\\{$app}RpcServer";
         $client = make($class);
         return $client->getCacheData($app, $resource, $key, $keyField);
     }

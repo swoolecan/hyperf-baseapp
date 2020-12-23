@@ -80,6 +80,7 @@ trait OperationTrait
     {
         $repository = $this->getRepositoryObj();
         $request = $this->getRequestObj('', $repository);
+        $params = $request->all();
         $info = $this->getPointInfo($repository, $request);
 
         $scene = $params['point_scene'] ?? 'view';
