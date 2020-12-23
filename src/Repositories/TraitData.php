@@ -17,16 +17,31 @@ trait TraitData
     {
         $app = ucfirst($app);
         $class = "\Swoolecan\Baseapp\RpcClient\\{$app}RpcClient";
-        var_dump(class_exists($class));
-        echo $class;
         $client = make($class);
-        echo get_class($client); echo 'cccccccccccccccc';
         return $client->getCacheData($app, $resource, $key, $keyField);
+    }
+
+    public function getSingleAttachmentData($app, $params)
+    {
+        $currentAppCode = config('app_code');
+        if ($currentAppCode == 'passport') {
+            return $this->getCacheData('attachmentInfo', $params);
+        }
+
+        return $this->getCacheOutData('passport', 'attachmentInfo', $params);
+    }
+
+    public function getAttachmentData($app, $params)
+    {
+        $currentAppCode = config('app_code');
+        if ($currentAppCode == 'passport') {
+            return $this->getCacheData('attachmentInfo', $params);
+        }
     }
 
     public function getCacheData($resource, $key)
     {
-        return $this->getModelObj($resource)->findFromCache($key);
+        return $this->getModelObj($resource)->findCacheData($key);
     }
 
     public function getCacheDatas()

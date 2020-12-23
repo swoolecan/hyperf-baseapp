@@ -12,7 +12,7 @@ class AbstractResource extends JsonResource
     protected $_simpleResult;
     public $preserveKeys = true;
 
-    public function __construct($resource, $scene, $repository, $simpleResult)
+    public function __construct($resource, $scene = '', $repository = null, $simpleResult = false)
     {
         $this->setScene($scene);
         $this->_repository = $repository;

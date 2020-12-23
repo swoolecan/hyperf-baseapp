@@ -25,4 +25,9 @@ abstract class AbstractModelCache extends AbstractModel implements CacheableInte
         $model = $instance->findFromCache($this->$localKey);
         return $model;
     }
+
+    public function findCacheData($key)
+    {
+        return $this->findFromCache($key);
+    }
 }

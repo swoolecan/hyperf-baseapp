@@ -20,16 +20,15 @@ class AbstractRpcClient extends AbstractServiceClient
     protected $protocol = 'jsonrpc-http';
 
     /**
-     * @Cacheable(prefix="", value="mc:#{app}:m:#{resource}:#{$keyField}:#{$key}")
      */
     public function getCacheData($app, $resource, $key, $keyField = 'id')
     {
+     //* @Cacheable(prefix="", value="mc:#{app}:m:#{resource}:#{$keyField}:#{$key}")
         $data = [
             'resource' => $resource,
             'key' => $key,
             'keyField' => $keyField
         ];
-        print_r($data);echo 'dddddddddd';
         return $this->__request(__FUNCTION__, $data);
     }
 

@@ -19,7 +19,7 @@ class AbstractCollection extends ResourceCollection
      *
      * @param mixed $resource
      */
-    public function __construct($resource, $scene, $repository, $simpleResult)
+    public function __construct($resource, $scene, $repository, $simpleResult = false)
     {
         $this->setScene($scene);
         $this->repository = $repository;
