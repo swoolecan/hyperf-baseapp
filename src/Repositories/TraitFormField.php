@@ -19,7 +19,7 @@ trait TraitFormField
             $data = array_merge($defaultFormField, $formField);
             $data = empty($data) ? ['type' => 'input'] : $data;
             if (in_array($data['type'], ['radio', 'select']) && !isset($data['infos'])) {
-                $data['infos'] = $this->getKeyValues($field);
+                $data['infos'] = (object) $this->getKeyValues($field);
             }
             $data['options'] = $fieldNames[$field] ?? ['name' => $field];
             $datas[$field] = $data;
@@ -35,6 +35,7 @@ trait TraitFormField
             'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
             'status' => ['type' => 'radio'],
             'area' => ['type' => 'cascader'],
+            'content' => ['type' => 'editor'],
         ];
     }
 

@@ -17,6 +17,7 @@ use Hyperf\DbConnection\Model\Model as BaseModel;
 use Hyperf\Database\Model\Events\Saving;
 use Hyperf\Database\Model\Events\Saved;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\Utils\Str;
 use Swoolecan\Baseapp\Helpers\ResourceContainer;
 use Swoolecan\Baseapp\Models\Traits\Rest;
 
@@ -52,7 +53,7 @@ abstract class AbstractModel extends BaseModel
         if ($type == 'keyValue') {
             $datas = [];
             foreach ($results as $result) {
-                $datas[$result['COLUMN_NAME']] = empty($result['COLUMN_COMMENT']) ? $result['COLUMN_NAME'] : $result['COLUMN_COMMENT'];
+                $datas[$result['column_name']] = empty($result['column_comment']) ? $result['column_name'] : $result['column_comment'];
             }
             return $datas;
         }
@@ -91,6 +92,16 @@ abstract class AbstractModel extends BaseModel
             'status' => 'checkbox',
             'type' => 'dropdown',
         ];
+    }
+
+    /**
+     * Get the table associated with the model.
+     *
+     * @return string
+     */
+    public function getTable()
+    {
+        return $this->table ?? Str::snake(class_basename($this));
     }
 
     public function saved(Saved $event)
