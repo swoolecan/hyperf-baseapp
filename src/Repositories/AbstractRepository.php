@@ -23,6 +23,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
 {
     use TraitField;
     use TraitData;
+    use TraitTree;
     /**
      * @Inject
      * @var ConfigInterface

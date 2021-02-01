@@ -4,18 +4,6 @@ namespace Swoolecan\Baseapp\Controllers;
 
 trait OperationTrait
 {
-	//use TraitAdd;
-	//use TraitAddMul;
-	//use TraitCommon;
-	//use TraitDelete;
-	//use TraitImexport;
-	//use TraitListinfo;
-	//use TraitListinfoTree;
-	//use TraitUpdate;
-	//use TraitPriv;
-	//use TraitView;
-    //use Rest;
-
     public function listinfo()
     {
         $params = $this->request->all();
@@ -43,13 +31,7 @@ trait OperationTrait
     {
         $resource = $this->resource->getResourceCode(get_called_class());
         $repository = $this->getRepositoryObj();
-        /*$infos = $repository->cacheDatas($resource, 'tree', false);
-        $collectionClass = $this->getCollectionClass();
-        $collection = new $collectionClass($infos, 'tree', $repository);
-        $collection->setModel($repository->getModel());
-        return $collection->toResponse();*/
         return $this->success($repository->getTreeInfos());
-        return $this->success($infos);
     }
 
     public function add()

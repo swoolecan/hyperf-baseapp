@@ -224,7 +224,6 @@ Class SysOperation
             ],
             'userPermission' => ['service' => 'App\\Services\\UserPermissionService'],
             'easysms' => ['service' => 'Swoolecan\\Baseapp\\Services\\EasysmsService'],
-            'tree' => ['service' => 'Swoolecan\\Baseapp\\Services\\TreeService'],
             'user' => ['module' => 'passport'], 
             'permission' => ['module' => 'passport'], 
             'role' => ['module' => 'passport'], 
