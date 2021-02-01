@@ -38,6 +38,8 @@ trait TraitField
         return array_merge([
             'id' => ['width' => '60'],
             'name' => ['width' => '80'],
+            'orderlist' => ['width' => '80'],
+            'title' => ['width' => '200', 'rowNum' => 1, 'withPop' => 1],
             'created_at' => ['width' => '160'],
         ], $this->_getFieldOptions());
     }

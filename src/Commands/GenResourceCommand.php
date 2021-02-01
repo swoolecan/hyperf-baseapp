@@ -30,6 +30,7 @@ class GenResourceCommand extends GeneratorCommand
         parent::configure();
         $this->setDescription('create elems of a resource such as model request response collection repository service');
         $this->addOption('service', 's', InputOption::VALUE_NONE, 'Create elems include service');
+        $this->addOption('rename', null, InputOption::VALUE_OPTIONAL, 'Resouce rename');
         $this->addOption('rpc-client', null, InputOption::VALUE_NONE, 'Create elems include rpc-client');
         $this->addOption('rpc-server', null, InputOption::VALUE_NONE, 'Create elems include rpc-server');
     }
@@ -50,6 +51,8 @@ class GenResourceCommand extends GeneratorCommand
         $rpcService = $this->input->getOption('rpc-server');
         $service = $this->input->getOption('service');
         $force = $input->getOption('force');
+        $newname = $input->getOption('rename');
+        $newname = empty($newname) ? '' : ucfirst($newname);
         $elems = ['controller', 'model', 'repository', 'resource', 'collection', 'request'];
         if ($rpcClient) {
             $elems[] = 'rpc-client';
@@ -68,6 +71,21 @@ class GenResourceCommand extends GeneratorCommand
             $file = $path . '/' . $className . '.php';
             $file = str_replace('\\', '/', $file);
             echo $file . "\n";
+            if ($newname) {
+                $newClass = $this->getClassName($newname, $elem);
+                $newFile = $path . '/' . $newClass . '.php';
+                $newFile = str_replace('\\', '/', $newFile);
+                if (!empty($newname) && file_exists($file) && !file_exists($newFile)) {
+                    $content = file_get_contents($file);
+                    $newContent = str_replace("class $className", "class $newClass", $content);
+                    file_put_contents($newFile, $newContent);
+                    unlink($file);
+                    $output->writeln(sprintf('<info>%s</info>', $name . ' rename to ' . $newClass . ' success'));
+                } else {
+                    $output->writeln(sprintf('<info>%s</info>', $name . ' rename to ' . $newClass . ' failed'));
+                }
+                continue;
+            }
     
             // code is untouched. Otherwise, we will continue generating this class' files.
             if (empty($force) && file_exists($file)) {

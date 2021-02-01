@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Repositories;
 
+use Hyperf\Utils\Str;
+
 trait TraitShowField
 {
     public function getFormatShowFields($scene, $model, $simple = false)
@@ -46,6 +48,10 @@ trait TraitShowField
             } elseif ($valueType == 'datetime') {
                 $value = $model->$field->toDateTimeString();
                 $data['valueSource'] = $value;
+            } elseif ($valueType == 'popover') {
+                $strLen = $data['strLen'] ?? 1;
+                $suffix = $strLen < Str::length($value) ? '...' : '';
+                $value = Str::substr($value, 0, $strLen) . $suffix; 
             }
             $data['value'] = $value;
             $datas[$field] = $simple ? $value : $data;
@@ -58,6 +64,9 @@ trait TraitShowField
     {
         return [
             'status' => ['valueType' => 'key'],
+            'orderlist' => ['showType' => 'edit'],
+            'logo' => ['showType' => 'picture'],
+            'thumb' => ['showType' => 'picture'],
             'created_at' => ['valueType' => 'datetime'],
             'updated_at' => ['valueType' => 'datetime'],
             'user_id' => ['valueType' => 'point', 'relate' => 'user'],

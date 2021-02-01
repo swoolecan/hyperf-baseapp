@@ -34,6 +34,8 @@ trait TraitFormField
             'nickname' => ['type' => 'input', 'require' => ['add']],
             'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
             'status' => ['type' => 'radio'],
+            'thumb' => ['type' => 'file', 'filetype' => 'image'],
+            'logo' => ['type' => 'file', 'filetype' => 'image'],
             'area' => ['type' => 'cascader'],
             'content' => ['type' => 'editor'],
         ];
