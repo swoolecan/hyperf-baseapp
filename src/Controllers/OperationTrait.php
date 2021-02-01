@@ -31,7 +31,7 @@ trait OperationTrait
     {
         $resource = $this->resource->getResourceCode(get_called_class());
         $repository = $this->getRepositoryObj();
-        return $this->success($repository->getTreeInfos());
+        return $this->success($repository->getTreeLists());
     }
 
     public function add()

@@ -33,16 +33,16 @@ trait TraitTree
         return $infos;
     }
 
-    public function _formatTreeDatas($infos, $key, $parentKey, $parent, $forceArray = false)
+    public function _formatTreeDatas($infos, $key, $parentKey, $parent, $forceArray = true, $simple = false)
     { 
         $datas = [];          
         foreach ($infos as $iKey => $info) { 
             //$info = $iValue->toArray();    
             if ($info[$parentKey] == $parent) {
                 unset($infos[$iKey]);
-                $formatInfo = $this->getFormatShowFields('list', $info);
+                $formatInfo = $this->getFormatShowFields('list', $info, $simple);
                 //$formatInfo = $info->toArray();
-                $formatInfo['subInfos'] = $this->_formatTreeDatas($infos, $key, $parentKey, $info[$key], $forceArray);
+                $formatInfo['subInfos'] = $this->_formatTreeDatas($infos, $key, $parentKey, $info[$key], $forceArray, $simple);
                 //$formatInfo['hasChildren'] = count($formatInfo['subInfos']) > 0 ? true : false;
                 $keyField = $info->getKeyName();
                 $formatInfo['keyField'] = $info->$keyField;
@@ -56,18 +56,26 @@ trait TraitTree
         return $datas;        
     }
 
-    public function getTreeInfos()
+    public function getTreeInfos($infos = null, $forceArray = true, $simple = true)
     {
         $model = $this->model;
-        $total = $model->count();
-        if ($total > 5000) {
-            return $this->throwException('数据太多');
+        if (is_null($infos)) {
+            $total = $model->count();
+            if ($total > 5000) {
+                return $this->throwException('数据太多');
+            }
+            $infos = $this->all();
         }
-        $infos = $this->all();
         $keyField = $model->getKeyName();
         $parentField = $model->getParentField($keyField);
         $parentFirstValue = $model->getParentFirstValue($keyField);
-        $infos = $this->_formatTreeDatas($infos, $keyField, $parentField, $parentFirstValue, true);
+        $infos = $this->_formatTreeDatas($infos, $keyField, $parentField, $parentFirstValue, $forceArray, $simple);
+        return $infos;
+    }
+
+    public function getTreeLists($infos = null, $forceArray = true, $simple = false)
+    {
+        $infos = $this->getTreeInfos($infos, $forceArray, $simple);
         $addFormFields = $this->getFormatFormFields('add');
         $updateFormFields = $this->getFormatFormFields('update');
         return [
