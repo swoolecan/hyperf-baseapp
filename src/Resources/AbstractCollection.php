@@ -44,6 +44,18 @@ class AbstractCollection extends ResourceCollection
 
     protected function _keyvalueArray()
     {
+        $datas = $this->collection->toArray();
+        $result = [];
+        $key = $this->getModel()->getKeyField();
+        $name = $this->getModel()->getNameField();
+        foreach ($datas as $data) {
+            $result[$data[$key]] = $data[$name];
+        }
+        return $result;
+    }
+
+    protected function _keyvalueExtArray()
+    {
         return [
             'key' => $this->getModel()->getKeyField(),
             'name' => $this->getModel()->getNameField(),

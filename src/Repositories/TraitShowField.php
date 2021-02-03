@@ -44,7 +44,7 @@ trait TraitShowField
                 $value = $this->getCacheOutData($data['app'], $data['relate'], $value, $data['keyField']);
             } elseif ($valueType == 'callback') {
                 $method = $data['method'];
-                $value = $this->$method($model);
+                $value = $this->$method($model, $field);
             } elseif ($valueType == 'datetime') {
                 $value = $model->$field->toDateTimeString();
                 $data['valueSource'] = $value;

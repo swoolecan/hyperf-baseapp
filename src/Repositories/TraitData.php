@@ -44,18 +44,10 @@ trait TraitData
         return $this->getModelObj($resource)->findCacheData($key);
     }
 
-    public function getCacheDatas()
+    public function getCacheDatas($resource = null, $type = 'list', $simple = true, $isArray = false, $throw = true)
     {
-        $models = User::findManyFromCache($ids);
-    }
-
-    public function getLevelDatas($parentValue, $level = 2)
-    {
-        $results = [];
-    }
-
-    public function cacheDatas($resource, $type = 'origin', $throw = true)
-    {
+        //$models = User::findManyFromCache($ids);
+        $resource = is_null($resource) ? $this->resource->getResourceCode(get_called_class()) : $resource;
         $model = $this->getModelObj($resource);
         $total = $model->count();
         if ($total > 5000) {
@@ -64,35 +56,40 @@ trait TraitData
             }
             return false;
         }
-        return $this->_cacheDatas($this->config->get('app_code'), $resource, $type);
+        return $this->_cacheDatas($this->config->get('app_code'), $resource, $type, $simple, $isArray);
     }
 
     /**
      * @Cacheable(prefix="fulltable-cache")
      */
-    protected function _cacheDatas($app, $resource, $type)
+    protected function _cacheDatas($app, $resource, $type, $simple, $isArray)
     {
         $model = $this->getModelObj($resource);
         $keyField = $model->getKeyName();
         $infos = $model->all();
-        if ($type == 'tree') {
-            $parentField = $model->getParentField($keyField);
-            $parentFirstValue = $model->getParentFirstValue($keyField);
-            return $this->_formatTreeDatas($infos, $keyField, $parentField, $parentFirstValue);
-        }
+    
+        return $this->formatResultInfos($infos, $keyField, $type, $simple, $isArray);
+    }
+
+    protected function formatResultInfos($infos, $keyField, $type, $simple, $isArray)
+    {
         $datas = [];
         foreach ($infos as $info) {
-            $datas[$info[$keyField]] = $info;
+            $formatInfo = $this->getFormatShowFields($type, $info, $simple);
+            $datas[$info[$keyField]] = $formatInfo;
         }
-    
+        if ($isArray) {
+            return array_values($datas);
+        }
         return $datas;
     }
 
-    public function getPointKeyValues($where = [], $scene = 'keyvalue')
+    public function getPointKeyValues($resource = null, $where = [], $scene = 'keyvalue')
     {
-        $datas = $this->findWhere($where);
-        $collectionClass = $this->getCollectionClass();
-        $collection = new $collectionClass($datas, $scene, $this);
+        $repository = is_null($resource) ? $this : $this->resource->getObject('repository', $resource);
+        $datas = $repository->findWhere($where);
+        $collectionClass = $repository->getCollectionClass();
+        $collection = new $collectionClass($datas, $scene, $repository);
         return $collection->toArray();
     }
 }

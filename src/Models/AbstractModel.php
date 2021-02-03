@@ -126,11 +126,31 @@ abstract class AbstractModel extends BaseModel
 
     public function getKeyField()
     {
-        return 'id';
+        return $this->getKeyName();
     }
 
     public function getNameField()
     {
         return 'name';
+    }
+
+    public function getLevelInfos($level, $parentValue = null, $datas = [])
+    {
+        if (empty($level)) {
+            return $datas;
+        }
+
+        $keyField = $this->getKeyName();
+        $parentField = $this->getParentField($keyField);
+        $parentValue = is_null($parentValue) ? $this->getParentFirstValue($keyField) : $parentValue;
+        $infos = $this->where($parentField, $parentValue)->get();
+        $datas = array_merge($datas, (array) $infos);
+        if ($level) {
+            foreach ($infos as $info) {
+                $datas = $this->getLevelInfos($level - 1, $info[$parentField], $datas);
+            }
+
+        }
+        return $datas;
     }
 }

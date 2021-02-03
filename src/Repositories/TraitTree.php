@@ -9,54 +9,44 @@ use Hyperf\Cache\Annotation\Cacheable;
 
 trait TraitTree
 {
-    public function cacheBaseTreeDatas($resource, $level = 2)
+    public function getPointTreeDatas($resource = null, $level = 2, $type = 'keyvalue', $isArray = true, $simple = true)
     {
-        $infos = $this->_cacheDatas($this->config->get('app_code'), $resource, 'tree');
-        foreach ($infos as & $info) {
-            if ($level == 1) {
-                unset($info['subInfos']);
-                continue;
-            }
-            foreach ($info['subInfos'] as & $sInfo) {
-                if ($level == 2) {
-                    unset($sInfo['subInfos']);
-                    continue;
-                }
-                foreach ($sInfo['subInfos'] as & $ssInfo) {
-                    if ($level == 2) {
-                        unset($ssInfo['subInfos']);
-                        continue;
-                    }
-                }
-            }
-        }
-        return $infos;
+        $resource = is_null($resource) ? $this->resource->getResourceCode(get_called_class()) : $resource;
+        $app = $this->config->get('app_code');
+        return $this->_pointTreeDatas($app, $resource, $level, $type, $isArray, $simple);
     }
 
-    public function _formatTreeDatas($infos, $key, $parentKey, $parent, $forceArray = true, $simple = false)
-    { 
-        $datas = [];          
-        foreach ($infos as $iKey => $info) { 
-            //$info = $iValue->toArray();    
-            if ($info[$parentKey] == $parent) {
-                unset($infos[$iKey]);
-                $formatInfo = $this->getFormatShowFields('list', $info, $simple);
-                //$formatInfo = $info->toArray();
-                $formatInfo['subInfos'] = $this->_formatTreeDatas($infos, $key, $parentKey, $info[$key], $forceArray, $simple);
-                //$formatInfo['hasChildren'] = count($formatInfo['subInfos']) > 0 ? true : false;
-                $keyField = $info->getKeyName();
-                $formatInfo['keyField'] = $info->$keyField;
-                if ($forceArray) {
-                    $datas[] = $formatInfo;
-                } else {
-                    $datas[$info[$key]] = $formatInfo;   
+    /**
+     */
+    public function _pointTreeDatas($app, $resource, $level, $type, $isArray, $simple)
+    {
+     //* @Cacheable(prefix="fulltable-cache")
+        $model = $this->getModelObj($resource);
+        $keyField = $model->getKeyName();
+        $parentField = $model->getParentField($keyField);
+        $parentFirstValue = $model->getParentFirstValue($keyField);
+        $infos = $model->where($parentField, $parentFirstValue)->get();
+        $datas = $this->formatResultInfos($infos, $keyField, $type, $simple, $isArray);
+        if ($level == 1) {
+            return $datas;
+        }
+
+        foreach ($datas as & $data) {
+            $subInfos = $model->where($parentField, $data[$keyField])->get();
+            $subDatas = $this->formatResultInfos($subInfos, $keyField, $type, $simple, $isArray); 
+            if ($level > 2) {
+                foreach ($subDatas as & $subData) {
+                    $thirdInfos = $model->where($parentField, $subData[$keyField])->get();
+                    $thirdDatas = $this->formatResultInfos($thirdInfos, $keyField, $type, $simple, $isArray); 
+                    $subData['subInfos'] = $thirdDatas;
                 }
             }
+            $data['subInfos'] = $subDatas;
         }
-        return $datas;        
+        return $datas;
     }
 
-    public function getTreeInfos($infos = null, $forceArray = true, $simple = true)
+    public function getTreeInfos($infos = null, $type = 'list', $forceArray = true, $simple = true)
     {
         $model = $this->model;
         if (is_null($infos)) {
@@ -69,18 +59,18 @@ trait TraitTree
         $keyField = $model->getKeyName();
         $parentField = $model->getParentField($keyField);
         $parentFirstValue = $model->getParentFirstValue($keyField);
-        $infos = $this->_formatTreeDatas($infos, $keyField, $parentField, $parentFirstValue, $forceArray, $simple);
+        $infos = $this->_formatTreeDatas($infos, $keyField, $parentField, $parentFirstValue, $type, $forceArray, $simple);
         return $infos;
     }
 
-    public function getTreeLists($infos = null, $forceArray = true, $simple = false)
+    public function getTreeLists($infos = null, $type = 'list', $forceArray = true, $simple = false)
     {
-        $infos = $this->getTreeInfos($infos, $forceArray, $simple);
+        $infos = $this->getTreeInfos($infos, $type, $forceArray, $simple);
         $addFormFields = $this->getFormatFormFields('add');
         $updateFormFields = $this->getFormatFormFields('update');
         return [
             'data' => $infos,
-            'fieldNames' => $this->getAttributeNames('list'),
+            'fieldNames' => $this->getAttributeNames($type),
             'addFormFields' => $addFormFields ? $addFormFields : (object)[],
             'updateFormFields' => $updateFormFields ? $updateFormFields : (object)[],
         ];
@@ -106,5 +96,28 @@ trait TraitTree
         }
         $parents = array_reverse($parents);
         return $parents;
+    }
+
+    public function _formatTreeDatas($infos, $key, $parentKey, $parent, $type = 'list', $forceArray = true, $simple = false)
+    { 
+        $datas = [];          
+        foreach ($infos as $iKey => $info) { 
+            //$info = $iValue->toArray();    
+            if ($info[$parentKey] == $parent) {
+                unset($infos[$iKey]);
+                $formatInfo = $this->getFormatShowFields($type, $info, $simple);
+                //$formatInfo = $info->toArray();
+                $formatInfo['subInfos'] = $this->_formatTreeDatas($infos, $key, $parentKey, $info[$key], $type, $forceArray, $simple);
+                //$formatInfo['hasChildren'] = count($formatInfo['subInfos']) > 0 ? true : false;
+                $keyField = $info->getKeyName();
+                $formatInfo['keyField'] = $info->$keyField;
+                if ($forceArray) {
+                    $datas[] = $formatInfo;
+                } else {
+                    $datas[$info[$key]] = $formatInfo;   
+                }
+            }
+        }
+        return $datas;        
     }
 }
