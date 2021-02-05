@@ -62,6 +62,7 @@ trait TraitSearchField
             'code' => ['operator' => 'like'],
             'region_code' => [],
             'created_at' => ['type' => 'between'],
+            'updated_at' => ['type' => 'between'],
         ];
     }
 

@@ -32,6 +32,7 @@ trait TraitFormField
     {
         return [
             'nickname' => ['type' => 'input', 'require' => ['add']],
+            'description' => ['type' => 'input', 'typeExt' => 'textarea', 'rows' => 2],
             'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
             'status' => ['type' => 'radio'],
             'thumb' => ['type' => 'file', 'filetype' => 'image'],

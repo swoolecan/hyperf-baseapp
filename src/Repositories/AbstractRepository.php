@@ -223,9 +223,15 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      * @param $id
      * @return mixed
      */
-    public function deleteInfo($info)
+    public function deleteInfo($info, $number)
     {
-        return $this->model->destroy($id);
+        $canDelete = $info->canDelete();
+        if (empty($canDelete)) {
+            $message = $number ? "已删除 {$number} 条信息" : '';
+            $message .= $info[$info->getNameField()] . '信息无法被删除';
+            return $this->resource->throwException(403, $message);
+        }
+        return $info->delete();
     }
 
     /**

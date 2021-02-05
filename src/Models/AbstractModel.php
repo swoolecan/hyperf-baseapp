@@ -41,6 +41,11 @@ abstract class AbstractModel extends BaseModel
     const STATUS_DISABLE = 0; //status 为0表示未启用
     const STATUS_ENABLE = 1; //status 为1表示正常
     
+    public function getPointModel($code)
+    {
+        return $this->resource->getObject('model', $code);
+    }
+
     function getFormatState($key = 0, $enum = array(), $default = '')
     {
         return array_key_exists($key, $enum) ? $enum[$key] : $default;
@@ -152,5 +157,10 @@ abstract class AbstractModel extends BaseModel
 
         }
         return $datas;
+    }
+
+    public function canDelete()
+    {
+        return true;
     }
 }

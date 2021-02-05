@@ -85,14 +85,12 @@ trait OperationTrait
         if (empty($info)) {
             $ids = $request->input($repository->getKeyName());
             foreach ($ids as $id) {
-                $info = $repository->find($id);
-                if (!empty($info)) {
-                    $info->delete();
-                    $number++;
-                }
+                $info = $repository->find($id, $number);
+                $info->delete();
+                $number++;
             }
         } else {
-            $result = $info->delete();
+            $result = $repository->deleteInfo($info, $number);
             $number = 1;
         }
 
