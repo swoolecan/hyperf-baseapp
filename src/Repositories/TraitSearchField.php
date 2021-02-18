@@ -56,7 +56,8 @@ trait TraitSearchField
     public function getDefaultSearchDealFields()
     {
         return [
-            'status' => [],
+            'status' => ['type' => 'multiple'],
+            'parent_code' => ['type' => 'multiple'],
             'user_id' => [],
             'name' => ['operator' => 'like'],
             'code' => ['operator' => 'like'],
@@ -86,6 +87,9 @@ trait TraitSearchField
             if (in_array($data['type'], ['radio', 'select']) && !isset($data['infos'])) {
                 $data['infos'] = $this->getKeyValues($field);
             }
+            if ($data['type'] == 'selectSearch' && !isset($data['searchApp'])) {
+                $data['searchApp'] = $this->config->get('app_code');
+            }
             $data['options'] = $fieldNames[$field] ?? ['name' => $field];
             $datas[$field] = $data;
         }
@@ -100,6 +104,7 @@ trait TraitSearchField
             'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
             'status' => ['type' => 'select', 'multiple' => 1],
             'created_at' => ['type' => 'datetimerange'],
+            'updated_at' => ['type' => 'datetimerange'],
             'area' => ['type' => 'cascader'],
         ];
     }

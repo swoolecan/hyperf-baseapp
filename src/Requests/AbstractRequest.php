@@ -95,6 +95,7 @@ class AbstractRequest extends FormRequest
         }
         //$this->getRepository()->fillable(array_keys($data));
         $r = $this->getRepository()->unguard(true);
+        print_r($data); echo 'ddddddddddddddddddddddddddddd';
         return $data;
     }
 
