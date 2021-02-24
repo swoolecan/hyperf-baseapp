@@ -38,6 +38,10 @@ trait OperationTrait
     {
         $repository = $this->getRepositoryObj();
         $request = $this->getRequestObj('add', $repository);
+        $scene = $request->input('point_scene');
+        if ($scene == 'get_formelem') {
+            return $this->success(['formFields' => $repository->getFormatFormFields('add'), 'fieldNames' => $repository->getAttributeNames('add')]);
+        }
         $data = $request->getInputDatas('add');
         $result = $repository->create($data);
         return $this->success($result);
@@ -47,6 +51,10 @@ trait OperationTrait
     {
         $repository = $this->getRepositoryObj();
         $request = $this->getRequestObj('update', $repository);
+        $scene = $request->input('point_scene');
+        if ($scene == 'get_formelem') {
+            return $this->success($repository->getFormatFormFields('add'));
+        }
         $info = $this->getPointInfo($repository, $request);
 
         $data = $request->getInputDatas('update');

@@ -41,6 +41,7 @@ trait TraitField
             'orderlist' => ['width' => '80'],
             'title' => ['width' => '200', 'rowNum' => 1, 'withPop' => 1],
             'created_at' => ['width' => '160'],
+            'point_operation' => ['width' => '160', 'name' => '特定操作'],
         ], $this->_getFieldOptions());
     }
 

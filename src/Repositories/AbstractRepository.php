@@ -34,7 +34,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      * @Inject                
      * @var ResourceContainer
      */
-    protected $resource;
+    public $resource;
 
     /** 
      * @var AbstractModel

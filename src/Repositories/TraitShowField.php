@@ -15,6 +15,10 @@ trait TraitShowField
         $showFields = $this->getShowFields();
         $datas = [];
         foreach ($fields as $field) {
+            if ($field == 'point_operation') {
+                $datas[$field] = $this->getPointOperation($model, $field);
+                continue;
+            }
             $value = $model->$field;
             $defaultShowField = $defaultShowFields[$field] ?? [];
             $showField = $showFields[$field] ?? [];
@@ -75,6 +79,19 @@ trait TraitShowField
     }
 
     public function getShowFields()
+    {
+        return [];
+    }
+
+    public function getPointOperation($model, $field)
+    {
+        return [
+            'showType' => 'operation',
+            'operations' => $this->_pointOperations($model, $field),
+        ];
+    }
+
+    protected function _pointOperations($model, $field)
     {
         return [];
     }
