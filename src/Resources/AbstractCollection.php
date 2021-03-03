@@ -86,6 +86,21 @@ class AbstractCollection extends ResourceCollection
         ];
     }
 
+    protected function _popArray()
+    {
+        $searchFields = $this->repository->getFormatSearchFields($this->getScene() . 'Search');
+        return [
+            'data' => $this->collection,
+            'links' => [
+                'self' => 'link-value',
+            ],
+            'fieldNames' => $this->repository->getAttributeNames($this->getScene()),
+            'searchFields' => $searchFields ? $searchFields : (object)[],
+            'haveSelection' => $this->repository->getHaveSelection($this->getScene()),
+            'selectionOperations' => $this->repository->getSelectionOperations($this->getScene()),
+        ];
+    }
+
     protected function _listArray()
     {
         $addFormFields = $this->repository->getFormatFormFields('add');

@@ -79,6 +79,11 @@ class AbstractResource extends JsonResource
         return $this->getRepository()->getFormatShowFields('view', $this->resource, $this->getSimpleResult());
     }
 
+    protected function _popArray()
+    {
+        return $this->getRepository()->getFormatShowFields('pop', $this->resource, $this->getSimpleResult());
+    }
+
     protected function _listArray()
     {
         return $this->getRepository()->getFormatShowFields('list', $this->resource, $this->getSimpleResult());

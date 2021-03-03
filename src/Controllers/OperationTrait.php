@@ -12,7 +12,7 @@ trait OperationTrait
         
         $repository = $this->getRepositoryObj();
         $repository = $this->dealCriteria($scene, $repository, $params);
-        if (in_array($scene, ['list'])) {
+        if (in_array($scene, ['list', 'pop'])) {
             $perPage = $params['per_page'] ?? 25;
             $list = $repository->paginate(intval($perPage));
         } else {
@@ -93,9 +93,13 @@ trait OperationTrait
         if (empty($info)) {
             $ids = $request->input($repository->getKeyName());
             foreach ($ids as $id) {
-                $info = $repository->find($id, $number);
-                $info->delete();
+                $info = $repository->find($id);
+                if (empty($info)){
+                    continue;
+                }
+                //$info->delete();
                 $number++;
+                $repository->deleteInfo($info, $number);
             }
         } else {
             $result = $repository->deleteInfo($info, $number);
