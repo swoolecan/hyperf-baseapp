@@ -100,6 +100,8 @@ class AbstractCollection extends ResourceCollection
             'addFormFields' => $addFormFields ? $addFormFields : (object)[],
             'updateFormFields' => $updateFormFields ? $updateFormFields : (object)[],
             'searchFields' => $searchFields ? $searchFields : (object)[],
+            'haveSelection' => $this->repository->getHaveSelection($this->getScene()),
+            'selectionOperations' => $this->repository->getSelectionOperations($this->getScene()),
         ];
     }
 

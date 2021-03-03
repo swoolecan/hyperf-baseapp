@@ -34,6 +34,8 @@ trait TraitShowField
 
             if ($valueType == 'key') {
                 $value = $this->getKeyValues($field, $model->$field);
+            } elseif ($valueType == 'select') {
+                $value = $this->getKeyValues($field);
             } elseif ($valueType == 'point') {
                 $relate = $data['relate'];
                 $relate = $relate ? $model->$relate : false;
@@ -92,6 +94,16 @@ trait TraitShowField
     }
 
     protected function _pointOperations($model, $field)
+    {
+        return [];
+    }
+
+    public function getHaveSelection($scene)
+    {
+        return false;
+    }
+
+    public function getSelectionOperations($scene)
     {
         return [];
     }

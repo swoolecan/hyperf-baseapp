@@ -37,6 +37,7 @@ trait TraitFormField
             'status' => ['type' => 'radio'],
             'thumb' => ['type' => 'file', 'filetype' => 'image'],
             'logo' => ['type' => 'file', 'filetype' => 'image'],
+            'picture' => ['type' => 'file', 'filetype' => 'image'],
             'area' => ['type' => 'cascader'],
             'content' => ['type' => 'editor'],
         ];
