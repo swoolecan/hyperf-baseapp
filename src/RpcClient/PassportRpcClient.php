@@ -53,8 +53,8 @@ class PassportRpcClient extends AbstractRpcClient
         return $this->__request(__FUNCTION__, $params);
     }
 
-    public function getAttachmentDatas($params): array
+    public function getAttachmentInfos($params): array
     {
-        return $this->__request(__FUNCTION__, $params);
+        return $this->__request(__FUNCTION__, ['params' => $params]);
     }
 }

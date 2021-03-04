@@ -35,9 +35,9 @@ trait TraitFormField
             'description' => ['type' => 'input', 'typeExt' => 'textarea', 'rows' => 2],
             'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user', 'searchApp' => 'passport'],
             'status' => ['type' => 'radio'],
-            'thumb' => ['type' => 'file', 'filetype' => 'image'],
-            'logo' => ['type' => 'file', 'filetype' => 'image'],
-            'picture' => ['type' => 'file', 'filetype' => 'image'],
+            'thumb' => ['type' => 'file', 'filetype' => 'image', 'minnum' => 1, 'maxnum' => 10],
+            'logo' => ['type' => 'file', 'filetype' => 'image', 'minnum' => 1, 'maxnum' => 1],
+            'picture' => ['type' => 'file', 'filetype' => 'image', 'minnum' => 1, 'maxnum' => 10],
             'area' => ['type' => 'cascader'],
             'content' => ['type' => 'editor'],
         ];

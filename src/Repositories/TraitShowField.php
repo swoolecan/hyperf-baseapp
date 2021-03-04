@@ -54,6 +54,8 @@ trait TraitShowField
             } elseif ($valueType == 'datetime') {
                 $value = $model->$field->toDateTimeString();
                 $data['valueSource'] = $value;
+            } elseif ($valueType == 'file') {
+                $value = $this->getAttachmentInfos(['app' => config('app_code'), 'info_table' => 'brand', 'info_field' =>$field]);
             } elseif ($valueType == 'popover') {
                 $strLen = $data['strLen'] ?? 1;
                 $suffix = $strLen < Str::length($value) ? '...' : '';
@@ -71,8 +73,9 @@ trait TraitShowField
         return [
             'status' => ['valueType' => 'key'],
             'orderlist' => ['showType' => 'edit'],
-            'logo' => ['showType' => 'picture'],
-            'thumb' => ['showType' => 'picture'],
+            'logo' => ['showType' => 'file', 'valueType' => 'file'],
+            'thumb' => ['showType' => 'file', 'valueType' => 'file'],
+            'picture' => ['showType' => 'file', 'valueType' => 'file'],
             'created_at' => ['valueType' => 'datetime'],
             'updated_at' => ['valueType' => 'datetime'],
             'user_id' => ['valueType' => 'point', 'relate' => 'user'],

@@ -16,6 +16,7 @@ namespace Swoolecan\Baseapp\Models;
 use Hyperf\DbConnection\Model\Model as BaseModel;
 use Hyperf\Database\Model\Events\Saving;
 use Hyperf\Database\Model\Events\Saved;
+use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Utils\Str;
 use Swoolecan\Baseapp\Helpers\ResourceContainer;
@@ -30,6 +31,12 @@ abstract class AbstractModel extends BaseModel
      * @var ResourceContainer
      */
     protected $resource;
+
+    /**
+     * @Inject
+     * @var ConfigInterface
+     */
+    protected $config;
 
     public static $status = [
         0 => '禁用',

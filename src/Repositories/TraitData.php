@@ -21,7 +21,7 @@ trait TraitData
         return $client->getCacheData($app, $resource, $key, $keyField);
     }
 
-    public function getSingleAttachmentData($app, $params)
+    /*public function getSingleAttachmentData($app, $params)
     {
         $currentAppCode = config('app_code');
         if ($currentAppCode == 'passport') {
@@ -29,14 +29,17 @@ trait TraitData
         }
 
         return $this->getCacheOutData('passport', 'attachmentInfo', $params);
-    }
+    }*/
 
-    public function getAttachmentData($app, $params)
+    public function getAttachmentInfos($params)
     {
         $currentAppCode = config('app_code');
         if ($currentAppCode == 'passport') {
-            return $this->getCacheData('attachmentInfo', $params);
+            return $this->resource->getObject('repository', 'attachmentInfo')->getDatas($params);
         }
+        $class = "\Swoolecan\Baseapp\RpcClient\PassportRpcClient";
+        $client = make($class);
+        return $client->getAttachmentInfos($params);
     }
 
     public function getCacheData($resource, $key)
