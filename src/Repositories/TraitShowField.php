@@ -55,7 +55,15 @@ trait TraitShowField
                 $value = $model->$field->toDateTimeString();
                 $data['valueSource'] = $value;
             } elseif ($valueType == 'file') {
-                $value = $this->getAttachmentInfos(['app' => config('app_code'), 'info_table' => 'brand', 'info_field' =>$field]);
+                $resource = $data['resource'] ?? $this->resource->getResourceCode(get_called_class());
+                $key = $model->getKeyField();
+                $value = $this->getAttachmentInfos(['app' => config('app_code'), 'info_table' => $resource, 'info_field' =>$field, 'info_id' => $model->$key]);
+                $data['valueSource'] = [];
+                if (!empty($value)) {
+                    foreach ($value as $fileDetail) {
+                        $data['valueSource'][] = $fileDetail['id'];
+                    }
+                }
             } elseif ($valueType == 'popover') {
                 $strLen = $data['strLen'] ?? 1;
                 $suffix = $strLen < Str::length($value) ? '...' : '';

@@ -88,6 +88,7 @@ class AbstractRequest extends FormRequest
         $fields = $this->getRepository()->getSceneFields($type);
         $data = [];
         $check = true;
+
         foreach ($fields as $field) {
             if (isset($inputs[$field])) {
                 $data[$field] = $inputs[$field];
@@ -95,7 +96,6 @@ class AbstractRequest extends FormRequest
         }
         //$this->getRepository()->fillable(array_keys($data));
         $r = $this->getRepository()->unguard(true);
-        print_r($data); echo 'ddddddddddddddddddddddddddddd';
         return $data;
     }
 

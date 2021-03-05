@@ -21,6 +21,12 @@ trait TraitFormField
             if (in_array($data['type'], ['radio', 'select']) && !isset($data['infos'])) {
                 $data['infos'] = (object) $this->getKeyValues($field);
             }
+            if (in_array($data['type'], ['file']) && !isset($data['resource'])) {
+                $data['resource'] = $this->resource->getResourceCode(get_called_class());
+            }
+            if (in_array($data['type'], ['file']) && !isset($data['app'])) {
+                $data['app'] = config('app_code');
+            }
             $data['options'] = $fieldNames[$field] ?? ['name' => $field];
             $datas[$field] = $data;
         }
