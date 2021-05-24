@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Swoolecan\Baseapp\Criteria;
 
-use Swoolecan\Baseapp\Contracts\RepositoryInterface as Repository;
+use Swoolecan\Baseapp\Contracts\CriteriaInterface;
+use Swoolecan\Baseapp\Contracts\RepositoryInterface;
 
-abstract class Criteria
+abstract class Criteria implements CriteriaInterface
 {
     protected $field;
     protected $value;
@@ -17,11 +18,19 @@ abstract class Criteria
 
     /**
      * @param $query
-     * @param Repository $repository
+     * @param RepositoryInterface $repository
      * @param array $params
      * @return mixed
      */
-    public abstract function apply($query, Repository $repository);
+    public function apply($query, RepositoryInterface $repository)
+    {
+        return  $this->_pointApply($query, $repository);
+    }
+
+    public function _pointApply($query, $repository)
+    {
+        return $query;
+    }
 
     public function getField()
     {
