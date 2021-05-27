@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Swoolecan\Baseapp\RpcClient;
+namespace Framework\Baseapp\RpcClient;
 
 use Hyperf\RpcClient\AbstractServiceClient;
 use Hyperf\Cache\Annotation\Cacheable;

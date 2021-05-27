@@ -2,16 +2,16 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Middleware;
+namespace Framework\Baseapp\Middleware;
 
 use Hyperf\Utils\Context;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Swoolecan\Baseapp\Helper\SysOperation;
-use Swoolecan\Baseapp\RpcClient\PassportRpcClient;
-use Swoolecan\Baseapp\Exceptions\BusinessException;
+use Framework\Baseapp\Helper\SysOperation;
+use Framework\Baseapp\RpcClient\PassportRpcClient;
+use Framework\Baseapp\Exceptions\BusinessException;
 
 class PermissionMiddleware implements MiddlewareInterface
 {

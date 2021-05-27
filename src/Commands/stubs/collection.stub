@@ -2,7 +2,7 @@
 
 namespace App\Resources;
 
-use Swoolecan\Baseapp\Resources\AbstractCollection;
+use Framework\Baseapp\Resources\AbstractCollection;
 
 class %CLASS% extends AbstractCollection
 {

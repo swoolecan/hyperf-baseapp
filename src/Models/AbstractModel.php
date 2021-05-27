@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @license  https://github.com/swoolecan/hyperf-baseapp/blob/master/LICENSE.md
  */
 
-namespace Swoolecan\Baseapp\Models;
+namespace Framework\Baseapp\Models;
 
 use Hyperf\DbConnection\Model\Model as BaseModel;
 use Hyperf\Database\Model\Events\Saving;
@@ -19,8 +19,8 @@ use Hyperf\Database\Model\Events\Saved;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Utils\Str;
-use Swoolecan\Baseapp\Helpers\ResourceContainer;
-use Swoolecan\Baseapp\Models\Traits\Rest;
+use Framework\Baseapp\Helpers\ResourceContainer;
+use Framework\Baseapp\Models\Traits\Rest;
 
 abstract class AbstractModel extends BaseModel
 {

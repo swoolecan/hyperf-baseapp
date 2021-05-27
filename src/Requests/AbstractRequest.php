@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Requests;
+namespace Framework\Baseapp\Requests;
 
 use Hyperf\Validation\Rule;
 use Hyperf\Validation\Request\FormRequest;

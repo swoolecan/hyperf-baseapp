@@ -2,11 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Exceptions;
+namespace Framework\Baseapp\Exceptions;
 
 use Throwable;
 use Hyperf\Server\Exception\ServerException;
-use Swoolecan\Baseapp\Constants\Code;
+use Framework\Baseapp\Constants\Code;
 
 class BusinessException extends ServerException
 {

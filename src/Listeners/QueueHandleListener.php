@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-namespace Swoolecan\Baseapp\Listeners;
+namespace Framework\Baseapp\Listeners;
 
 use Hyperf\AsyncQueue\Event\AfterHandle;
 use Hyperf\AsyncQueue\Event\BeforeHandle;

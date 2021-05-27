@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp;
+namespace Framework\Baseapp;
 
 class ConfigProvider
 {

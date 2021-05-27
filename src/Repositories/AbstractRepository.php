@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Repositories;
+namespace Framework\Baseapp\Repositories;
 
 //use Doctrine\Common\Collections\Collection;
 //use MyBlog\User;
@@ -13,10 +13,10 @@ namespace Swoolecan\Baseapp\Repositories;
 use Hyperf\Utils\Collection;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Contract\ConfigInterface;
-use Swoolecan\Baseapp\Helpers\ResourceContainer;
-use Swoolecan\Baseapp\Contracts\RepositoryInterface;
-use Swoolecan\Baseapp\Contracts\CriteriaInterface;
-use Swoolecan\Baseapp\Criteria\Criteria;
+use Framework\Baseapp\Helpers\ResourceContainer;
+use Framework\Baseapp\Contracts\RepositoryInterface;
+use Framework\Baseapp\Contracts\CriteriaInterface;
+use Framework\Baseapp\Criteria\Criteria;
 //use Bosnadev\Repositories\Exceptions\RepositoryException;
 
 abstract class AbstractRepository implements RepositoryInterface, CriteriaInterface

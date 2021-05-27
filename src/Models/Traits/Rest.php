@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Models\Traits;
+namespace Framework\Baseapp\Models\Traits;
 
 trait Rest
 {

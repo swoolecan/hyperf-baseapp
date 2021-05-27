@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Validators;
+namespace Framework\Baseapp\Validators;
 
 //use Prettus\Validator\Contracts\ValidatorInterface;
 //use Prettus\Validator\LaravelValidator;

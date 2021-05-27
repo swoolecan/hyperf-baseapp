@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Events;
+namespace Framework\Baseapp\Events;
 
 abstract class Event
 {

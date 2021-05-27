@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Exceptions\Handler;
+namespace Framework\Baseapp\Exceptions\Handler;
 
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\ExceptionHandler\ExceptionHandler as ExceptionHandlerBase;
@@ -11,8 +11,8 @@ use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
 use Hyperf\Di\Annotation\Inject;
-use Swoolecan\Baseapp\Helpers\Helper;
-use Swoolecan\Baseapp\Constants\Code;
+use Framework\Baseapp\Helpers\Helper;
+use Framework\Baseapp\Constants\Code;
 
 class ExceptionHandler extends ExceptionHandlerBase
 {

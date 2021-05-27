@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Repositories;
+namespace Framework\Baseapp\Repositories;
 use Hyperf\Cache\Annotation\CachePut;
 use Hyperf\Cache\Annotation\Cacheable;
 
@@ -16,7 +16,7 @@ trait TraitData
     public function getCacheOutData($app, $resource, $key, $keyField = 'id')
     {
         $app = ucfirst($app);
-        $class = "\Swoolecan\Baseapp\RpcClient\\{$app}RpcClient";
+        $class = "\Framework\Baseapp\RpcClient\\{$app}RpcClient";
         $client = make($class);
         return $client->getCacheData($app, $resource, $key, $keyField);
     }
@@ -37,7 +37,7 @@ trait TraitData
         if ($currentAppCode == 'passport') {
             return $this->resource->getObject('repository', 'attachmentInfo')->getDatas($params);
         }
-        $class = "\Swoolecan\Baseapp\RpcClient\PassportRpcClient";
+        $class = "\Framework\Baseapp\RpcClient\PassportRpcClient";
         $client = make($class);
         return $client->getAttachmentInfos($params);
     }

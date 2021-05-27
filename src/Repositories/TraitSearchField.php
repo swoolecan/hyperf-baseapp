@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Repositories;
+namespace Framework\Baseapp\Repositories;
 
 trait TraitSearchField
 {
@@ -13,7 +13,7 @@ trait TraitSearchField
 
         $sortElem = $params['sort_elem'] ? json_decode($params['sort_elem'], true) : false;
         if (!empty($sortElem)) {
-            $criteriaClass = '\Swoolecan\Baseapp\Criteria\SortCriteria';
+            $criteriaClass = '\Framework\Baseapp\Criteria\SortCriteria';
             $this->pushCriteria(new $criteriaClass($sortElem));
         }
 
@@ -39,7 +39,7 @@ trait TraitSearchField
             $type = $data['type'] ?? 'common';
             $type = ucfirst($type);
 
-            $criteriaClass = "\Swoolecan\Baseapp\Criteria\\{$type}Criteria";
+            $criteriaClass = "\Framework\Baseapp\Criteria\\{$type}Criteria";
             $this->pushCriteria(new $criteriaClass($data));
             //$repository->pushCriteria($criteria);
         }

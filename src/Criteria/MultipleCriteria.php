@@ -1,7 +1,7 @@
 <?php 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Criteria;
+namespace Framework\Baseapp\Criteria;
 
 class MultipleCriteria extends Criteria
 {

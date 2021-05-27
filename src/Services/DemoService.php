@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Services;
+namespace Framework\Baseapp\Services;
 
-use Swoolecan\Baseapp\Contracts\Repository\RepositoryInterface;
+use Framework\Baseapp\Contracts\Repository\RepositoryInterface;
 //use Illuminate\Http\Request;
 
 class DemoService

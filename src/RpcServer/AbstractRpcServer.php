@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Swoolecan\Baseapp\RpcServer;
+namespace Framework\Baseapp\RpcServer;
 
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CachePut;
-use Swoolecan\Baseapp\Helpers\ResourceContainer;
+use Framework\Baseapp\Helpers\ResourceContainer;
 
 class AbstractRpcServer
 {

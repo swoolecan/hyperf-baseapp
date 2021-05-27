@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Constants;
+namespace Framework\Baseapp\Constants;
 
 use Hyperf\Constants\AbstractConstants;
 use Hyperf\Constants\Annotation\Constants;

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Repositories;
+namespace Framework\Baseapp\Repositories;
 
 trait TraitFormField
 {

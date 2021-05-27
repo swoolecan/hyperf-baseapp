@@ -1,15 +1,15 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Helpers;
+namespace Framework\Baseapp\Helpers;
 
 use Hyperf\Utils\Str;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Contract\ConfigInterface;
-use Swoolecan\Baseapp\Helpers\SysOperation;
-use Swoolecan\Baseapp\Exceptions\BusinessException;
+use Framework\Baseapp\Helpers\SysOperation;
+use Framework\Baseapp\Exceptions\BusinessException;
 
 /**
  * 系统资源

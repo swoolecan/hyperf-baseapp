@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Listeners;
+namespace Framework\Baseapp\Listeners;
 
-use Swoolecan\Baseapp\Events\ExampleEvent;
+use Framework\Baseapp\Events\ExampleEvent;
 
 class ExampleListener
 {
@@ -17,7 +17,7 @@ class ExampleListener
     /**
      * Handle the event.
      *
-     * @param \Swoolecan\Baseapp\Events\ExampleEvent $event
+     * @param \Framework\Baseapp\Events\ExampleEvent $event
      */
     public function handle(ExampleEvent $event)
     {

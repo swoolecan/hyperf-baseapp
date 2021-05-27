@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Criteria;
+namespace Framework\Baseapp\Criteria;
 
-use Swoolecan\Baseapp\Contracts\CriteriaInterface;
-use Swoolecan\Baseapp\Contracts\RepositoryInterface;
+use Framework\Baseapp\Contracts\CriteriaInterface;
+use Framework\Baseapp\Contracts\RepositoryInterface;
 
 abstract class Criteria implements CriteriaInterface
 {

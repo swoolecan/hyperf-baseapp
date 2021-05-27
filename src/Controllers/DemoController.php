@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Controllers;
+namespace Framework\Baseapp\Controllers;
 
 use App\Http\Resource\UserCollection;
 use App\Http\Resource\UserResource;

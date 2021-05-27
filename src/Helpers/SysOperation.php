@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Helpers;
+namespace Framework\Baseapp\Helpers;
 
 use Hyperf\Utils\Str;
 use EasyWeChat\Factory;
@@ -223,7 +223,7 @@ Class SysOperation
                 ],
             ],
             'userPermission' => ['service' => 'App\\Services\\UserPermissionService'],
-            'easysms' => ['service' => 'Swoolecan\\Baseapp\\Services\\EasysmsService'],
+            'easysms' => ['service' => 'Framework\\Baseapp\\Services\\EasysmsService'],
             'user' => ['module' => 'passport'], 
             'permission' => ['module' => 'passport'], 
             'role' => ['module' => 'passport'], 

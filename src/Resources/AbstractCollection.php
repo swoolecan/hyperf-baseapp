@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Resources;
+namespace Framework\Baseapp\Resources;
 
 use Hyperf\Utils\Collection;
 use Fangx\Resource\Json\ResourceCollection;

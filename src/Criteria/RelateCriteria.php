@@ -1,9 +1,9 @@
 <?php 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Criteria;
+namespace Framework\Baseapp\Criteria;
 
-use Swoolecan\Baseapp\Contracts\RepositoryInterface;
+use Framework\Baseapp\Contracts\RepositoryInterface;
 
 class RelateCriteria extends Criteria
 {

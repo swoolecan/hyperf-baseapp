@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 /**
- * Swoolecan Baseapp
+ * Framework Baseapp
  */
 
-namespace Swoolecan\Baseapp\Commands;
+namespace Framework\Baseapp\Commands;
 
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Devtool\Generator\GeneratorCommand;

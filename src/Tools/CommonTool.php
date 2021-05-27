@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Tools;
+namespace Framework\Baseapp\Tools;
 
 class CommonTool
 {

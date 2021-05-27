@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Listeners;
+namespace Framework\Baseapp\Listeners;
 
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;

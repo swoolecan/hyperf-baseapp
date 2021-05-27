@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Repositories;
+namespace Framework\Baseapp\Repositories;
 
 //use App\Contracts\Repositories\UserRepository;
 //use App\Models\User;

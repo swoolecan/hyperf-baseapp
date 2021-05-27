@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Contracts;
+namespace Framework\Baseapp\Contracts;
 
-use Swoolecan\Baseapp\Criteria\Criteria;
+use Framework\Baseapp\Criteria\Criteria;
 
 /**
  * Interface CriteriaInterface

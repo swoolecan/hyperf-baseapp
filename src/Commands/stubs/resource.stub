@@ -2,7 +2,7 @@
 
 namespace App\Resources;
 
-use Swoolecan\Baseapp\Resources\AbstractResource;
+use Framework\Baseapp\Resources\AbstractResource;
 
 class %CLASS% extends AbstractResource
 {

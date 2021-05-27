@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace Swoolecan\Baseapp\Helpers;
+namespace Framework\Baseapp\Helpers;
 
-use Swoolecan\Baseapp\Constants\Code;
+use Framework\Baseapp\Constants\Code;
 
 Class Helper
 {
