@@ -8,14 +8,16 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Contract\ConfigInterface;
-use Framework\Baseapp\Helpers\SysOperation;
 use Framework\Baseapp\Exceptions\BusinessException;
+use Swoolecan\Foundation\Helpers\TraitResourceContainer;
 
 /**
  * 系统资源
  */
 Class ResourceContainer
 {
+    use TraitResourceContainer;
+
     /**
      * @Inject
      * @var RequestInterface
@@ -44,85 +46,6 @@ Class ResourceContainer
         //var_dump($this->resources);
     }
 
-    public function setParams($params)
-    {
-        $this->params = array_merge($this->params, $params);
-    }
-
-    public function getResourceCode($class)
-    {
-        $elems = explode('\\', $class);
-        $count = count($elems);
-        if ($count < 3) {
-            return $class;
-        }
-        $code = $elems[2];
-        $type = $elems[1];
-
-        $type = Str::singular($type);
-
-        $pos = strripos($code, $type);
-        if ($pos !== false) {
-            $code = substr($code, 0, $pos);
-        }
-        //$code = Str::snake($code, '-');
-        $code = lcfirst($code);
-        return $code;
-    }
-
-    public function getObject($type, $code, $params = [])
-    {
-        $class = $this->getClassName($type, $code);
-        if (empty($class)) {
-            $this->throwException(500, '资源不存在-' . $class . '-' . $type . '==' . $code);
-        }
-
-        if (isset($this->objects[$class])) {
-            return $this->objects[$class];
-        }
-        $obj = make($class);
-        if (method_exists($obj, 'init')) {
-            $obj->init($params);
-        }
-        //echo get_class($obj) . "\n rrrrrr \n";
-        $this->objects[$class] = $obj;
-        return $obj;
-    }
-
-    public function getClassName($type, $code)
-    {
-        if (!isset($this->resources[$code])) {
-            $code = $this->getResourceCode($code);
-        }
-        if (!isset($this->resources[$code])) {
-            return false;
-        }
-
-        $info = $this->resources[$code];
-        $class = isset($info[$type]) ? $info[$type] : false;
-        if (empty($class) && $type == 'service-repo') {
-            $class = isset($info['service']) ? $info['service'] : (isset($info['repository']) ? $info['repository'] : '');
-        }
-        return strval($class);
-    }
-
-    public function getIp()
-    {
-        $ip = $this->request->getHeader('x-real-ip');
-        if (empty($ip)) {
-            return '';
-        }
-        if (is_string($ip)) {
-            return $ip;
-        }
-        return $ip[0];
-    }
-
-    public function throwException($code, $message = null)
-    {
-        throw new BusinessException($code, $message);
-    }
-
     /**
      * @Cacheable(prefix="common-resource")
      */
@@ -130,17 +53,6 @@ Class ResourceContainer
     {
         $datas = $this->config->get('resource');
         return $datas;
-    }
-
-    public function initRouteDatas()
-    {
-        $routes = $this->_routeDatas('routes');
-        //$routes = $this->config->get('routes');
-        //print_r($routes);
-        if (!$routes || !isset($routes[$this->appCode])) {
-            $this->throwException(500, '路由信息不存在-' . $this->appCode);
-        }
-        return $routes[$this->appCode];
     }
 
     /**
@@ -155,16 +67,23 @@ Class ResourceContainer
         return null;
     }
 
-    public function formatClass($elem, $code)
+    public function throwException($code, $message = null)
     {
-        $codeUpper = Str::studly($code);
-        $elemUpper = Str::studly($elem);
-        $elemPath = $elem == 'repository' ? 'Repositories' : ($elem == 'collection' ? 'Resources' : "{$elemUpper}s");
-        $class = "App\\{$elemPath}\\{$codeUpper}";
+        throw new BusinessException($code, $message);
+    }
 
-        if (!in_array($elem, ['model', 'resource'])) {
-            $class .= "{$elemUpper}";
+    public function strOperation($string, $operation, $params)
+    {
+        switch ($operation) {
+        case 'singular':
+            return Str::singular($string);
+        case 'studly':
+            return Str::studly($string);
         }
-        return $class;
+    }
+
+    public function getObjectByClass($class)
+    {
+        return make($class);
     }
 }
