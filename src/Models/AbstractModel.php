@@ -21,10 +21,12 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\Utils\Str;
 use Framework\Baseapp\Helpers\ResourceContainer;
 use Framework\Baseapp\Models\Traits\Rest;
+use Swoolecan\Foundation\Models\TraitModel;
 
 abstract class AbstractModel extends BaseModel
 {
     use Rest;
+    use TraitModel;
 
     /**
      * @Inject                
