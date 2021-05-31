@@ -1,17 +1,12 @@
 <?php 
+
 declare(strict_types = 1);
 
 namespace Framework\Baseapp\Criteria;
 
-class SortCriteria extends Criteria
-{
-    public function _pointApply($query, $repository)
-    {
-        foreach ($this->params as $field => $sortType) {
-            $sortType = in_array($sortType, ['asc', 'desc']) ? $sortType : 'desc';
-            $query->orderBy($field, $sortType);
-        }
+use Swoolecan\Baseapp\Criteria\TraitSortCriteria;
 
-        return $query;
-    }
+class SortCriteria extends AbstractCriteria
+{
+    use TraitSortCriteria;
 }

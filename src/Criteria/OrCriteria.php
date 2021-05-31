@@ -3,18 +3,9 @@ declare(strict_types = 1);
 
 namespace Framework\Baseapp\Criteria;
 
-class OrCriteria extends Criteria
-{
-    public function _pointApply($query, $repository)
-    {
-        $field = $this->getField();
-        if (empty($field)) {
-            return $query;
-        }
-        $operator = $this->params['operator'];
-        $value = $this->params['value'];
-        $query->where($field, $operator, $value);
+use Swoolecan\Baseapp\Criteria\TraitOrCriteria;
 
-        return $query;
-    }
+class OrCriteria extends AbstractCriteria
+{
+    use TraitOrCriteria;
 }

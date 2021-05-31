@@ -18,12 +18,12 @@ use Framework\Baseapp\Contracts\RepositoryInterface;
 use Framework\Baseapp\Contracts\CriteriaInterface;
 use Framework\Baseapp\Criteria\Criteria;
 //use Bosnadev\Repositories\Exceptions\RepositoryException;
+use Swoolecan\Baseapp\Repositories\TraitRepository;
 
 abstract class AbstractRepository implements RepositoryInterface, CriteriaInterface
 {
-    use TraitField;
-    use TraitData;
-    use TraitTree;
+    use TraitRepository;
+
     /**
      * @Inject
      * @var ConfigInterface
