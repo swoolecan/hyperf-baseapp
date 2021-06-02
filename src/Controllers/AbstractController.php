@@ -22,10 +22,11 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Contract\ConfigInterface;
 use Framework\Baseapp\Helpers\Helper;
 use Framework\Baseapp\Helpers\ResourceContainer;
+use Swoolecan\Foundation\Controllers\TraitController;
 
 abstract class AbstractController
 {
-    use OperationTrait;
+    use TraitController;
 
     /**
      * @Inject
@@ -68,24 +69,6 @@ abstract class AbstractController
      * @var ResourceContainer
      */
     protected $resource;
-
-    public function getServiceRepo($code = '', $params = [])
-    {
-        $code = !empty($code) ? $code : get_called_class();
-        return $this->resource->getObject('service-repo', $code);
-    }
-
-    public function getRepositoryObj($code = '', $params = [])
-    {
-        $code = !empty($code) ? $code : get_called_class();
-        return $this->resource->getObject('repository', $code, $params);
-    }
-
-    public function getServiceObj($code = '', $params = [])
-    {
-        $code = !empty($code) ? $code : get_called_class();
-        return $this->resource->getObject('service', $code, $params);
-    }
 
     public function getRequestObj($scene = '', $repository = null, $code = '')
     {

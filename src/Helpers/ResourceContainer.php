@@ -39,11 +39,10 @@ Class ResourceContainer
     {
         $this->appCode = $appCode = $this->config->get('app_code');
         $resources = $this->getResourceDatas('resources');
-        if (!isset($resources[$appCode])) {
+        if (empty($resources)) {
             $this->throwException(500, '应用资源不存在-' . $appCode);
         }
-        $this->resources = $resources[$appCode];
-        //var_dump($this->resources);
+        $this->resources = $resources;
     }
 
     /**
@@ -72,7 +71,7 @@ Class ResourceContainer
         throw new BusinessException($code, $message);
     }
 
-    public function strOperation($string, $operation, $params)
+    public function strOperation($string, $operation, $params = [])
     {
         switch ($operation) {
         case 'singular':

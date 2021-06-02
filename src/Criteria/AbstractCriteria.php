@@ -5,7 +5,7 @@ namespace Framework\Baseapp\Criteria;
 
 use Framework\Baseapp\Contracts\CriteriaInterface;
 use Framework\Baseapp\Contracts\RepositoryInterface;
-use Swoolecan\Baseapp\Criteria\TraitCriteria;
+use Swoolecan\Foundation\Criteria\TraitCriteria;
 
 abstract class Criteria implements CriteriaInterface
 {

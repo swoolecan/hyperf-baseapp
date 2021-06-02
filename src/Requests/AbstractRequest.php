@@ -7,7 +7,7 @@ namespace Framework\Baseapp\Requests;
 use Hyperf\Validation\Rule;
 use Hyperf\Validation\Request\FormRequest;
 use Hyperf\HttpServer\Router\Dispatched;
-use Swoolecan\Foundation\Requests\TraitAbstract;
+use Swoolecan\Foundation\Requests\TraitRequest;
 
 class AbstractRequest extends FormRequest
 {

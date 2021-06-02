@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Framework\Baseapp\Criteria;
 
-use Swoolecan\Baseapp\Criteria\TraitBetweenCriteria;
+use Swoolecan\Foundation\Criteria\TraitBetweenCriteria;
 
 class BetweenCriteria extends AbstractCriteria
 {
