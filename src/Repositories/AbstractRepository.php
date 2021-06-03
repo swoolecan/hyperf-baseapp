@@ -71,11 +71,6 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      */
     protected $preventCriteriaOverwriting = false;
 
-    public function __call($name, $arguments)
-    {   
-        return $this->model->{$name}(...$arguments);
-    }
-
     /**
      * @param $resource
      */
@@ -399,9 +394,9 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
 
     protected function getQuery()
     {
-        //if (empty($this->query)) {
+        if (empty($this->query)) {
             $this->query = $this->model->query();
-        //}
+        }
         return $this->query;
     }
 }

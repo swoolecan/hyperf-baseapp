@@ -37,12 +37,17 @@ Class ResourceContainer
 
     public function __construct()
     {
-        $this->appCode = $appCode = $this->config->get('app_code');
+        //$this->appCode = $appCode = $this->config->get('app_code');
         $resources = $this->getResourceDatas('resources');
         if (empty($resources)) {
             $this->throwException(500, '应用资源不存在-' . $appCode);
         }
         $this->resources = $resources;
+    }
+
+    protected function getAppcode()
+    {
+        return $this->config->get('app_code');
     }
 
     /**
@@ -55,14 +60,16 @@ Class ResourceContainer
     }
 
     /**
-     * @Cacheable(prefix="common-route")
      */
     protected function _routeDatas($key)
     {
+     //* @Cacheable(prefix="common-route")
         //$routes = require('/data/htmlwww/docker/container/passport/config/autoload/routes.php');
-        if ($this->appCode == 'passport') {
-            return $this->config->get('routes');
-        }
+        //if ($this->appCode == 'passport') {
+        //}
+        $return = $this->config->get('routes');
+        //print_r($return);exit();
+        return $return;
         return null;
     }
 
