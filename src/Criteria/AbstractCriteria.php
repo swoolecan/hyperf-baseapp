@@ -11,9 +11,6 @@ abstract class Criteria implements CriteriaInterface
 {
     use TraitCriteria;
 
-    protected $field;
-    protected $value;
-
     public function __construct($params = [])
     {
         $this->params = $params;

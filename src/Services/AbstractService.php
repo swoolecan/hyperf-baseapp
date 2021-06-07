@@ -30,13 +30,4 @@ abstract class AbstractService
      * @var AbstractRepository
      */
     protected $repository;
-    //protected $pointRepository;
-
-    public function init()
-    {
-        if (empty($this->noRepository)) {
-            $this->repository = $this->resource->getObject('repository', get_called_class());
-            //$this->pointRepository = empty($pointRepository) ? $this->repository : $resource->getObject('repository', $repositoryCode);
-        }
-    }
 }

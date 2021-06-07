@@ -13,7 +13,6 @@ declare(strict_types = 1);
 
 namespace Framework\Baseapp\Controllers;
 
-
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Hyperf\Di\Annotation\Inject;
@@ -78,10 +77,5 @@ abstract class AbstractController
     public function throwException($code, $message = null)
     {
         return $this->resource->throwException($code, $message);
-    }
-
-    public function dealCriteria($scene, $repository, $params)
-    {
-        return $repository->getDealSearchFields($scene, $params);
     }
 }

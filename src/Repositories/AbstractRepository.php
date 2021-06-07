@@ -46,9 +46,6 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      */
     private $app;
 
-    protected $newModel;
-    protected $pointModel;
-
     /**
      * @Inject                
      * @var Collection
@@ -76,10 +73,16 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
      */
     public function init($params = null)//$resource)//App $app, Collection $collection)
     {
-        $modelCode = !empty($this->pointModel) ? $this->pointModel : get_called_class();
-        $this->model = $this->resource->getObject('model', $modelCode);
+        if (!empty($this->pointModel())) {
+            $this->model = $this->resource->getObject('model', $this->getPointModel());
+        }
         //$this->criteria = $collection;
         $this->resetScope();
+    }
+
+    protected function pointModel()
+    {
+        return get_called_class();
     }
 
     public function getModel()
