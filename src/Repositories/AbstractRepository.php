@@ -74,7 +74,7 @@ abstract class AbstractRepository implements RepositoryInterface, CriteriaInterf
     public function init($params = null)//$resource)//App $app, Collection $collection)
     {
         if (!empty($this->pointModel())) {
-            $this->model = $this->resource->getObject('model', $this->getPointModel());
+            $this->model = $this->resource->getObject('model', $this->pointModel());
         }
         //$this->criteria = $collection;
         $this->resetScope();

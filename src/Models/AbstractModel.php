@@ -42,6 +42,8 @@ abstract class AbstractModel extends BaseModel
      */
     protected $config;
 
+    protected $dateFormat = 'Y-m-d H:i:s';
+
     public function getColumnElems($type = 'keyValue')
     {
         $results = $this->getConnection()->getSchemaBuilder()->getColumnTypeListing($this->getTable());
