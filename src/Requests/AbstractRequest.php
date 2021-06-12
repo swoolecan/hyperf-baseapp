@@ -22,4 +22,9 @@ class AbstractRequest extends FormRequest
     {
         return Rule::in(array_keys($this->getRepository()->getKeyValues($field)));
     }
+
+    protected function getRule()
+    {
+        return new Rule();
+    }
 }
