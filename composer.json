@@ -1,5 +1,5 @@
 {
-    "name": "swoolecan/baseapp",
+    "name": "swoolecan/hyperf-baseapp",
     "description": "Hyperf基础组件封装",
     "keywords": [
         "swoolecan",
