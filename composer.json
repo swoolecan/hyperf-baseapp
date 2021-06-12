@@ -59,7 +59,7 @@
         "phper666/jwt-auth": "~3.0.4",
         "league/fractal": "^0.19.2",
         "swoolecan/foundation": "dev-main",
-        "swoolecan/hyperf-resource": "dev-master"
+        "swoolecan/hyperf-resource": "dev-main"
     },
     "require-dev": {
         "hyperf/testing": "~2.1.0"
